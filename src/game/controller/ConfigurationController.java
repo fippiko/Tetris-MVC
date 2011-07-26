@@ -2,7 +2,7 @@ package game.controller;
 
 import game.enums.ConfigurationAttribute;
 import game.model.Configuration;
-import game.view.ConfigurationView;
+import game.view.configuration.ConfigurationView;
 
 import java.awt.event.KeyEvent;
 

@@ -1,9 +1,9 @@
-package game.view;
+package game.view.configuration;
 
 import game.controller.ConfigurationController;
 import game.enums.ConfigurationAttribute;
 import game.model.Configuration;
-import game.view.element.ConfigurationTableModel;
+import game.view.View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,12 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import resources.ResourceManager;
 import resources.Resources;
@@ -26,12 +23,10 @@ public class ConfigurationView extends View {
    private final static int WIDTH          = 400;
    private final static int HEIGHT         = 600;
 
-   private final static int ROWHEIGHT      = 40;
-
    private final JButton    backButton     = new JButton(ResourceManager.getString(Resources.BACK));
    private final JButton    saveButton     = new JButton(ResourceManager.getString(Resources.SAVE));
 
-   private JTable           attributeTable = new JTable(20, 2);
+   private ConfigurationTable attributeTable = new ConfigurationTable();
 
    public ConfigurationView(ConfigurationController controller) {
       super(controller);
@@ -42,12 +37,7 @@ public class ConfigurationView extends View {
       this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
       this.setLayout(new BorderLayout());
 
-      this.attributeTable.setBounds(BORDERWIDTH, BORDERWIDTH, WIDTH - 2 * BORDERWIDTH, 0); 
-      this.attributeTable.setRowHeight(ROWHEIGHT);
-      this.attributeTable.getTableHeader().setSize(this.getWidth(), 15);
-      this.attributeTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-      this.add(this.attributeTable.getTableHeader(), BorderLayout.NORTH);
-      this.add(this.attributeTable, BorderLayout.CENTER);
+      this.attributeTable.setBounds(BORDERWIDTH, BORDERWIDTH, WIDTH - 2 * BORDERWIDTH, 0);
 
       this.add(this.backButton);
       this.add(this.saveButton);
@@ -98,7 +88,6 @@ public class ConfigurationView extends View {
       }
 
       this.attributeTable.setModel(attributeTableModel);
-      int headerHeight = this.attributeTable.getTableHeader().getHeight();
-      this.attributeTable.setBounds(BORDERWIDTH, headerHeight, this.attributeTable.getWidth(), configurationAttributes.values().size() * ROWHEIGHT);
+      this.add(this.attributeTable.generateScrollPane(), BorderLayout.CENTER);
    }
 }
