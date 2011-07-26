@@ -1,6 +1,7 @@
 package game.view.configuration;
 
 import game.enums.ConfigurationAttribute;
+import game.model.ConfigurationAttributeMap;
 
 import java.lang.reflect.Array;
 import java.util.Hashtable;
@@ -98,5 +99,16 @@ public class ConfigurationTableModel extends AbstractTableModel {
 		}
 		
 		return null;
+	}
+
+	public ConfigurationAttributeMap getConfigurationAttributes() {
+		ConfigurationAttributeMap attributeMap = new ConfigurationAttributeMap();
+		
+		for (ConfigurationAttribute attribute : this.rowToAttributeMap.keySet()) {
+			String newValue = this.getValueFrom(attribute).toString();
+			attributeMap.put(attribute, newValue);
+		}
+		
+		return attributeMap;
 	}
 }

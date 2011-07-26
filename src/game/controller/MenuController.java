@@ -1,6 +1,6 @@
 package game.controller;
 
-import game.view.MenuView;
+import game.view.menu.MenuView;
 
 import java.awt.event.KeyEvent;
 

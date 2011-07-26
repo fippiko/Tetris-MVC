@@ -2,29 +2,29 @@ package game.view.configuration;
 
 import game.controller.ConfigurationController;
 import game.enums.ConfigurationAttribute;
+import game.enums.Resources;
+import game.helper.ResourceHelper;
 import game.model.Configuration;
+import game.model.ConfigurationAttributeMap;
 import game.view.View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import resources.ResourceManager;
-import resources.Resources;
 
 public class ConfigurationView extends View {
 
    private final static int WIDTH          = 400;
    private final static int HEIGHT         = 600;
 
-   private final JButton    backButton     = new JButton(ResourceManager.getString(Resources.BACK));
-   private final JButton    saveButton     = new JButton(ResourceManager.getString(Resources.SAVE));
+   private final JButton    backButton     = new JButton(ResourceHelper.getString(Resources.BACK));
+   private final JButton    saveButton     = new JButton(ResourceHelper.getString(Resources.SAVE));
 
    private ConfigurationTable attributeTable = new ConfigurationTable();
 
@@ -80,7 +80,7 @@ public class ConfigurationView extends View {
       }
    }
 
-   public void setTableData(LinkedHashMap<ConfigurationAttribute, String> configurationAttributes) {
+   public void setTableData(ConfigurationAttributeMap configurationAttributes) {
       ConfigurationTableModel attributeTableModel = new ConfigurationTableModel(configurationAttributes.values().size());
 
       for (ConfigurationAttribute attribute : Configuration.getConfigurationAttributes().keySet()) {
@@ -90,4 +90,8 @@ public class ConfigurationView extends View {
       this.attributeTable.setModel(attributeTableModel);
       this.add(this.attributeTable.generateScrollPane(), BorderLayout.CENTER);
    }
+
+	public ConfigurationAttributeMap getConfigurationAttributes() {
+		return this.attributeTable.getConfigurationAttributes();
+	}
 }

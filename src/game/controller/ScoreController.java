@@ -1,7 +1,6 @@
 package game.controller;
 
-import game.view.PreviewView;
-import game.view.ScoreView;
+import game.view.game.ScoreView;
 
 public class ScoreController extends Controller {
    public ScoreController() {

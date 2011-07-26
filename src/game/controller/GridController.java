@@ -1,6 +1,6 @@
 package game.controller;
 
-import game.view.GameGridView;
+import game.view.game.GameGridView;
 
 public class GridController extends Controller {
 

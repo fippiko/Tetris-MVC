@@ -1,13 +1,13 @@
-package game.view.element;
+package game.view.game;
 
 import game.view.Element;
 
 
-public class GridUnit extends Element {
+public class GameGridUnit extends Element {
    private int     rowIndex;
    private int     columnIndex;
 
-   public GridUnit(int x, int y, int width, int height, int columnIndex, int rowIndex) {
+   public GameGridUnit(int x, int y, int width, int height, int columnIndex, int rowIndex) {
       super(x, y, width, height);
 
       this.rowIndex = rowIndex;

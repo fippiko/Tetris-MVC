@@ -14,7 +14,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 public abstract class View extends JPanel implements KeyListener, ActionListener {
    public static int BORDERWIDTH = 2;

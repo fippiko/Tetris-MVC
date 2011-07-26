@@ -1,9 +1,9 @@
 package game.controller;
 
-import game.view.GameGridView;
-import game.view.GameView;
-import game.view.PreviewView;
-import game.view.ScoreView;
+import game.view.game.GameGridView;
+import game.view.game.GameView;
+import game.view.game.PreviewView;
+import game.view.game.ScoreView;
 
 import java.awt.event.KeyEvent;
 

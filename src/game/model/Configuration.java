@@ -2,36 +2,43 @@ package game.model;
 
 import game.enums.ConfigurationAttribute;
 
-import java.util.LinkedHashMap;
+import java.io.Serializable;
 
-public abstract class Configuration {
-   private static ConfigurationAttributeMap attributes  = new ConfigurationAttributeMap();
+public abstract class Configuration implements Serializable {
+	public static final String FILENAME = "configuration.conf";
 
-   private static Boolean                   initialized = false;
+	private static ConfigurationAttributeMap attributes = new ConfigurationAttributeMap();
 
-   public static void initializeConfiguration() {
-      // add for each ConfigurationAttribute an empty value
-      for (ConfigurationAttribute configurationAttribute : ConfigurationAttribute.values()) {
-         attributes.put(configurationAttribute, "");
-      }
+	public static void initializeConfiguration(
+			ConfigurationAttributeMap existingAttributes) {
 
-      initialized = true;
-   }
+		if (existingAttributes == null) {
+			for (ConfigurationAttribute configurationAttribute : ConfigurationAttribute
+					.values()) {
+				attributes.put(configurationAttribute, "");
+			}
+		} else {
+			setConfigurationAttributes(existingAttributes);
+		}
+	}
 
-   public static LinkedHashMap<ConfigurationAttribute, String> getConfigurationAttributes() {
-      return attributes;
-   }
+	public static ConfigurationAttributeMap getConfigurationAttributes() {
+		return attributes;
+	}
 
-   public static String getAttributeValue(ConfigurationAttribute attribute) {
-      String returnValue = "";
-      if(attributes.containsKey(attribute)){
-         returnValue = attributes.get(attribute);
-      }
-      
-      return returnValue;
-   }
+	public static String getAttributeValue(ConfigurationAttribute attribute) {
+		String returnValue = "";
+		if (attributes.containsKey(attribute)) {
+			returnValue = attributes.get(attribute);
+		}
 
-   public static void saveConfigurationAttributes(ConfigurationAttributeMap configurationAttributes) {
-      attributes = configurationAttributes;
-   }
+		return returnValue;
+	}
+
+	public static void setConfigurationAttributes(
+			ConfigurationAttributeMap newAttributes) {
+		for (ConfigurationAttribute attribute : newAttributes.keySet()) {
+			attributes.put(attribute, newAttributes.get(attribute));
+		}
+	}
 }

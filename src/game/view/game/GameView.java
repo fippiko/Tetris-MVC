@@ -1,6 +1,7 @@
-package game.view;
+package game.view.game;
 
 import game.controller.Controller;
+import game.view.View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

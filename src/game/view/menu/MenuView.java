@@ -1,6 +1,8 @@
-package game.view;
+package game.view.menu;
 
 import game.controller.MenuController;
+import game.enums.Resources;
+import game.view.View;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -9,8 +11,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import resources.ResourceManager;
-import resources.Resources;
 
 public class MenuView extends View implements ActionListener {
 
