@@ -15,10 +15,10 @@ public class GameGrid extends Element {
 
    public ArrayList<GameGridUnit> generateGridUnits(int gridWidth, int gridHeight, int columnCount, int rowCount) {
       ArrayList<GameGridUnit> generatedGridUnits = new ArrayList<GameGridUnit>();
-      
+
       int unitWidth = gridWidth / columnCount;
       int unitHeight = gridHeight / rowCount;
-      
+
       for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
          for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             int unitX = this.getX() + unitWidth * columnIndex;

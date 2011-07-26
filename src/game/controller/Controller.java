@@ -66,7 +66,10 @@ public abstract class Controller {
       for (Controller subController : this.getSubController()) {
          subController.repaint();
       }
-      this.getView().repaint();
+      
+      if(this.getView() != null){
+         this.getView().repaint();
+      }
    }
 
    public void work() {

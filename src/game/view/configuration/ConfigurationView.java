@@ -17,14 +17,13 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
 public class ConfigurationView extends View {
 
-   private final static int WIDTH          = 400;
-   private final static int HEIGHT         = 600;
+   private final static int   WIDTH          = 400;
+   private final static int   HEIGHT         = 600;
 
-   private final JButton    backButton     = new JButton(ResourceHelper.getString(Resources.BACK));
-   private final JButton    saveButton     = new JButton(ResourceHelper.getString(Resources.SAVE));
+   private final JButton      backButton     = new JButton(ResourceHelper.getString(Resources.BACK));
+   private final JButton      saveButton     = new JButton(ResourceHelper.getString(Resources.SAVE));
 
    private ConfigurationTable attributeTable = new ConfigurationTable();
 
@@ -60,6 +59,7 @@ public class ConfigurationView extends View {
       }
       else if (e.getSource() == this.saveButton) {
          this.getController().saveConfigurationAttributes();
+         this.getController().close();
       }
    }
 
@@ -91,7 +91,7 @@ public class ConfigurationView extends View {
       this.add(this.attributeTable.generateScrollPane(), BorderLayout.CENTER);
    }
 
-	public ConfigurationAttributeMap getConfigurationAttributes() {
-		return this.attributeTable.getConfigurationAttributes();
-	}
+   public ConfigurationAttributeMap getConfigurationAttributes() {
+      return this.attributeTable.getConfigurationAttributes();
+   }
 }

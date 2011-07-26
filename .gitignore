@@ -1,2 +1,3 @@
-*.settings
 *.class
+bin
+configuration.conf

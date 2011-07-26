@@ -6,5 +6,4 @@ import java.util.LinkedHashMap;
 
 public class ConfigurationAttributeMap extends LinkedHashMap<ConfigurationAttribute, String> {
 
-
 }

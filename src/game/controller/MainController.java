@@ -85,10 +85,10 @@ public class MainController extends Controller implements Runnable {
    public void setActiveController(Controller activeController) {
       this.activeController = activeController;
       this.activeController.setState(ControllerState.ACTIVE);
-      
+
       this.clearSubController();
       this.addSubcontroller(this.activeController);
-      
+
       this.activeControllerChanged = true;
    }
 

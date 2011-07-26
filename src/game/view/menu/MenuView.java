@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-
 public class MenuView extends View implements ActionListener {
 
    private int     width           = 400;

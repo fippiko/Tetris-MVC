@@ -1,6 +1,7 @@
 package game.view;
 
 import game.controller.Controller;
+import game.model.Game;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public abstract class View extends JPanel implements KeyListener, ActionListener {
-   public static int BORDERWIDTH = 2;
-   
+   public static int  BORDERWIDTH = 2;
+
    private Controller controller;
 
    public View(Controller controller) {
@@ -36,15 +37,16 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
 
    @Override
    public Component add(Component comp) {
-      
-      if(comp instanceof JButton){
-         ((JButton)comp).addKeyListener(this);
-         ((JButton)comp).addActionListener(this);
-      }else if(comp instanceof JTextField){
-         ((JTextField)comp).addActionListener(this);
-         ((JTextField)comp).addKeyListener(this);
+
+      if (comp instanceof JButton) {
+         ((JButton) comp).addKeyListener(this);
+         ((JButton) comp).addActionListener(this);
       }
-      
+      else if (comp instanceof JTextField) {
+         ((JTextField) comp).addActionListener(this);
+         ((JTextField) comp).addKeyListener(this);
+      }
+
       super.add(comp);
       this.validate();
 
@@ -69,7 +71,7 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
    public void executeKey(KeyEvent keyEvent) {
       // Override this method to catch KeyEvents
    }
-   
+
    @Override
    public void actionPerformed(ActionEvent e) {
       // Override this method to catch ActionEvents

@@ -9,11 +9,11 @@ public enum Resources {
    CANCEL,
    BACK,
    SAVE,
-   
+
    CONFIRMBACK_HEADER,
    CONFIRMBACK_BODY;
-   
-   public String getString(){
+
+   public String getString() {
       return ResourceHelper.getString(this);
    }
 }
