@@ -51,4 +51,6 @@ public abstract class Form {
    public void setHorizontalSpeed(int speed) {
       this.horizontalSpeed = speed;
    }
+
+   public abstract int getCurrentHeight();
 }

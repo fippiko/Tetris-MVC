@@ -25,4 +25,9 @@ public class FormL extends Form {
       return map;
    }
 
+   @Override
+   public int getCurrentHeight() {
+      return 3;
+   }
+
 }

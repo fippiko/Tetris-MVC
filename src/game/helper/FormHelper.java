@@ -19,15 +19,13 @@ public class FormHelper {
 
    public static int calculateNextRowIndex(Form activeForm) {
       int currentRowIndex = activeForm.getRowIndex();
+      int newRowIndex = currentRowIndex;
 
-      if (activeForm.getVerticalSpeed() < 0) {
-         return currentRowIndex - 1;
-      }
-      else if (activeForm.getVerticalSpeed() > 0) {
-         return currentRowIndex + 1;
+      if (activeForm.getVerticalSpeed() > 0) {
+         newRowIndex = currentRowIndex + 1;
       }
 
-      return currentRowIndex;
+      return newRowIndex;
    }
 
 }

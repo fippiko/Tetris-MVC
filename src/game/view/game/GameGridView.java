@@ -16,7 +16,7 @@ public class GameGridView extends View {
 
    private GameGrid         grid;
 
-   private ArrayList<Form>  activeForms = null;
+   private ArrayList<Form>  activeForms = new ArrayList<Form>();
 
    public GameGridView(Controller controller, int colCount, int rowCount) {
       super(controller);

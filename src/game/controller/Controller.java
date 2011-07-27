@@ -14,6 +14,8 @@ public abstract class Controller {
    private View                  view;
 
    private ArrayList<Controller> subController = new ArrayList<Controller>();
+   
+   private final static int DEFAULT_INTERVAL_IN_MS = 200;
 
    public Controller() {
       this.setState(ControllerState.UNINITIALIZED);
@@ -75,10 +77,17 @@ public abstract class Controller {
 
    public void work() {
       TimeHelper.pushTime(this);
-      
+      if (TimeHelper.timeReached(this, DEFAULT_INTERVAL_IN_MS, true)) {
+         this.workOnInterval();
+      }
+
       for (Controller subController : this.getSubController()) {
          subController.work();
       }
+   }
+   
+   public void workOnInterval(){
+      
    }
 
    public void close() {

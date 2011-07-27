@@ -41,46 +41,48 @@ public class GameController extends Controller {
    }
 
    @Override
-   public void work() {
-      super.work();
-
+   public void workOnInterval() {
       switch (this.game.getState()) {
          case NEXTFORM :
-            this.game.addForm(this.generateRandomForm());
+            this.addNewForm(game);
             break;
          case FORMACTIVE :
-            if (TimeHelper.timeReached(this, 200, true)) {
-               this.moveForm(this.game.getActiveForm());
-            }
+            this.formAction(game);
             break;
       }
 
       this.getView().updateView(game);
    }
 
+   private void addNewForm(Game game) {
+      game.addForm(this.generateRandomForm());
+   }
+
    private Form generateRandomForm() {
       int startcol = 5;
 
       Form randomForm = new FormL(startcol, 0);
-      
+
       randomForm.setVerticalSpeed(1);
-      
+
       return randomForm;
    }
 
-   private void moveForm(Form form) {
-      int nextColumn = FormHelper.calculateNextColumnIndex(form);
-      int nextRow = FormHelper.calculateNextRowIndex(form);
+   private void formAction(Game game) {
+      Form activeForm = game.getActiveForm();
+      
+      int nextColumn = FormHelper.calculateNextColumnIndex(activeForm);
+      int nextRow = FormHelper.calculateNextRowIndex(activeForm);
 
-      if (CollisionHelper.checkHorizontalCollision(form, this.game.getActiveForms())) {
-         form.setHorizontalSpeed(0);
+      if (CollisionHelper.checkHorizontalCollision(activeForm, game.getActiveForms())) {
+         activeForm.setHorizontalSpeed(0);
       }
-      if (CollisionHelper.checkVerticalCollision(form, this.game.getActiveForms())) {
-         form.setVerticalSpeed(0);
-         this.game.setState(GameState.NEXTFORM);
+      if (CollisionHelper.checkVerticalCollision(activeForm, game.getActiveForms())) {
+         activeForm.setVerticalSpeed(0);
+         game.setState(GameState.NEXTFORM);
       }
 
-      this.game.getActiveForm().setPosition(nextColumn, nextRow);
+      activeForm.setPosition(nextColumn, nextRow);
    }
 
    @Override

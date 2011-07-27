@@ -20,9 +20,10 @@ public class CollisionHelper {
       int bottomRow = Game.ROWCOUNT;
 
       int nextFormRowIndex = FormHelper.calculateNextRowIndex(activeForm);
+      int bottomRowIndex = nextFormRowIndex + activeForm.getCurrentHeight();
 
       //collision with the bottom
-      if(nextFormRowIndex > bottomRow){
+      if(bottomRowIndex >= bottomRow){
          return true;
       }
       

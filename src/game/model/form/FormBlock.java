@@ -23,4 +23,9 @@ public class FormBlock extends Form {
 
       return map;
    }
+
+   @Override
+   public int getCurrentHeight() {
+      return 2;
+   }
 }
