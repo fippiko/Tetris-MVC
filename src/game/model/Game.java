@@ -6,23 +6,26 @@ import game.model.form.Form;
 import java.util.ArrayList;
 
 public class Game {
-   private Form activeForm = null;
+   private Form            activeForm  = null;
    private ArrayList<Form> activeForms = new ArrayList<Form>();
+
+   private GameState       state;
    
-   private GameState state;
-   
-   public Game(){
+   public static final int COLCOUNT = 18;
+   public static final int ROWCOUNT = 18;
+
+   public Game() {
       this.state = GameState.NEXTFORM;
    }
-   
-   public void addForm(Form newForm){
+
+   public void addForm(Form newForm) {
       this.activeForm = newForm;
       this.activeForms.add(newForm);
-      
+
       this.state = GameState.FORMACTIVE;
    }
-   
-   public ArrayList<Form> getActiveForms(){
+
+   public ArrayList<Form> getActiveForms() {
       return this.activeForms;
    }
 
@@ -32,5 +35,9 @@ public class Game {
 
    public Form getActiveForm() {
       return this.activeForm;
+   }
+
+   public void setState(GameState state) {
+      this.state = state;
    }
 }

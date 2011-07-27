@@ -8,8 +8,8 @@ import javax.swing.border.EmptyBorder;
 
 public class MainView extends View {
 
-   private int width  = 800;
-   private int height = 600;
+   private static final int WIDTH  = 800;
+   private static final int HEIGHT = 600;
 
    public MainView(Controller controller) {
       super(controller);
@@ -17,7 +17,7 @@ public class MainView extends View {
    }
 
    public void initialize() {
-      this.setPreferredSize(new Dimension(this.width, this.height));
+      this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
       setBorder(new EmptyBorder(0, 0, 0, 0));
    }

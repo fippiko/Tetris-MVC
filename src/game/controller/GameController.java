@@ -1,17 +1,18 @@
 package game.controller;
 
-import game.enums.ConfigurationAttribute;
+import game.enums.GameState;
+import game.helper.CollisionHelper;
+import game.helper.FormHelper;
 import game.helper.TimeHelper;
-import game.model.Configuration;
 import game.model.Game;
 import game.model.form.Form;
 import game.model.form.FormBlock;
+import game.model.form.FormL;
 import game.view.game.GameGridView;
 import game.view.game.GameView;
 import game.view.game.PreviewView;
 import game.view.game.ScoreView;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 public class GameController extends Controller {
@@ -20,9 +21,6 @@ public class GameController extends Controller {
    private GridController    gridController;
 
    private Game              game;
-
-   private int               speedController = 0;
-   private int               fps;
 
    public GameController() {
       this.previewController = new PreviewController();
@@ -46,34 +44,50 @@ public class GameController extends Controller {
    public void work() {
       super.work();
 
-      fps = (int) (1000 / TimeHelper.computeDelta());
-      this.getView().updateFps(fps);
-
       switch (this.game.getState()) {
          case NEXTFORM :
-            this.game.addForm(new FormBlock(5, 5));
+            this.game.addForm(this.generateRandomForm());
             break;
          case FORMACTIVE :
-            //this.moveForm(this.game.getActiveForm());
+            if (TimeHelper.timeReached(this, 200, true)) {
+               this.moveForm(this.game.getActiveForm());
+            }
             break;
       }
 
       this.getView().updateView(game);
    }
 
+   private Form generateRandomForm() {
+      int startcol = 5;
+
+      Form randomForm = new FormL(startcol, 0);
+      
+      randomForm.setVerticalSpeed(1);
+      
+      return randomForm;
+   }
+
    private void moveForm(Form form) {
-      int nextColumn = form.getNextColumnIndex();
-      int nextRow = form.getNextRowIndex();
+      int nextColumn = FormHelper.calculateNextColumnIndex(form);
+      int nextRow = FormHelper.calculateNextRowIndex(form);
 
-      this.game.getActiveForm().move(nextColumn, nextRow);
+      if (CollisionHelper.checkHorizontalCollision(form, this.game.getActiveForms())) {
+         form.setHorizontalSpeed(0);
+      }
+      if (CollisionHelper.checkVerticalCollision(form, this.game.getActiveForms())) {
+         form.setVerticalSpeed(0);
+         this.game.setState(GameState.NEXTFORM);
+      }
 
+      this.game.getActiveForm().setPosition(nextColumn, nextRow);
    }
 
    @Override
    public GameView getView() {
       return (GameView) super.getView();
    }
-   
+
    @Override
    public void executeKey(KeyEvent keyEvent) {
       super.executeKey(keyEvent);

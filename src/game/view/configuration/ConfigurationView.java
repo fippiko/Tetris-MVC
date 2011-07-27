@@ -19,8 +19,8 @@ import javax.swing.JPanel;
 
 public class ConfigurationView extends View {
 
-   private final static int   WIDTH          = 400;
-   private final static int   HEIGHT         = 600;
+   private static final int   WIDTH          = 400;
+   private static final int   HEIGHT         = 600;
 
    private final JButton      backButton     = new JButton(ResourceHelper.getString(Resources.BACK));
    private final JButton      saveButton     = new JButton(ResourceHelper.getString(Resources.SAVE));

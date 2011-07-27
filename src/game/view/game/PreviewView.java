@@ -10,8 +10,8 @@ import java.awt.Graphics2D;
 
 public class PreviewView extends View {
 
-   private int width  = 200;
-   private int height = 350;
+   private static final int WIDTH  = 200;
+   private static final int HEIGHT = 350;
 
    public PreviewView(Controller controller) {
       super(controller);
@@ -20,7 +20,7 @@ public class PreviewView extends View {
    }
 
    private void initialize() {
-      this.setPreferredSize(new Dimension(this.width, this.height));
+      this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
    }
 
    @Override

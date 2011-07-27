@@ -46,7 +46,7 @@ public class ConfigurationTable extends JTable {
    @Override
    public TableCellRenderer getCellRenderer(int row, int column) {
       DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) super.getCellRenderer(row, column);
-      
+
       if (this.getModel().isCellEditable(row, column)) {
          renderer.setBackground(COLOR_DEFAULT);
       }

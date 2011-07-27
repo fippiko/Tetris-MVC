@@ -1,6 +1,7 @@
 package game.controller;
 
 import game.enums.ControllerState;
+import game.helper.TimeHelper;
 import game.view.View;
 
 import java.awt.event.KeyEvent;
@@ -66,13 +67,15 @@ public abstract class Controller {
       for (Controller subController : this.getSubController()) {
          subController.repaint();
       }
-      
-      if(this.getView() != null){
+
+      if (this.getView() != null) {
          this.getView().repaint();
       }
    }
 
    public void work() {
+      TimeHelper.pushTime(this);
+      
       for (Controller subController : this.getSubController()) {
          subController.work();
       }
