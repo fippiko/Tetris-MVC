@@ -1,7 +1,6 @@
 package game.view.configuration;
 
 import game.controller.ConfigurationController;
-import game.enums.ConfigurationAttribute;
 import game.enums.Resources;
 import game.helper.ResourceHelper;
 import game.model.Configuration;
@@ -83,7 +82,7 @@ public class ConfigurationView extends View {
    public void setTableData(ConfigurationAttributeMap configurationAttributes) {
       ConfigurationTableModel attributeTableModel = new ConfigurationTableModel(configurationAttributes.values().size());
 
-      for (ConfigurationAttribute attribute : Configuration.getConfigurationAttributes().keySet()) {
+      for (Configuration attribute : Configuration.getConfigurationAttributes().keySet()) {
          attributeTableModel.addNewRow(attribute, Configuration.getAttributeValue(attribute));
       }
 

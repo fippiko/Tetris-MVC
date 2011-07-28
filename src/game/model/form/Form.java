@@ -22,9 +22,17 @@ public abstract class Form {
    public int getColumnIndex() {
       return this.columnIndex;
    }
+   
+   public void setColumnIndex(int newColumnIndex) {
+      this.columnIndex = newColumnIndex;
+   }
 
    public int getRowIndex() {
       return this.rowIndex;
+   }
+   
+   public void setRowIndex(int newRowIndex){
+      this.rowIndex = newRowIndex;
    }
 
    public abstract int[][] getFormMap();
@@ -53,4 +61,5 @@ public abstract class Form {
    }
 
    public abstract int getCurrentHeight();
+
 }

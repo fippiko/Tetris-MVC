@@ -1,6 +1,6 @@
 package game.view.configuration;
 
-import game.enums.ConfigurationAttribute;
+import game.model.Configuration;
 import game.model.ConfigurationAttributeMap;
 
 import java.lang.reflect.Array;
@@ -19,7 +19,7 @@ public class ConfigurationTableModel extends AbstractTableModel {
    private int                                        addedRows         = 0;
    final String[]                                     columnNames       = {"Attribute", "Value", "Default"};
    final Object[][]                                   data;
-   private Hashtable<ConfigurationAttribute, Integer> rowToAttributeMap = new Hashtable<ConfigurationAttribute, Integer>();
+   private Hashtable<Configuration, Integer> rowToAttributeMap = new Hashtable<Configuration, Integer>();
 
    public ConfigurationTableModel(int rowCount) {
       data = new Object[rowCount][columnNames.length];
@@ -50,11 +50,11 @@ public class ConfigurationTableModel extends AbstractTableModel {
       return false;
    }
 
-   public Object getValueFrom(ConfigurationAttribute attribute) {
+   public Object getValueFrom(Configuration attribute) {
       return data[this.rowToAttributeMap.get(attribute)][1];
    }
 
-   public void addNewRow(ConfigurationAttribute attribute, String attributeValue) {
+   public void addNewRow(Configuration attribute, String attributeValue) {
       data[this.getRowCount()][COLUMN_NAME] = attribute.toString();
       data[this.getRowCount()][COLUMN_VALUE] = attributeValue.length() == 0 ? attribute.getDefaultValue() : attributeValue;
       data[this.getRowCount()][COLUMN_DEFAULT] = attribute.getDefaultValue();
@@ -74,7 +74,7 @@ public class ConfigurationTableModel extends AbstractTableModel {
    public TableCellEditor getCellEditor(int row, int col) {
       TableCellEditor editor = null;
 
-      ConfigurationAttribute attribute = this.getConfigurationAttributeFrom(row);
+      Configuration attribute = this.getConfigurationAttributeFrom(row);
 
       if (attribute != null) {
          if (attribute.getType() == Array.class) {
@@ -91,8 +91,8 @@ public class ConfigurationTableModel extends AbstractTableModel {
       return editor;
    }
 
-   private ConfigurationAttribute getConfigurationAttributeFrom(int row) {
-      for (ConfigurationAttribute attribute : this.rowToAttributeMap.keySet()) {
+   private Configuration getConfigurationAttributeFrom(int row) {
+      for (Configuration attribute : this.rowToAttributeMap.keySet()) {
          if (this.rowToAttributeMap.get(attribute) == row) {
             return attribute;
          }
@@ -104,7 +104,7 @@ public class ConfigurationTableModel extends AbstractTableModel {
    public ConfigurationAttributeMap getConfigurationAttributes() {
       ConfigurationAttributeMap attributeMap = new ConfigurationAttributeMap();
 
-      for (ConfigurationAttribute attribute : this.rowToAttributeMap.keySet()) {
+      for (Configuration attribute : this.rowToAttributeMap.keySet()) {
          String newValue = this.getValueFrom(attribute).toString();
          attributeMap.put(attribute, newValue);
       }

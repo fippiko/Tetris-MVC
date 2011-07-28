@@ -1,18 +1,74 @@
 package game.model;
 
-import game.enums.ConfigurationAttribute;
+import game.model.Configuration;
 
-import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 
-public abstract class Configuration implements Serializable {
-   public static final String               FILENAME   = "configuration.conf";
+public enum Configuration {
+   NAME("Name", "Unkown", String.class),
+   SPEED("Speed", "50", Integer.class),
+   DIFICULTY("Dificulty", "Medium", new String[]{"Easy", "Medium", "Hard"}),
+   FILENAME("Filename", "configuration.txt", String.class);
+
+   private String   attributeString;
+   private String   defaultValue;
+   private String[] options;
+   private Type     type;
 
    private static ConfigurationAttributeMap attributes = new ConfigurationAttributeMap();
 
+   Configuration(String attributeString, String defaultValue, Type type) {
+      this.attributeString = attributeString;
+      this.defaultValue = defaultValue;
+      this.type = type;
+   }
+
+   Configuration(String attributeString, String defaultValue, String[] options) {
+      this.attributeString = attributeString;
+      this.defaultValue = defaultValue;
+      this.options = options;
+      this.type = Array.class;
+   }
+   
+   public String getValue(){
+      return getAttributeValue(this);
+   }
+
+   public static Configuration fromString(String attributeString) {
+      if (attributeString != null) {
+         for (Configuration configurationAttriubte : Configuration.values()) {
+            if (attributeString.equalsIgnoreCase(configurationAttriubte.toString())) {
+               return configurationAttriubte;
+            }
+         }
+      }
+
+      return null;
+   }
+
+   @Override
+   public String toString() {
+      return this.attributeString;
+   }
+
+   public String getDefaultValue() {
+      return this.defaultValue;
+   }
+
+   public String[] getOptions() {
+      return this.options;
+   }
+
+   public Type getType() {
+      return this.type;
+   }
+   
+   
    public static void initializeConfiguration(ConfigurationAttributeMap existingAttributes) {
 
       if (existingAttributes == null) {
-         for (ConfigurationAttribute configurationAttribute : ConfigurationAttribute.values()) {
+         for (Configuration configurationAttribute : Configuration.values()) {
             attributes.put(configurationAttribute, "");
          }
       }
@@ -25,7 +81,7 @@ public abstract class Configuration implements Serializable {
       return attributes;
    }
 
-   public static String getAttributeValue(ConfigurationAttribute attribute) {
+   public static String getAttributeValue(Configuration attribute) {
       String returnValue = "";
       if (attributes.containsKey(attribute)) {
          returnValue = attributes.get(attribute);
@@ -35,7 +91,7 @@ public abstract class Configuration implements Serializable {
    }
 
    public static void setConfigurationAttributes(ConfigurationAttributeMap newAttributes) {
-      for (ConfigurationAttribute attribute : newAttributes.keySet()) {
+      for (Configuration attribute : newAttributes.keySet()) {
          attributes.put(attribute, newAttributes.get(attribute));
       }
    }

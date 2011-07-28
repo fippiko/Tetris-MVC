@@ -23,13 +23,13 @@ public class ConfigurationController extends Controller {
       ConfigurationAttributeMap newAttributes = this.getView().getConfigurationAttributes();
       Configuration.setConfigurationAttributes(newAttributes);
 
-      SerializationHelper.writeObjectToXml(newAttributes, Configuration.FILENAME);
+      SerializationHelper.writeObjectToXml(newAttributes, Configuration.FILENAME.getValue());
    }
 
    public ConfigurationAttributeMap loadConfigurationAttributes() {
       ConfigurationAttributeMap newAttributes = null;
 
-      newAttributes = (ConfigurationAttributeMap) SerializationHelper.readObjectFromXml(Configuration.FILENAME);
+      newAttributes = (ConfigurationAttributeMap) SerializationHelper.readObjectFromXml(Configuration.FILENAME.getValue());
 
       return newAttributes;
    }
