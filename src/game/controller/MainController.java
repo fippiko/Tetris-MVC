@@ -28,7 +28,6 @@ public class MainController extends Controller implements Runnable {
       this.mainFrame.add(this.getView());
 
       this.menuController = new MenuController(this);
-      this.gameController = new GameController();
       this.configController = new ConfigurationController();
 
       this.defaultController = this.menuController;
@@ -58,6 +57,10 @@ public class MainController extends Controller implements Runnable {
             this.close();
          }
          else {
+            if(this.gameController != null){
+               this.menuController.setGameRunning(true);
+            }
+            
             this.setActiveController(this.defaultController);
          }
       }
@@ -95,7 +98,12 @@ public class MainController extends Controller implements Runnable {
       this.activeControllerChanged = true;
    }
 
-   public void showNewGame() {
+   public void startNewGame() {
+      this.gameController = new GameController();
+      this.setActiveController(this.gameController);
+   }
+   
+   public void continueGame() {
       this.setActiveController(this.gameController);
    }
 

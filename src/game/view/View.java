@@ -1,7 +1,6 @@
 package game.view;
 
 import game.controller.Controller;
-import game.model.Game;
 
 import java.awt.Color;
 import java.awt.Component;

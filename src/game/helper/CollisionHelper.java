@@ -7,26 +7,23 @@ import game.model.form.Form;
 
 public class CollisionHelper {
 
-   public static Boolean checkHorizontalCollision(final Form activeForm, final ArrayList<Form> otherForms) {
+   public static Boolean checkHorizontalCollision(final Form activeForm, final int nextColumnIndex, final ArrayList<Form> otherForms) {
       int leftColumn = 0;
       int rightColumn = Game.COLCOUNT;
 
-      int nextFormColumnIndex = FormHelper.calculateNextColumnIndex(activeForm);
-
-      return (nextFormColumnIndex < leftColumn || nextFormColumnIndex > rightColumn);
+      return (nextColumnIndex < leftColumn || nextColumnIndex > rightColumn);
    }
 
-   public static Boolean checkVerticalCollision(final Form activeForm, final ArrayList<Form> otherForms) {
+   public static Boolean checkVerticalCollision(final Form activeForm, final int nextRowIndex, final ArrayList<Form> otherForms) {
       int bottomRow = Game.ROWCOUNT;
 
-      int nextFormRowIndex = FormHelper.calculateNextRowIndex(activeForm);
-      int bottomRowIndex = nextFormRowIndex + activeForm.getCurrentHeight();
+      int bottomRowIndex = nextRowIndex + activeForm.getCurrentHeight();
 
-      //collision with the bottom
-      if(bottomRowIndex > bottomRow){
+      // collision with the bottom
+      if (bottomRowIndex > bottomRow) {
          return true;
       }
-      
+
       return false;
    }
 }

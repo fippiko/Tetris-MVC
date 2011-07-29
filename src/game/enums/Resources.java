@@ -4,6 +4,7 @@ import game.helper.ResourceHelper;
 
 public enum Resources {
    NEWGAME,
+   CONTINUEGAME,
    CONFIGURATION,
    CLOSEGAME,
    CANCEL,

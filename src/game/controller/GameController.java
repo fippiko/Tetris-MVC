@@ -13,7 +13,6 @@ import game.view.game.GameView;
 import game.view.game.PreviewView;
 import game.view.game.ScoreView;
 
-import java.awt.RenderingHints.Key;
 import java.awt.event.KeyEvent;
 
 public class GameController extends Controller {
@@ -50,12 +49,20 @@ public class GameController extends Controller {
             this.addNewForm(game);
             break;
          case FORMACTIVE :
-            if (TimeHelper.timeReached(this, "moveFormVertical", this.getVerticalSpeedInterval())) {
-               this.moveFormVertical(game);
+            if (this.isKeyPressed(KeyEvent.VK_LEFT) || this.isKeyPressed(KeyEvent.VK_RIGHT)) {
+               if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
+                  this.moveFormHorizontal(game);
+               }
             }
-            
-            if(this.isKeyPressed(KeyEvent.VK_LEFT) || this.isKeyPressed(KeyEvent.VK_RIGHT)){
-               this.moveFormHorizontal(game);
+
+            if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval())) {
+               int nextRow = getNextRow(game.getActiveForm());
+               if (!CollisionHelper.checkVerticalCollision(game.getActiveForm(), nextRow, game.getActiveForms())) {
+                  game.getActiveForm().setRowIndex(nextRow);
+               }
+               else {
+                  game.setState(GameState.NEXTFORM);
+               }
             }
 
             this.checkFormCollision(game);
@@ -66,8 +73,7 @@ public class GameController extends Controller {
    }
 
    private long getHorizontalSpeedInterval() {
-      return 200;
-      // TODO
+      return Integer.parseInt(Configuration.VERTICALSPEED.getValue());
    }
 
    private long getVerticalSpeedInterval() {
@@ -79,34 +85,27 @@ public class GameController extends Controller {
       return verticalInterval;
    }
 
+   private int getNextRow(Form activeForm) {
+      return activeForm.getRowIndex() + 1;
+   }
+
    private void moveFormHorizontal(Game game) {
       Form activeForm = game.getActiveForm();
 
       if (activeForm != null) {
-         Boolean intervalTimeReached = TimeHelper.timeReached(this, "moveFormHorizontal", this.getHorizontalSpeedInterval());
-         
-         if (intervalTimeReached) {
-            int nextColumn = activeForm.getColumnIndex();
+         int nextColumn = activeForm.getColumnIndex();
 
-            if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
-               nextColumn--;
-            }
-            if (this.isKeyPressed(KeyEvent.VK_RIGHT)) {
-               nextColumn++;
-            }
+         if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
+            nextColumn--;
+         }
+         if (this.isKeyPressed(KeyEvent.VK_RIGHT)) {
+            nextColumn++;
+         }
 
+         if (!CollisionHelper.checkHorizontalCollision(activeForm, nextColumn, game.getActiveForms())) {
             activeForm.setColumnIndex(nextColumn);
          }
       }
-   }
-
-   private void moveFormVertical(Game game) {
-      Form activeForm = game.getActiveForm();
-
-      // int nextColumn = FormHelper.calculateNextColumnIndex(activeForm);
-      int nextRow = FormHelper.calculateNextRowIndex(activeForm);
-
-      activeForm.setRowIndex(nextRow);
    }
 
    private void addNewForm(Game game) {
@@ -126,13 +125,13 @@ public class GameController extends Controller {
    private void checkFormCollision(Game game) {
       Form activeForm = game.getActiveForm();
 
-      if (CollisionHelper.checkHorizontalCollision(activeForm, game.getActiveForms())) {
-         activeForm.setHorizontalSpeed(0);
-      }
-      if (CollisionHelper.checkVerticalCollision(activeForm, game.getActiveForms())) {
-         activeForm.setVerticalSpeed(0);
-         game.setState(GameState.NEXTFORM);
-      }
+      /*
+       * if (CollisionHelper.checkHorizontalCollision(activeForm,
+       * game.getActiveForms())) { activeForm.setHorizontalSpeed(0); } if
+       * (CollisionHelper.checkVerticalCollision(activeForm,
+       * game.getActiveForms())) { activeForm.setVerticalSpeed(0);
+       * game.setState(GameState.NEXTFORM); }
+       */
    }
 
    @Override
