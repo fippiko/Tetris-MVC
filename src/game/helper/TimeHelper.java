@@ -18,23 +18,36 @@ public class TimeHelper {
       if (lastMap.containsKey(controller)) {
          long last = lastMap.get(controller);
          long delta = System.nanoTime() - last;
-         
-         if(!deltaSumMap.containsKey(controller)){
+
+         if (!deltaSumMap.containsKey(controller)) {
             deltaSumMap.put(controller, new Hashtable<String, Long>());
          }
 
          Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
 
          for (String method : allMethods.keySet()) {
-            long existingDelta = 0;
-            if (allMethods.containsKey(method)) {
-               existingDelta = allMethods.get(method);
-            }
-            allMethods.put(method, existingDelta + delta);
+            pushTime(controller, method, delta);
          }
       }
 
       lastMap.put(controller, System.nanoTime());
+   }
+
+   public static void pushTime(Controller controller, String method) {
+      long last = lastMap.get(controller);
+      long delta = System.nanoTime() - last;
+
+      pushTime(controller, method, delta);
+   }
+
+   private static void pushTime(Controller controller, String method, long delta) {
+      Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
+
+      long existingDelta = 0;
+      if (allMethods.containsKey(method)) {
+         existingDelta = allMethods.get(method);
+      }
+      allMethods.put(method, existingDelta + delta);
    }
 
    public static Boolean timeReached(Controller controller, String method, long miliSeconds) {

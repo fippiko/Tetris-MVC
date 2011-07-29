@@ -1,5 +1,6 @@
 package game.model;
 
+import game.helper.SerializationHelper;
 import game.model.Configuration;
 
 import java.lang.reflect.Array;
@@ -63,19 +64,7 @@ public enum Configuration {
    public Type getType() {
       return this.type;
    }
-   
-   
-   public static void initializeConfiguration(ConfigurationAttributeMap existingAttributes) {
-
-      if (existingAttributes == null) {
-         for (Configuration configurationAttribute : Configuration.values()) {
-            attributes.put(configurationAttribute, "");
-         }
-      }
-      else {
-         setConfigurationAttributes(existingAttributes);
-      }
-   }
+    
 
    public static ConfigurationAttributeMap getConfigurationAttributes() {
       return attributes;
@@ -93,6 +82,23 @@ public enum Configuration {
    public static void setConfigurationAttributes(ConfigurationAttributeMap newAttributes) {
       for (Configuration attribute : newAttributes.keySet()) {
          attributes.put(attribute, newAttributes.get(attribute));
+      }
+   }
+
+   public static void initializeConfiguration() {
+      ConfigurationAttributeMap newAttributes = null;
+      newAttributes = (ConfigurationAttributeMap) SerializationHelper.readObjectFromXml(Configuration.FILENAME.getValue());
+      initializeConfiguration(newAttributes);
+   }
+   
+   public static void initializeConfiguration(ConfigurationAttributeMap existingAttributes) {
+      if (existingAttributes == null) {
+         for (Configuration configurationAttribute : Configuration.values()) {
+            attributes.put(configurationAttribute, configurationAttribute.getDefaultValue());
+         }
+      }
+      else {
+         setConfigurationAttributes(existingAttributes);
       }
    }
 }

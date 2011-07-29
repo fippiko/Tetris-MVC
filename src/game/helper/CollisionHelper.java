@@ -23,7 +23,7 @@ public class CollisionHelper {
       int bottomRowIndex = nextFormRowIndex + activeForm.getCurrentHeight();
 
       //collision with the bottom
-      if(bottomRowIndex >= bottomRow){
+      if(bottomRowIndex > bottomRow){
          return true;
       }
       

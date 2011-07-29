@@ -55,21 +55,17 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
 
    @Override
    public void keyPressed(KeyEvent keyEvent) {
-      this.getController().executeKey(keyEvent);
+      this.getController().keyPressed(keyEvent);
    }
 
    @Override
-   public void keyReleased(KeyEvent arg0) {
-
+   public void keyReleased(KeyEvent keyEvent) {
+      this.getController().keyReleased(keyEvent);
    }
 
    @Override
    public void keyTyped(KeyEvent arg0) {
 
-   }
-
-   public void executeKey(KeyEvent keyEvent) {
-      // Override this method to catch KeyEvents
    }
 
    @Override

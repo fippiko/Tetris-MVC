@@ -13,6 +13,7 @@ import game.view.game.GameView;
 import game.view.game.PreviewView;
 import game.view.game.ScoreView;
 
+import java.awt.RenderingHints.Key;
 import java.awt.event.KeyEvent;
 
 public class GameController extends Controller {
@@ -43,20 +44,20 @@ public class GameController extends Controller {
    @Override
    public void work() {
       super.work();
-      
+
       switch (this.game.getState()) {
          case NEXTFORM :
             this.addNewForm(game);
             break;
          case FORMACTIVE :
-            if(TimeHelper.timeReached(this, "moveFormVertical", this.getVerticalSpeedInterval())){
+            if (TimeHelper.timeReached(this, "moveFormVertical", this.getVerticalSpeedInterval())) {
                this.moveFormVertical(game);
-               
-            }
-            if(TimeHelper.timeReached(this, "moveFormHorizontal", this.getHorizontalSpeedInterval())){
-               this.moveHorizontal(game);
             }
             
+            if(this.isKeyPressed(KeyEvent.VK_LEFT) || this.isKeyPressed(KeyEvent.VK_RIGHT)){
+               this.moveFormHorizontal(game);
+            }
+
             this.checkFormCollision(game);
             break;
       }
@@ -64,34 +65,45 @@ public class GameController extends Controller {
       this.getView().updateView(game);
    }
 
-   
-
    private long getHorizontalSpeedInterval() {
       return 200;
-      //TODO
+      // TODO
    }
 
    private long getVerticalSpeedInterval() {
       String speed = Configuration.SPEED.getValue();
-      
+
       int verticalInterval = 400 - Integer.parseInt(speed);
-      //TODO
-      
+      // TODO
+
       return verticalInterval;
    }
 
-   private void moveHorizontal(Game game) {
+   private void moveFormHorizontal(Game game) {
       Form activeForm = game.getActiveForm();
 
-      int nextColumn = activeForm.getColumnIndex() + 1;
+      if (activeForm != null) {
+         Boolean intervalTimeReached = TimeHelper.timeReached(this, "moveFormHorizontal", this.getHorizontalSpeedInterval());
+         
+         if (intervalTimeReached) {
+            int nextColumn = activeForm.getColumnIndex();
 
-      activeForm.setColumnIndex(nextColumn);
+            if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
+               nextColumn--;
+            }
+            if (this.isKeyPressed(KeyEvent.VK_RIGHT)) {
+               nextColumn++;
+            }
+
+            activeForm.setColumnIndex(nextColumn);
+         }
+      }
    }
-   
+
    private void moveFormVertical(Game game) {
       Form activeForm = game.getActiveForm();
 
-      //int nextColumn = FormHelper.calculateNextColumnIndex(activeForm);
+      // int nextColumn = FormHelper.calculateNextColumnIndex(activeForm);
       int nextRow = FormHelper.calculateNextRowIndex(activeForm);
 
       activeForm.setRowIndex(nextRow);
@@ -129,8 +141,8 @@ public class GameController extends Controller {
    }
 
    @Override
-   public void executeKey(KeyEvent keyEvent) {
-      super.executeKey(keyEvent);
+   public void keyPressed(KeyEvent keyEvent) {
+      super.keyPressed(keyEvent);
 
       if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
          this.close();

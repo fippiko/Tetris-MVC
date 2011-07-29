@@ -12,7 +12,7 @@ public class ConfigurationController extends Controller {
    }
 
    private void initialize() {
-      Configuration.initializeConfiguration(loadConfigurationAttributes());
+      //Configuration.initializeConfiguration(loadConfigurationAttributes());
 
       this.setView(new ConfigurationView(this));
 
@@ -24,14 +24,6 @@ public class ConfigurationController extends Controller {
       Configuration.setConfigurationAttributes(newAttributes);
 
       SerializationHelper.writeObjectToXml(newAttributes, Configuration.FILENAME.getValue());
-   }
-
-   public ConfigurationAttributeMap loadConfigurationAttributes() {
-      ConfigurationAttributeMap newAttributes = null;
-
-      newAttributes = (ConfigurationAttributeMap) SerializationHelper.readObjectFromXml(Configuration.FILENAME.getValue());
-
-      return newAttributes;
    }
 
    @Override

@@ -63,8 +63,8 @@ public class ConfigurationView extends View {
    }
 
    @Override
-   public void executeKey(KeyEvent keyEvent) {
-      super.executeKey(keyEvent);
+   public void keyPressed(KeyEvent keyEvent) {
+      super.keyPressed(keyEvent);
 
       if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
          this.close();

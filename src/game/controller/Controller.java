@@ -6,16 +6,20 @@ import game.view.View;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 public abstract class Controller {
-   private ControllerState       state;
-   private Boolean               stateChanged;
+   private ControllerState             state;
+   private Boolean                     stateChanged;
 
-   private View                  view;
+   private View                        view;
 
-   private ArrayList<Controller> subController = new ArrayList<Controller>();
-   
-   private final static int DEFAULT_INTERVAL_IN_MS = 200;
+   private ArrayList<Controller>       subController          = new ArrayList<Controller>();
+
+   private ArrayList<Integer>       pressedKeys            = new ArrayList<Integer>();
+
+   private final static int            DEFAULT_INTERVAL_IN_MS = 200;
 
    public Controller() {
       this.setState(ControllerState.UNINITIALIZED);
@@ -58,11 +62,30 @@ public abstract class Controller {
       return this.subController;
    }
 
-   public void executeKey(KeyEvent keyEvent) {
+   public void keyPressed(KeyEvent keyEvent) {
       for (Controller subController : this.getSubController()) {
-         subController.executeKey(keyEvent);
+         subController.keyPressed(keyEvent);
       }
-      this.getView().executeKey(keyEvent);
+
+      int keyCode = keyEvent.getKeyCode();
+      if (!this.pressedKeys.contains(keyCode)) {
+         this.pressedKeys.add(keyCode);
+      }
+   }
+
+   public void keyReleased(KeyEvent keyEvent) {
+      for (Controller subController : this.getSubController()) {
+         subController.keyReleased(keyEvent);
+      }
+
+      int keyCode = keyEvent.getKeyCode();
+      if (this.pressedKeys.contains(keyCode)) {
+         this.pressedKeys.remove((Object)keyCode);
+      }
+   }
+
+   protected boolean isKeyPressed(int keyCode) {
+      return this.pressedKeys.contains(keyCode);
    }
 
    public void repaint() {
@@ -77,7 +100,7 @@ public abstract class Controller {
 
    public void work() {
       TimeHelper.pushTime(this);
-      
+
       for (Controller subController : this.getSubController()) {
          subController.work();
       }
