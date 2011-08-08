@@ -1,6 +1,7 @@
 package game.view.game;
 
 import game.controller.Controller;
+import game.model.FieldMap;
 import game.model.form.Form;
 import game.view.View;
 
@@ -11,12 +12,13 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class GameGridView extends View {
-   private static final int WIDTH       = 600;
-   private static final int HEIGHT      = 600;
+   private static final int WIDTH      = 600;
+   private static final int HEIGHT     = 600;
 
    private GameGrid         grid;
 
-   private ArrayList<Form>  activeForms = new ArrayList<Form>();
+   private Form             activeForm = null;
+   private FieldMap         takenFields = 
 
    public GameGridView(Controller controller, int colCount, int rowCount) {
       super(controller);
@@ -81,7 +83,7 @@ public class GameGridView extends View {
       return null;
    }
 
-   public void updateView(ArrayList<Form> activeForms) {
-      this.activeForms = activeForms;
+   public void updateView(final Form activeForm, final FieldMap takenFields) {
+      this.activeForm = activeForm;
    }
 }

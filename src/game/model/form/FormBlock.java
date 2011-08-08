@@ -28,4 +28,9 @@ public class FormBlock extends Form {
    public int getCurrentHeight() {
       return 2;
    }
+
+   @Override
+   public int getCurrentWidth() {
+      return 2;
+   }
 }

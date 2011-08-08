@@ -46,30 +46,15 @@ public class GameController extends Controller {
 
       switch (this.game.getState()) {
          case NEXTFORM :
-            this.addNewForm(game);
+            this.addNewForm(this.game);
             break;
          case FORMACTIVE :
-            if (this.isKeyPressed(KeyEvent.VK_LEFT) || this.isKeyPressed(KeyEvent.VK_RIGHT)) {
-               if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
-                  this.moveFormHorizontal(game);
-               }
-            }
-
-            if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval())) {
-               int nextRow = getNextRow(game.getActiveForm());
-               if (!CollisionHelper.checkVerticalCollision(game.getActiveForm(), nextRow, game.getActiveForms())) {
-                  game.getActiveForm().setRowIndex(nextRow);
-               }
-               else {
-                  game.setState(GameState.NEXTFORM);
-               }
-            }
-
-            this.checkFormCollision(game);
+            this.doMovement(this.game);
+            //this.checkFormCollision(this.game);
             break;
       }
 
-      this.getView().updateView(game);
+      this.getView().updateView(this.game);
    }
 
    private long getHorizontalSpeedInterval() {
@@ -85,27 +70,47 @@ public class GameController extends Controller {
       return verticalInterval;
    }
 
+   private void doMovement(Game game) {
+      //do horizontal movement if left or right button is pressed
+      if (this.isKeyPressed(KeyEvent.VK_LEFT) || this.isKeyPressed(KeyEvent.VK_RIGHT)) {
+         if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
+            Form activeForm = game.getActiveForm();
+            int nextColumn = this.getNextColumn(activeForm);
+            if (!CollisionHelper.checkHorizontalCollision(activeForm, nextColumn, game.getTakenFields())) {
+               activeForm.setColumnIndex(nextColumn);
+            }
+         }
+      }
+
+      
+      //do vertical movement on vertical-intervall
+      if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval())) {
+         int nextRow = getNextRow(game.getActiveForm());
+         if (!CollisionHelper.checkVerticalCollision(game.getActiveForm(), nextRow, game.getTakenFields())) {
+            game.getActiveForm().setRowIndex(nextRow);
+         }
+         else {
+            game.setState(GameState.NEXTFORM);
+         }
+      }
+   }
+
    private int getNextRow(Form activeForm) {
       return activeForm.getRowIndex() + 1;
    }
 
-   private void moveFormHorizontal(Game game) {
-      Form activeForm = game.getActiveForm();
+   private int getNextColumn(Form activeForm) {
 
-      if (activeForm != null) {
-         int nextColumn = activeForm.getColumnIndex();
+      int nextColumn = activeForm.getColumnIndex();
 
-         if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
-            nextColumn--;
-         }
-         if (this.isKeyPressed(KeyEvent.VK_RIGHT)) {
-            nextColumn++;
-         }
-
-         if (!CollisionHelper.checkHorizontalCollision(activeForm, nextColumn, game.getActiveForms())) {
-            activeForm.setColumnIndex(nextColumn);
-         }
+      if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
+         nextColumn--;
       }
+      if (this.isKeyPressed(KeyEvent.VK_RIGHT)) {
+         nextColumn++;
+      }
+
+      return nextColumn;
    }
 
    private void addNewForm(Game game) {

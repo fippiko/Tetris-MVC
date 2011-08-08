@@ -37,6 +37,6 @@ public class GameView extends View {
    }
 
    public void updateView(Game game) {
-      this.gridView.updateView(game.getActiveForms());
+      this.gridView.updateView(game);
    }
 }

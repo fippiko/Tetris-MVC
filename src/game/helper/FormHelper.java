@@ -1,5 +1,8 @@
 package game.helper;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 import game.model.form.Form;
 
 public class FormHelper {
@@ -26,6 +29,21 @@ public class FormHelper {
       }
 
       return newRowIndex;
+   }
+
+   public static Hashtable<Integer, Integer> generateFieldMap(Form form) {
+      Hashtable<Integer, Integer> fieldMap = new Hashtable<Integer, Integer>();
+
+      int currentColumnIndex = form.getColumnIndex();
+      int currentRowIndex = form.getRowIndex();
+
+      for (int column = currentColumnIndex; column < currentColumnIndex + form.getCurrentWidth(); column++) {
+         for (int row = currentRowIndex; row < currentRowIndex + form.getCurrentHeight(); row++) {
+            fieldMap.put(column, row);
+         }
+      }
+      
+      return fieldMap;
    }
 
 }

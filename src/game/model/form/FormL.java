@@ -30,4 +30,9 @@ public class FormL extends Form {
       return 3;
    }
 
+   @Override
+   public int getCurrentWidth() {
+      return 2;
+   }
+
 }

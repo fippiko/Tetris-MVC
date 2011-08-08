@@ -61,5 +61,6 @@ public abstract class Form {
    }
 
    public abstract int getCurrentHeight();
+   public abstract int getCurrentWidth();
 
 }
