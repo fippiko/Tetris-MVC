@@ -1,63 +1,78 @@
 package game.helper;
 
-import java.util.ArrayList;
-
-import game.model.FieldMap;
+import game.model.FormUnit;
 import game.model.Game;
 import game.model.form.Form;
 
+import java.util.ArrayList;
+
 public class CollisionHelper {
 
-   public static Boolean checkHorizontalCollision(final Form activeForm, final int nextColumnIndex, final ArrayList<Form> deadForms) {
+   public static Boolean checkHorizontalCollision(final Form activeForm, final int horizontalDelta, final ArrayList<Form> otherForms) {
       int leftColumn = 0;
       int rightColumn = Game.COLCOUNT;
 
-      int rightFormBorder = nextColumnIndex + activeForm.getCurrentWidth();
+      Boolean formColide = false;
+      for (FormUnit formUnit : activeForm.getUnits()) {
 
-      return (nextColumnIndex < leftColumn || rightFormBorder > rightColumn);
+         if (formUnit.getColumn() + horizontalDelta < leftColumn) {
+            formColide = true;
+            break;
+         }
+         else if (formUnit.getColumn() + horizontalDelta > rightColumn) {
+            formColide = true;
+            break;
+         }
+      }
+
+      return formColide;
    }
 
-   public static Boolean checkVerticalCollision(final Form activeForm, final int nextRowIndex, final ArrayList<Form> deadForms) {
+   public static Boolean checkVerticalCollision(final Form activeForm, final int verticalDelta, final ArrayList<Form> allForms) {
+      ArrayList<Form> otherForms = new ArrayList<Form>(allForms) ;
+      otherForms.remove(activeForm);
+
       int bottomRow = Game.ROWCOUNT;
 
-      int bottomRowIndex = nextRowIndex + activeForm.getCurrentHeight();
+      Boolean formColide = false;
+      for (FormUnit formUnit : activeForm.getUnits()) {
+         int nextRow = formUnit.getRow() + verticalDelta;
 
-      int formColumnIndex = activeForm.getColumnIndex();
+         if (nextRow > bottomRow) {
+            formColide = true;
+            break;
+         }
 
-      // collision with the bottom
-      if (bottomRowIndex > bottomRow) {
-         return true;
+         // collision with other forms
+         if (isFormAtPosition(formUnit.getColumn(), bottomRow, otherForms)) {
+            formColide = true;
+            break;
+         }
       }
 
-      // collision with other forms
-      if (isFormAtPosition(formColumnIndex, activeForm.getRowIndex() + activeForm.getCurrentHeight(), takenFields)) {
-         return true;
-      }
-
-      return false;
+      return formColide;
    }
 
-   public static Boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> deadForms) {
-/*
-      for (Form form : otherForms) {
-         if (form != activeForm) {
-            int formColumn = form.getColumnIndex();
-            int formWidth = form.getCurrentWidth();
-            int formRow = form.getRowIndex();
+   public static Boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> otherForms) {
 
-            if (column >= formColumn && column <= formColumn + formWidth) {
-               if (row == formRow) {
-                  return true;
+      Boolean isFormThere = false;
+
+      for (Form form : otherForms) {
+
+         for (FormUnit formUnit : form.getUnits()) {
+            int unitColumn = formUnit.getColumn();
+            int unitRow = formUnit.getRow();
+
+            if (column == unitColumn) {
+               if (row == unitRow) {
+                  isFormThere = true;
+                  break;
                }
             }
          }
-      }*/
 
-      if(takenFields.containsKey(column)){
-         if(takenFields.get(column).contains(row)){
-            return true;
-         }
       }
-      return false;
+
+      return isFormThere;
    }
 }

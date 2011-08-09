@@ -1,7 +1,7 @@
 package game.view.game;
 
 import game.controller.Controller;
-import game.model.FieldMap;
+import game.model.FormUnit;
 import game.model.form.Form;
 import game.view.View;
 
@@ -17,8 +17,8 @@ public class GameGridView extends View {
 
    private GameGrid         grid;
 
-   private Form             activeForm = null;
-   private FieldMap         takenFields = 
+   //private Form             activeForm = null;
+   private ArrayList<Form>  allForms   = new ArrayList<Form>();
 
    public GameGridView(Controller controller, int colCount, int rowCount) {
       super(controller);
@@ -43,13 +43,27 @@ public class GameGridView extends View {
       g2d.setColor(color);
       g2d.drawRect(gridUnit.getX(), gridUnit.getY(), gridUnit.getWidth(), gridUnit.getHeight());
 
-      Form form = this.getFormOnGridUnit(gridUnit);
+      Form form = this.getFormAtPos(gridUnit.getColumnIndex(), gridUnit.getRowIndex());
       if (form != null) {
          g2d.setColor(form.getColor());
          g2d.fillRect(gridUnit.getX() + 1, gridUnit.getY() + 1, gridUnit.getWidth() - 1, gridUnit.getHeight() - 1);
       }
    }
-
+   
+   private Form getFormAtPos(final int column, final int row){
+      for (Form form : this.allForms) {
+         for (FormUnit formUnit : form.getUnits()) {
+            if(formUnit.getColumn() == column){
+               if(formUnit.getRow() == row){
+                  return form;
+               }
+            }
+         }
+      }
+      
+      return null;
+   }
+/*
    public ArrayList<GameGridUnit> getGridUnitsOfForm(Form form) {
       ArrayList<GameGridUnit> gridUnits = new ArrayList<GameGridUnit>();
 
@@ -72,7 +86,8 @@ public class GameGridView extends View {
 
       return gridUnits;
    }
-
+   */
+   /*
    private Form getFormOnGridUnit(GameGridUnit gridUnit) {
       for (Form form : this.activeForms) {
          if (this.getGridUnitsOfForm(form).contains(gridUnit)) {
@@ -82,8 +97,9 @@ public class GameGridView extends View {
 
       return null;
    }
+   */
 
-   public void updateView(final Form activeForm, final FieldMap takenFields) {
-      this.activeForm = activeForm;
+   public void updateView(/*final Form activeForm, */final ArrayList<Form>  allForms) {
+      this.allForms = allForms;
    }
 }

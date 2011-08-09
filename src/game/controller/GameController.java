@@ -71,46 +71,45 @@ public class GameController extends Controller {
    }
 
    private void doMovement(Game game) {
+      Form activeForm = game.getActiveForm();
+      
       //do horizontal movement if left or right button is pressed
       if (this.isKeyPressed(KeyEvent.VK_LEFT) || this.isKeyPressed(KeyEvent.VK_RIGHT)) {
-         if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
-            Form activeForm = game.getActiveForm();
-            int nextColumn = this.getNextColumn(activeForm);
-            if (!CollisionHelper.checkHorizontalCollision(activeForm, nextColumn, game.getTakenFields())) {
-               activeForm.setColumnIndex(nextColumn);
+         if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {      
+            int horizontalDelta = this.getHorizontalDelta();
+            if (!CollisionHelper.checkHorizontalCollision(activeForm, horizontalDelta, game.getAllForms())) {
+               activeForm.moveHorizontal(horizontalDelta);
             }
          }
       }
-
       
       //do vertical movement on vertical-intervall
       if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval())) {
-         int nextRow = getNextRow(game.getActiveForm());
-         if (!CollisionHelper.checkVerticalCollision(game.getActiveForm(), nextRow, game.getTakenFields())) {
-            game.getActiveForm().setRowIndex(nextRow);
+         int verticalDelta = this.getVerticalDelta();
+         if (!CollisionHelper.checkVerticalCollision(activeForm, verticalDelta, game.getAllForms())) {
+            activeForm.moveVertical(verticalDelta);
          }
          else {
             game.setState(GameState.NEXTFORM);
          }
       }
    }
-
-   private int getNextRow(Form activeForm) {
-      return activeForm.getRowIndex() + 1;
+   
+   private int getVerticalDelta() {
+      return 1;
    }
 
-   private int getNextColumn(Form activeForm) {
-
-      int nextColumn = activeForm.getColumnIndex();
-
+   private int getHorizontalDelta() {
+      int delta = 0;
+      
       if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
-         nextColumn--;
+         delta = -1;
       }
       if (this.isKeyPressed(KeyEvent.VK_RIGHT)) {
-         nextColumn++;
+         delta = 1;
       }
 
-      return nextColumn;
+      return delta;
    }
 
    private void addNewForm(Game game) {
@@ -125,18 +124,6 @@ public class GameController extends Controller {
       randomForm.setVerticalSpeed(1);
 
       return randomForm;
-   }
-
-   private void checkFormCollision(Game game) {
-      Form activeForm = game.getActiveForm();
-
-      /*
-       * if (CollisionHelper.checkHorizontalCollision(activeForm,
-       * game.getActiveForms())) { activeForm.setHorizontalSpeed(0); } if
-       * (CollisionHelper.checkVerticalCollision(activeForm,
-       * game.getActiveForms())) { activeForm.setVerticalSpeed(0);
-       * game.setState(GameState.NEXTFORM); }
-       */
    }
 
    @Override

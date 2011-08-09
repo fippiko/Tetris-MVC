@@ -1,6 +1,9 @@
 package game.model.form;
 
+import game.model.FormUnit;
+
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class FormL extends Form {
 
@@ -14,25 +17,27 @@ public class FormL extends Form {
    }
 
    @Override
-   public int[][] getFormMap() {
-      int[][] map = new int[MAXFORMSIZE][MAXFORMSIZE];
-
-      map[0][2] = 1;
-      map[1][0] = 1;
-      map[1][1] = 1;
-      map[1][2] = 1;
-
-      return map;
+   public ArrayList<FormUnit> generateUnits(int columnIndex, int rowIndex) {
+      ArrayList<FormUnit> generatedUnits = new ArrayList<FormUnit>();
+      
+      generatedUnits.add(new FormUnit(columnIndex + 0, rowIndex + 2));
+      generatedUnits.add(new FormUnit(columnIndex + 1, rowIndex + 0));
+      generatedUnits.add(new FormUnit(columnIndex + 1, rowIndex + 1));
+      generatedUnits.add(new FormUnit(columnIndex + 1, rowIndex + 2));
+      
+      return generatedUnits;
    }
 
    @Override
    public int getCurrentHeight() {
       return 3;
+      //TODO
    }
 
    @Override
    public int getCurrentWidth() {
       return 2;
+      //TODO
    }
 
 }

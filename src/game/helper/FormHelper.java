@@ -7,6 +7,7 @@ import game.model.form.Form;
 
 public class FormHelper {
 
+   /*
    public static int calculateNextColumnIndex(Form activeForm) {
       int currentColumnIndex = activeForm.getColumnIndex();
 
@@ -30,7 +31,8 @@ public class FormHelper {
 
       return newRowIndex;
    }
-
+   */
+/*
    public static Hashtable<Integer, Integer> generateFieldMap(Form form) {
       Hashtable<Integer, Integer> fieldMap = new Hashtable<Integer, Integer>();
 
@@ -45,5 +47,5 @@ public class FormHelper {
       
       return fieldMap;
    }
-
+   */
 }

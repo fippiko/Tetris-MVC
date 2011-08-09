@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Game {
    private Form            activeForm = null;
-   private ArrayList<Form> deadForms  = new ArrayList<Form>();
+   private ArrayList<Form> allForms  = new ArrayList<Form>();
 
    private GameState       state;
 
@@ -20,7 +20,8 @@ public class Game {
 
    public void addForm(Form newForm) {
       this.activeForm = newForm;
-
+      this.allForms.add(newForm);
+      
       this.state = GameState.FORMACTIVE;
    }
 
@@ -34,5 +35,9 @@ public class Game {
 
    public void setState(GameState state) {
       this.state = state;
+   }
+   
+   public ArrayList<Form> getAllForms(){
+      return this.allForms;
    }
 }
