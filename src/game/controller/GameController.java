@@ -50,7 +50,6 @@ public class GameController extends Controller {
             break;
          case FORMACTIVE :
             this.doMovement(this.game);
-            //this.checkFormCollision(this.game);
             break;
       }
 
@@ -62,28 +61,30 @@ public class GameController extends Controller {
    }
 
    private long getVerticalSpeedInterval() {
+      // TODO
       String speed = Configuration.SPEED.getValue();
 
       int verticalInterval = 400 - Integer.parseInt(speed);
-      // TODO
+
+      if (this.isKeyPressed(KeyEvent.VK_DOWN)) {
+         verticalInterval -= 300;
+      }
 
       return verticalInterval;
    }
 
    private void doMovement(Game game) {
       Form activeForm = game.getActiveForm();
-      
-      //do horizontal movement if left or right button is pressed
-      if (this.isKeyPressed(KeyEvent.VK_LEFT) || this.isKeyPressed(KeyEvent.VK_RIGHT)) {
-         if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {      
-            int horizontalDelta = this.getHorizontalDelta();
-            if (!CollisionHelper.checkHorizontalCollision(activeForm, horizontalDelta, game.getAllForms())) {
-               activeForm.moveHorizontal(horizontalDelta);
-            }
+
+   // do horizontal movement on horizontal-interval
+      if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
+         int horizontalDelta = this.getHorizontalDelta();
+         if (!CollisionHelper.checkHorizontalCollision(activeForm, horizontalDelta, game.getAllForms())) {
+            activeForm.moveHorizontal(horizontalDelta);
          }
       }
-      
-      //do vertical movement on vertical-intervall
+
+      // do vertical movement on vertical-interval
       if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval())) {
          int verticalDelta = this.getVerticalDelta();
          if (!CollisionHelper.checkVerticalCollision(activeForm, verticalDelta, game.getAllForms())) {
@@ -94,14 +95,14 @@ public class GameController extends Controller {
          }
       }
    }
-   
+
    private int getVerticalDelta() {
       return 1;
    }
 
    private int getHorizontalDelta() {
       int delta = 0;
-      
+
       if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
          delta = -1;
       }
@@ -113,19 +114,18 @@ public class GameController extends Controller {
    }
 
    private void addNewForm(Game game) {
-      game.addForm(this.generateRandomForm());
-   }
-
-   private Form generateRandomForm() {
       int startcol = 5;
-
-      Form randomForm = new FormL(startcol, 0);
-
-      randomForm.setVerticalSpeed(1);
-
-      return randomForm;
+      
+      game.addForm(FormHelper.generateRandomForm(startcol, 0));
    }
-
+   
+   private void rotateForm() {
+      Form activeForm = this.game.getActiveForm();
+      
+      
+   }
+   
+   
    @Override
    public GameView getView() {
       return (GameView) super.getView();
@@ -135,8 +135,12 @@ public class GameController extends Controller {
    public void keyPressed(KeyEvent keyEvent) {
       super.keyPressed(keyEvent);
 
-      if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+      int keyCode = keyEvent.getKeyCode();
+      if (keyCode == KeyEvent.VK_ESCAPE) {
          this.close();
+      }
+      if(keyCode == KeyEvent.VK_SPACE){
+         this.rotateForm();
       }
    }
 }

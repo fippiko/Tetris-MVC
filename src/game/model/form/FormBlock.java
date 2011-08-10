@@ -17,18 +17,6 @@ public class FormBlock extends Form {
    }
 
    @Override
-   public int getCurrentHeight() {
-      return 2;
-      //TODO
-   }
-
-   @Override
-   public int getCurrentWidth() {
-      return 2;
-      //TODO
-   }
-
-   @Override
    public ArrayList<FormUnit> generateUnits(int columnIndex, int rowIndex) {
       ArrayList<FormUnit> generatedUnits = new ArrayList<FormUnit>();
       

@@ -6,15 +6,17 @@
       <threshold>12</threshold>
     </default>
     <int>16</int>
-    <int>4</int>
-    <game.model.Configuration>DIFICULTY</game.model.Configuration>
-    <string>Easy</string>
-    <game.model.Configuration>SPEED</game.model.Configuration>
-    <string>50</string>
+    <int>5</int>
     <game.model.Configuration>NAME</game.model.Configuration>
     <string>Unkown</string>
     <game.model.Configuration>FILENAME</game.model.Configuration>
     <string>configuration.txt</string>
+    <game.model.Configuration>DIFICULTY</game.model.Configuration>
+    <string>Medium</string>
+    <game.model.Configuration>SPEED</game.model.Configuration>
+    <string>50</string>
+    <game.model.Configuration>VERTICALSPEED</game.model.Configuration>
+    <string>200</string>
   </map>
   <linked-hash-map>
     <default>

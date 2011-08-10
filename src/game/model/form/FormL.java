@@ -28,16 +28,4 @@ public class FormL extends Form {
       return generatedUnits;
    }
 
-   @Override
-   public int getCurrentHeight() {
-      return 3;
-      //TODO
-   }
-
-   @Override
-   public int getCurrentWidth() {
-      return 2;
-      //TODO
-   }
-
 }

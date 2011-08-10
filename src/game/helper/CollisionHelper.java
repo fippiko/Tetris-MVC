@@ -8,18 +8,31 @@ import java.util.ArrayList;
 
 public class CollisionHelper {
 
-   public static Boolean checkHorizontalCollision(final Form activeForm, final int horizontalDelta, final ArrayList<Form> otherForms) {
-      int leftColumn = 0;
-      int rightColumn = Game.COLCOUNT;
+   public static Boolean checkHorizontalCollision(final Form activeForm, final int horizontalDelta, final ArrayList<Form> allForms) {
+      ArrayList<Form> otherForms = new ArrayList<Form>(allForms);
+      otherForms.remove(activeForm);
+
+      int leftBorder = 0;
+      int rightBorder = Game.COLCOUNT - 1;
 
       Boolean formColide = false;
       for (FormUnit formUnit : activeForm.getUnits()) {
+         int nextColumn = formUnit.getColumn() + horizontalDelta;
 
-         if (formUnit.getColumn() + horizontalDelta < leftColumn) {
+         // check collision with the left border
+         if (nextColumn < leftBorder) {
             formColide = true;
             break;
          }
-         else if (formUnit.getColumn() + horizontalDelta > rightColumn) {
+
+         // check collision with the right border
+         else if (nextColumn > rightBorder) {
+            formColide = true;
+            break;
+         }
+
+         // check collision with other forms
+         if (isFormAtPosition(nextColumn, formUnit.getRow(), otherForms)) {
             formColide = true;
             break;
          }
@@ -29,22 +42,23 @@ public class CollisionHelper {
    }
 
    public static Boolean checkVerticalCollision(final Form activeForm, final int verticalDelta, final ArrayList<Form> allForms) {
-      ArrayList<Form> otherForms = new ArrayList<Form>(allForms) ;
+      ArrayList<Form> otherForms = new ArrayList<Form>(allForms);
       otherForms.remove(activeForm);
 
-      int bottomRow = Game.ROWCOUNT;
+      int bottomRow = Game.ROWCOUNT - 1;
 
       Boolean formColide = false;
       for (FormUnit formUnit : activeForm.getUnits()) {
          int nextRow = formUnit.getRow() + verticalDelta;
 
+         // check collision with the ground
          if (nextRow > bottomRow) {
             formColide = true;
             break;
          }
 
-         // collision with other forms
-         if (isFormAtPosition(formUnit.getColumn(), bottomRow, otherForms)) {
+         // check collision with other forms
+         if (isFormAtPosition(formUnit.getColumn(), nextRow, otherForms)) {
             formColide = true;
             break;
          }
@@ -53,11 +67,11 @@ public class CollisionHelper {
       return formColide;
    }
 
-   public static Boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> otherForms) {
+   public static Boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> forms) {
 
       Boolean isFormThere = false;
 
-      for (Form form : otherForms) {
+      for (Form form : forms) {
 
          for (FormUnit formUnit : form.getUnits()) {
             int unitColumn = formUnit.getColumn();
