@@ -122,7 +122,7 @@ public class GameController extends Controller {
    private void rotateForm() {
       Form activeForm = this.game.getActiveForm();
       
-      
+      activeForm.rotate();
    }
    
    

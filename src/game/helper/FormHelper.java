@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
+import game.model.FormUnit;
 import game.model.form.Form;
 import game.model.form.FormBlock;
 import game.model.form.FormL;

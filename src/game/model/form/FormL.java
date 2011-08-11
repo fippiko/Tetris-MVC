@@ -1,9 +1,8 @@
 package game.model.form;
 
-import game.model.FormUnit;
+import game.model.FormMap;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class FormL extends Form {
 
@@ -17,15 +16,17 @@ public class FormL extends Form {
    }
 
    @Override
-   public ArrayList<FormUnit> generateUnits(int columnIndex, int rowIndex) {
-      ArrayList<FormUnit> generatedUnits = new ArrayList<FormUnit>();
+   public FormMap getFormMap() {
+      FormMap formMap = new FormMap();
+
+      formMap.add(0, 2);
+      formMap.add(1, 0);
+      formMap.add(1, 1);
+      formMap.add(1, 2);
       
-      generatedUnits.add(new FormUnit(columnIndex + 0, rowIndex + 2));
-      generatedUnits.add(new FormUnit(columnIndex + 1, rowIndex + 0));
-      generatedUnits.add(new FormUnit(columnIndex + 1, rowIndex + 1));
-      generatedUnits.add(new FormUnit(columnIndex + 1, rowIndex + 2));
-      
-      return generatedUnits;
+      formMap.setRotateAxis(1, 1);
+
+      return formMap;
    }
 
 }
