@@ -5,8 +5,8 @@ import java.util.Hashtable;
 
 public class FormMap extends Hashtable<Integer, ArrayList<Integer>> {
    
-   private int rotateAxisColumn = 0;
-   private int rotateAxisRow = 0;
+   private int rotateAxisColumn = -1;
+   private int rotateAxisRow = -1;
    
    public void add(final int columnIndex, final int rowIndex) {
       if (!this.containsKey(columnIndex)) {

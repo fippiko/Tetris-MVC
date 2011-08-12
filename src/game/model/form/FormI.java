@@ -4,15 +4,15 @@ import game.model.FormMap;
 
 import java.awt.Color;
 
-public class FormBlock extends Form {
+public class FormI extends Form {
 
-   public FormBlock(int columnIndex, int rowIndex) {
+   public FormI(int columnIndex, int rowIndex) {
       super(columnIndex, rowIndex);
    }
 
    @Override
    public Color getColor() {
-      return Color.gray;
+      return Color.blue;
    }
 
    @Override
@@ -21,9 +21,12 @@ public class FormBlock extends Form {
 
       formMap.add(0, 0);
       formMap.add(0, 1);
-      formMap.add(1, 0);
-      formMap.add(1, 1);
+      formMap.add(0, 2);
+      formMap.add(0, 3);
+      
+      formMap.setRotateAxis(0, 2);
 
       return formMap;
    }
+
 }

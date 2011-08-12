@@ -29,18 +29,20 @@ public abstract class Form {
          unit.setRow(unit.getRow() + verticalDelta);
       }
    }
-   
-   public void rotate(){
+
+   public void rotate() {
       for (FormUnit unit : this.getUnits()) {
-         if(unit != this.rotateAxisUnit){
-            int deltaColumn = this.rotateAxisUnit.getColumn() - unit.getColumn() ;
-            int deltaRow = this.rotateAxisUnit.getRow() - unit.getRow();
-            
-            int finalColumn = unit.getColumn() + deltaColumn + deltaRow;
-            int finalRow = unit.getRow() + deltaColumn + deltaRow;
-            
-            unit.setColumn(finalColumn);
-            unit.setRow(finalRow);
+         if (this.rotateAxisUnit != null) {
+            if (unit != this.rotateAxisUnit) {
+               int deltaColumn = this.rotateAxisUnit.getColumn() - unit.getColumn();
+               int deltaRow = this.rotateAxisUnit.getRow() - unit.getRow();
+
+               int finalColumn = unit.getColumn() + deltaColumn + deltaRow;
+               int finalRow = unit.getRow() - deltaColumn + deltaRow;
+
+               unit.setColumn(finalColumn);
+               unit.setRow(finalRow);
+            }
          }
       }
    }
@@ -54,9 +56,9 @@ public abstract class Form {
          for (Integer rowIndex : formMap.get(columnIndex)) {
             FormUnit newFormUnit = new FormUnit(startColumnIndex + columnIndex, startRowIndex + rowIndex);
             generatedFormUnits.add(newFormUnit);
-            
-            if(columnIndex == formMap.getRotateAxisColumn()){
-               if(rowIndex == formMap.getRotateAxisRow()){
+
+            if (columnIndex == formMap.getRotateAxisColumn()) {
+               if (rowIndex == formMap.getRotateAxisRow()) {
                   this.rotateAxisUnit = newFormUnit;
                }
             }
