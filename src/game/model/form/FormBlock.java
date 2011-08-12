@@ -12,7 +12,7 @@ public class FormBlock extends Form {
 
    @Override
    public Color getColor() {
-      return Color.gray;
+      return Color.GRAY;
    }
 
    @Override

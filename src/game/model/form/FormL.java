@@ -12,19 +12,19 @@ public class FormL extends Form {
 
    @Override
    public Color getColor() {
-      return Color.blue;
+      return Color.GREEN;
    }
 
    @Override
    public FormMap getFormMap() {
       FormMap formMap = new FormMap();
 
+      formMap.add(0, 0);
+      formMap.add(0, 1);
       formMap.add(0, 2);
-      formMap.add(1, 0);
-      formMap.add(1, 1);
       formMap.add(1, 2);
       
-      formMap.setRotateAxis(1, 1);
+      formMap.setRotateAxis(0, 1);
 
       return formMap;
    }

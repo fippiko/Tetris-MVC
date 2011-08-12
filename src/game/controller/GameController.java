@@ -57,7 +57,9 @@ public class GameController extends Controller {
    }
 
    private long getHorizontalSpeedInterval() {
-      return Integer.parseInt(Configuration.VERTICALSPEED.getValue());
+      //TODO
+      //return Integer.parseInt(Configuration.HORIZONTALSPEED.getValue());
+      return 100;
    }
 
    private long getVerticalSpeedInterval() {
@@ -114,7 +116,7 @@ public class GameController extends Controller {
    }
 
    private void addNewForm(Game game) {
-      int startcol = 5;
+      int startcol = 8;
       
       game.addForm(FormHelper.generateRandomForm(startcol, 0));
    }

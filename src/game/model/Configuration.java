@@ -11,7 +11,7 @@ public enum Configuration {
    SPEED("Speed", "50", Integer.class),
    DIFICULTY("Dificulty", "Medium", new String[]{"Easy", "Medium", "Hard"}),
    FILENAME("Filename", "configuration.txt", String.class),
-   VERTICALSPEED("Vertical Speed in ms", "200", Integer.class);
+   HORIZONTALSPEED("Vertical Speed in ms", "200", Integer.class);
 
    private String   attributeString;
    private String   defaultValue;
