@@ -1,7 +1,6 @@
 package game.model;
 
 import game.helper.SerializationHelper;
-import game.model.Configuration;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;

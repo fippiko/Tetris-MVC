@@ -4,7 +4,6 @@ import game.enums.GameState;
 import game.model.form.Form;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Game {
    private Form            activeForm = null;

@@ -1,7 +1,6 @@
 package game.helper;
 
 import game.model.FormUnit;
-import game.model.Game;
 import game.model.form.Form;
 import game.model.form.FormBlock;
 import game.model.form.FormI;
@@ -44,22 +43,23 @@ public class FormHelper {
    public static void rotateActiveForm(Form formToRotate, ArrayList<Form> otherForms) {
       FormUnit rotateAxisUnit = formToRotate.getRotateAxisUnit();
 
-      // cache all new FormUnit-Positions
+      // chache all calculated new positions of the units, to avoid calculating it twice
       Hashtable<FormUnit, Integer> newColumns = new Hashtable<FormUnit, Integer>();
       Hashtable<FormUnit, Integer> newRows = new Hashtable<FormUnit, Integer>();
 
-      // First check if some FormUnit will collide on it's new position
+      // go through each unit of the form and check if it will collide
       Boolean formWillCollide = false;
       for (FormUnit unit : formToRotate.getUnits()) {
          if (rotateAxisUnit != null) {
             if (unit != rotateAxisUnit) {
-               int columnDeltaToAxis = rotateAxisUnit.getColumn() - unit.getColumn();
-               int rowDeltaToAxis = rotateAxisUnit.getRow() - unit.getRow();
+               int horizontalDeltaToAxis = rotateAxisUnit.getColumn() - unit.getColumn();
+               int verticalDeltaToAxis = rotateAxisUnit.getRow() - unit.getRow();
 
-               int horizontalDelta = columnDeltaToAxis + rowDeltaToAxis;
-               int verticalDelta = -columnDeltaToAxis + rowDeltaToAxis;
+               int horizontalDelta = horizontalDeltaToAxis + verticalDeltaToAxis;
+               int verticalDelta = -horizontalDeltaToAxis + verticalDeltaToAxis;
 
-               if (CollisionHelper.checkHorizontalCollision(unit, horizontalDelta, otherForms) && CollisionHelper.checkVerticalCollision(unit, verticalDelta, otherForms)) {
+               if (CollisionHelper.checkCollision(unit, horizontalDelta, verticalDelta,otherForms)) {
+                  // if the unit doesn't collide, add it to the temporary cache
                   newColumns.put(unit, unit.getColumn() + horizontalDelta);
                   newRows.put(unit, unit.getRow() + verticalDelta);
                }
@@ -72,8 +72,9 @@ public class FormHelper {
          }
       }
 
-      // If Form will not collide, do the rotation
+      // if the form won't collide, do the rotation
       if(!formWillCollide){
+         //get for each unit the new position from the temporary cache
          for (FormUnit unit : newColumns.keySet()) {
             unit.setColumn(newColumns.get(unit));
             unit.setRow(newRows.get(unit));

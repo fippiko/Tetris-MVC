@@ -8,35 +8,46 @@ import java.util.ArrayList;
 
 public class CollisionHelper {
 
-   public static Boolean checkHorizontalCollision(final FormUnit unitToCheck, final int horizontalDelta, final ArrayList<Form> otherForms) {
+
+   public static boolean checkCollision(FormUnit unit, int horizontalDelta, int verticalDelta, ArrayList<Form> otherForms) {
       int leftBorder = 0;
       int rightBorder = Game.COLCOUNT - 1;
+      int bottomBorder = Game.ROWCOUNT - 1;
+      
+      Boolean unitCollide = false;
+      
+      int nextColumn = unit.getColumn() + horizontalDelta;
+      int nextRow = unit.getRow() + verticalDelta;
 
-      Boolean unitColide = false;
-      int nextColumn = unitToCheck.getColumn() + horizontalDelta;
-
+      
+      // check collision with the ground
+      if (nextRow > bottomBorder) {
+         unitCollide = true;
+      }
+      
       // check collision with the left border
       if (nextColumn < leftBorder) {
-         unitColide = true;
+         unitCollide = true;
       }
 
       // check collision with the right border
       else if (nextColumn > rightBorder) {
-         unitColide = true;
+         unitCollide = true;
       }
 
       // check collision with other forms
-      if (isFormAtPosition(nextColumn, unitToCheck.getRow(), otherForms)) {
-         unitColide = true;
+      if (isFormAtPosition(nextColumn, nextRow, otherForms)) {
+         unitCollide = true;
       }
-
-      return !unitColide;
+      
+      
+      return !unitCollide;
    }
    
    public static Boolean checkHorizontalCollision(final Form formToCheck, final int horizontalDelta, final ArrayList<Form> otherForms) {
       Boolean formColide = false;
       for (FormUnit formUnit : formToCheck.getUnits()) {
-         if(!checkHorizontalCollision(formUnit, horizontalDelta, otherForms)){
+         if(!checkCollision(formUnit, horizontalDelta, 0, otherForms)){
             formColide = true;
             break;
          }
@@ -45,31 +56,11 @@ public class CollisionHelper {
       return !formColide;
    }
    
-   public static Boolean checkVerticalCollision(final FormUnit unitToCheck, final int verticalDelta, final ArrayList<Form> otherForms) {
-      int bottomRow = Game.ROWCOUNT - 1;
-
-      Boolean unitColide = false;
-
-      int nextRow = unitToCheck.getRow() + verticalDelta;
-
-      // check collision with the ground
-      if (nextRow > bottomRow) {
-         unitColide = true;
-      }
-
-      // check collision with other forms
-      if (isFormAtPosition(unitToCheck.getColumn(), nextRow, otherForms)) {
-         unitColide = true;
-      }
-      
-
-      return !unitColide;
-   }
    
    public static Boolean checkVerticalCollision(final Form formToCheck, final int verticalDelta, final ArrayList<Form> otherForms) {
       Boolean formColide = false;
       for (FormUnit formUnit : formToCheck.getUnits()) {
-         if(!checkVerticalCollision(formUnit, verticalDelta, otherForms)){
+         if(!checkCollision(formUnit, 0, verticalDelta, otherForms)){
             formColide = true;
             break;
          }
@@ -100,4 +91,5 @@ public class CollisionHelper {
 
       return isFormThere;
    }
+
 }

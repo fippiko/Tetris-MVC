@@ -6,8 +6,6 @@ import game.view.View;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
 
 public abstract class Controller {
    private ControllerState             state;

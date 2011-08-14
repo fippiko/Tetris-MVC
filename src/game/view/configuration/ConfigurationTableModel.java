@@ -25,23 +25,28 @@ public class ConfigurationTableModel extends AbstractTableModel {
       data = new Object[rowCount][columnNames.length];
    }
 
+   @Override
    public int getColumnCount() {
       return columnNames.length;
    }
 
+   @Override
    public int getRowCount() {
       return addedRows;
    }
 
+   @Override
    public String getColumnName(int col) {
       return columnNames[col];
    }
 
+   @Override
    public void setValueAt(Object value, int row, int col) {
       data[row][col] = value;
       fireTableCellUpdated(row, col);
    }
 
+   @Override
    public boolean isCellEditable(int row, int col) {
       if (col == COLUMN_VALUE) {
          return true;
@@ -78,7 +83,7 @@ public class ConfigurationTableModel extends AbstractTableModel {
 
       if (attribute != null) {
          if (attribute.getType() == Array.class) {
-            JComboBox<String> comboBox = new JComboBox<String>();
+            JComboBox comboBox = new JComboBox();
             for (String option : attribute.getOptions()) {
                comboBox.addItem(option);
             }

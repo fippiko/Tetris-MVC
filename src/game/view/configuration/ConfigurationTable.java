@@ -7,6 +7,7 @@ import java.awt.Color;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -21,7 +22,7 @@ public class ConfigurationTable extends JTable {
    private final static Color COLOR_DEFAULT  = Color.WHITE;
 
    public ConfigurationTable() {
-      this.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+      this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       this.setAutoResizeMode(AUTO_RESIZE_LAST_COLUMN);
       this.setRowHeight(ROWHEIGHT);
    }
@@ -66,6 +67,7 @@ public class ConfigurationTable extends JTable {
       return super.getCellEditor(row, col);
    }
 
+   @Override
    public void updateUI() {
       super.updateUI();
    }
