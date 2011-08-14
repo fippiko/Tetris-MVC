@@ -4,6 +4,7 @@ import game.enums.GameState;
 import game.model.form.Form;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Game {
    private Form            activeForm = null;
@@ -39,5 +40,13 @@ public class Game {
    
    public ArrayList<Form> getAllForms(){
       return this.allForms;
+   }
+
+   public ArrayList<Form> getDeadForms() {
+      Form activeForm = this.getActiveForm();
+      ArrayList<Form> otherForms = new ArrayList<Form>(this.getAllForms());
+      otherForms.remove(activeForm);
+      
+      return otherForms;
    }
 }

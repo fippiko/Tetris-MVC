@@ -78,7 +78,7 @@ public class ConfigurationTableModel extends AbstractTableModel {
 
       if (attribute != null) {
          if (attribute.getType() == Array.class) {
-            JComboBox comboBox = new JComboBox();
+            JComboBox<String> comboBox = new JComboBox<String>();
             for (String option : attribute.getOptions()) {
                comboBox.addItem(option);
             }

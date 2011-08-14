@@ -30,23 +30,6 @@ public abstract class Form {
       }
    }
 
-   public void rotate() {
-      for (FormUnit unit : this.getUnits()) {
-         if (this.rotateAxisUnit != null) {
-            if (unit != this.rotateAxisUnit) {
-               int deltaColumn = this.rotateAxisUnit.getColumn() - unit.getColumn();
-               int deltaRow = this.rotateAxisUnit.getRow() - unit.getRow();
-
-               int finalColumn = unit.getColumn() + deltaColumn + deltaRow;
-               int finalRow = unit.getRow() - deltaColumn + deltaRow;
-
-               unit.setColumn(finalColumn);
-               unit.setRow(finalRow);
-            }
-         }
-      }
-   }
-
    private ArrayList<FormUnit> generateUnits(int startColumnIndex, int startRowIndex) {
       ArrayList<FormUnit> generatedFormUnits = new ArrayList<FormUnit>();
 
@@ -70,4 +53,8 @@ public abstract class Form {
 
    public abstract Color getColor();
    public abstract FormMap getFormMap();
+
+   public FormUnit getRotateAxisUnit() {
+      return this.rotateAxisUnit;
+   }
 }

@@ -14,6 +14,7 @@ import game.view.game.PreviewView;
 import game.view.game.ScoreView;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GameController extends Controller {
    private PreviewController previewController;
@@ -81,7 +82,7 @@ public class GameController extends Controller {
    // do horizontal movement on horizontal-interval
       if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
          int horizontalDelta = this.getHorizontalDelta();
-         if (!CollisionHelper.checkHorizontalCollision(activeForm, horizontalDelta, game.getAllForms())) {
+         if (CollisionHelper.checkHorizontalCollision(activeForm, horizontalDelta, game.getDeadForms())) {
             activeForm.moveHorizontal(horizontalDelta);
          }
       }
@@ -89,7 +90,7 @@ public class GameController extends Controller {
       // do vertical movement on vertical-interval
       if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval())) {
          int verticalDelta = this.getVerticalDelta();
-         if (!CollisionHelper.checkVerticalCollision(activeForm, verticalDelta, game.getAllForms())) {
+         if (CollisionHelper.checkVerticalCollision(activeForm, verticalDelta, game.getDeadForms())) {
             activeForm.moveVertical(verticalDelta);
          }
          else {
@@ -123,8 +124,9 @@ public class GameController extends Controller {
    
    private void rotateForm() {
       Form activeForm = this.game.getActiveForm();
+      ArrayList<Form> otherForms = this.game.getDeadForms();
       
-      activeForm.rotate();
+      FormHelper.rotateActiveForm(activeForm, otherForms);
    }
    
    
