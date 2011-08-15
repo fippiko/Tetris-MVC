@@ -1,9 +1,7 @@
 package game.controller;
 
-import game.helper.SerializationHelper;
-import game.model.Configuration;
-import game.model.ConfigurationAttributeMap;
-import game.view.configuration.ConfigurationView;
+import game.helper.ConfigurationHelper;
+import game.view.ConfigurationView;
 
 public class ConfigurationController extends Controller {
 
@@ -12,18 +10,11 @@ public class ConfigurationController extends Controller {
    }
 
    private void initialize() {
-      //Configuration.initializeConfiguration(loadConfigurationAttributes());
-
-      this.setView(new ConfigurationView(this));
-
-      this.getView().setTableData(Configuration.getConfigurationAttributes());
+      this.setView(new ConfigurationView(this, ConfigurationHelper.getInstance()));
    }
 
    public void saveConfigurationAttributes() {
-      ConfigurationAttributeMap newAttributes = this.getView().getConfigurationAttributes();
-      Configuration.setConfigurationAttributes(newAttributes);
-
-      SerializationHelper.writeObjectToXml(newAttributes, Configuration.FILENAME.getValue());
+      ConfigurationHelper.saveConfiguration(ConfigurationHelper.getInstance());
    }
 
    @Override

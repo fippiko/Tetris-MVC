@@ -5,7 +5,7 @@ import game.enums.Resources;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class ResourceHelper {
+public abstract class ResourceHelper {
    private static Locale[]       supportedLocales = {Locale.GERMAN, Locale.ENGLISH};
 
    private static ResourceBundle currentResources;

@@ -2,6 +2,7 @@ package game.controller;
 
 import game.enums.GameState;
 import game.helper.CollisionHelper;
+import game.helper.ConfigurationHelper;
 import game.helper.FormHelper;
 import game.helper.TimeHelper;
 import game.model.Configuration;
@@ -64,9 +65,9 @@ public class GameController extends Controller {
 
    private long getVerticalSpeedInterval() {
       // TODO
-      String speed = Configuration.SPEED.getValue();
+      int verticalSpeed = ConfigurationHelper.getInstance().getVerticalSpeed();
 
-      int verticalInterval = 400 - Integer.parseInt(speed);
+      int verticalInterval = 400 - verticalSpeed;
 
       if (this.isKeyPressed(KeyEvent.VK_DOWN)) {
          verticalInterval -= 300;

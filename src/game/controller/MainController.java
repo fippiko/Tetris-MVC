@@ -21,8 +21,6 @@ public class MainController extends Controller implements Runnable {
 
    public MainController() {
       this.setView(new MainView(this));
-      
-      Configuration.initializeConfiguration();
 
       this.mainFrame = new MainFrame();
       this.mainFrame.add(this.getView());

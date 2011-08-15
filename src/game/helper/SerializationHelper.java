@@ -6,11 +6,9 @@ import java.io.FileOutputStream;
 
 import com.thoughtworks.xstream.XStream;
 
-public class SerializationHelper {
-
+public abstract class SerializationHelper {
    public static void writeObjectToXml(Object obj, String filename) {
       XStream xstream = new XStream();
-
       FileOutputStream stream = null;
       try {
          stream = new FileOutputStream(filename);
@@ -23,7 +21,6 @@ public class SerializationHelper {
 
    public static Object readObjectFromXml(String filename) {
       XStream xstream = new XStream();
-
       FileInputStream stream = null;
       try {
          stream = new FileInputStream(filename);

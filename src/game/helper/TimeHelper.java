@@ -4,7 +4,7 @@ import game.controller.Controller;
 
 import java.util.Hashtable;
 
-public class TimeHelper {
+public abstract class TimeHelper {
 
    private static Hashtable<Controller, Long>                    lastMap     = new Hashtable<Controller, Long>();
    // private static Hashtable<Controller, Long> deltaSumMap = new

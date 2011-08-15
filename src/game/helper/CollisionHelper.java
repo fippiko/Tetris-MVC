@@ -6,7 +6,7 @@ import game.model.form.Form;
 
 import java.util.ArrayList;
 
-public class CollisionHelper {
+public abstract class CollisionHelper {
 
 
    public static boolean checkCollision(FormUnit unit, int horizontalDelta, int verticalDelta, ArrayList<Form> otherForms) {

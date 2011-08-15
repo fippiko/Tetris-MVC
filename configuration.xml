@@ -1,0 +1,6 @@
+<game.model.Configuration>
+  <name>Unkown</name>
+  <verticalSpeed>50</verticalSpeed>
+  <horizontalSpeed>50</horizontalSpeed>
+  <configurationFile>configuration.xml</configurationFile>
+</game.model.Configuration>

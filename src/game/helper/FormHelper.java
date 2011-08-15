@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
-public class FormHelper {
+public abstract class FormHelper {
 
    public static Form generateRandomForm(int startcol, int startRow) {
       Random random = new Random();

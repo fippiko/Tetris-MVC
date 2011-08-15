@@ -34,9 +34,7 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
       this.addKeyListener(this);
    }
 
-   @Override
-   public Component add(Component comp) {
-
+   private void addListener(Component comp){
       if (comp instanceof JButton) {
          ((JButton) comp).addKeyListener(this);
          ((JButton) comp).addActionListener(this);
@@ -45,6 +43,23 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
          ((JTextField) comp).addActionListener(this);
          ((JTextField) comp).addKeyListener(this);
       }
+      else if (comp instanceof JPanel) {
+         for (Component subComp : ((JPanel) comp).getComponents()) {
+            this.addListener(subComp);
+         }
+      }
+   }
+   
+   @Override
+   public void add (Component Item, Object Constraints)
+   {
+      this.addListener(Item);
+      super.add(Item, Constraints);
+   }
+   
+   @Override
+   public Component add(Component comp) {
+      this.addListener(comp);
 
       super.add(comp);
       this.validate();
