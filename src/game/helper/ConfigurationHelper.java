@@ -1,7 +1,5 @@
 package game.helper;
 
-import java.io.File;
-
 import game.model.Configuration;
 
 public abstract class ConfigurationHelper {
@@ -9,35 +7,29 @@ public abstract class ConfigurationHelper {
    
    public static Configuration getInstance(){
       if(configurationInstance == null){
-         configurationInstance = new Configuration();
-         initializeConfiguration(configurationInstance);
+         configurationInstance = createConfiguration();
       }
       
       return configurationInstance;
    }
    
    public static void saveConfiguration(Configuration configuration){
-      SerializationHelper.writeObjectToXml(configuration, configuration.getConfigurationFileName());
+      SerializationHelper.writeObjectToXml(configuration, Configuration.CONFIGURATIONFILE);
    }
    
-   private static void initializeConfiguration(Configuration configuration){
-      String configurationFilePath = "";
-      if(configuration.getConfigurationFileName() != null){
-         configurationFilePath = configuration.getConfigurationFileName();
+   private static Configuration createConfiguration(){
+      Configuration configuration = (Configuration)SerializationHelper.readObjectFromXml(Configuration.CONFIGURATIONFILE);
+      
+      if(configuration == null){
+         setDefaultValues(configuration);
       }
       
-      if(new File(configurationFilePath).exists()){
-         configuration = (Configuration)SerializationHelper.readObjectFromXml(configurationFilePath);
-      }else{
-         setDefaultValues(configurationInstance);
-      }
+      return configuration;
    }
    
    private static void setDefaultValues(Configuration configuration){
-      configuration.setName("Unkown");
-      configuration.setConfigurationFile("configuration.xml");
+      configuration.setUsername("Unkown");
       configuration.setVerticalSpeed(50);
       configuration.setHorizontalSpeed(50);
-      
    }
 }

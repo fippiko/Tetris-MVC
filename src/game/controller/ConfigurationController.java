@@ -1,6 +1,7 @@
 package game.controller;
 
 import game.helper.ConfigurationHelper;
+import game.model.Configuration;
 import game.view.ConfigurationView;
 
 public class ConfigurationController extends Controller {
@@ -14,7 +15,13 @@ public class ConfigurationController extends Controller {
    }
 
    public void saveConfigurationAttributes() {
-      ConfigurationHelper.saveConfiguration(ConfigurationHelper.getInstance());
+      Configuration configurationInstance = ConfigurationHelper.getInstance();
+      
+      configurationInstance.setUsername(this.getView().getUsername());
+      configurationInstance.setVerticalSpeed(this.getView().getVerticalSpeed());
+      configurationInstance.setHorizontalSpeed(this.getView().getHorizontalSpeed());
+      
+      ConfigurationHelper.saveConfiguration(configurationInstance);
    }
 
    @Override

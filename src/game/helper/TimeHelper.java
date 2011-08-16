@@ -7,8 +7,6 @@ import java.util.Hashtable;
 public abstract class TimeHelper {
 
    private static Hashtable<Controller, Long>                    lastMap     = new Hashtable<Controller, Long>();
-   // private static Hashtable<Controller, Long> deltaSumMap = new
-   // Hashtable<Controller, Long>();
 
    private static Hashtable<Controller, Hashtable<String, Long>> deltaSumMap = new Hashtable<Controller, Hashtable<String, Long>>();
 

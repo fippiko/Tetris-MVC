@@ -1,18 +1,18 @@
 package game.model;
 
 public class Configuration {
-   private String name;
+   private String username;
    private int    verticalSpeed;
    private int    horizontalSpeed;
 
-   private String configurationFile;
+   public static String CONFIGURATIONFILE = "configuration.xml";
    
-   public String getName() {
-      return name;
+   public String getUsername() {
+      return username;
    }
 
-   public void setName(String name) {
-      this.name = name;
+   public void setUsername(String name) {
+      this.username = name;
    }
 
    public int getVerticalSpeed() {
@@ -29,13 +29,5 @@ public class Configuration {
 
    public void setHorizontalSpeed(int horizontalSpeed) {
       this.horizontalSpeed = horizontalSpeed;
-   }
-
-   public String getConfigurationFileName() {
-      return configurationFile;
-   }
-
-   public void setConfigurationFile(String configurationFile) {
-      this.configurationFile = configurationFile;
    }
 }
