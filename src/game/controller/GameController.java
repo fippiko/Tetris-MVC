@@ -15,6 +15,8 @@ import game.view.game.ScoreView;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class GameController extends Controller {
    private PreviewController previewController;
@@ -51,6 +53,7 @@ public class GameController extends Controller {
             break;
          case FORMACTIVE :
             this.doMovement(this.game);
+            this.doBreakdown(this.game);
             break;
       }
 
@@ -59,7 +62,7 @@ public class GameController extends Controller {
 
    private long getHorizontalSpeedInterval() {
       int horizontalSpeed = ConfigurationHelper.getConfiguration().getHorizontalSpeed();
-      
+
       return 200 - horizontalSpeed;
    }
 
@@ -76,7 +79,7 @@ public class GameController extends Controller {
    private void doMovement(Game game) {
       Form activeForm = game.getActiveForm();
 
-   // do horizontal movement on horizontal-interval
+      // do horizontal movement on horizontal-interval
       if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
          int horizontalDelta = this.getHorizontalDelta();
          if (CollisionHelper.checkHorizontalCollision(activeForm, horizontalDelta, game.getDeadForms())) {
@@ -91,8 +94,27 @@ public class GameController extends Controller {
             activeForm.moveVertical(verticalDelta);
          }
          else {
-            FormHelper.breakDownForms(game.getAllForms());
+            this.doBreakdown(game);
+
+            // TODO don't set the state here...
             game.setState(GameState.NEXTFORM);
+         }
+      }
+   }
+
+   private void doBreakdown(Game game) {
+      ArrayList<Integer> filledRows = FormHelper.getFilledRows(game.getAllForms());
+      Collections.sort(filledRows);
+
+      if (filledRows.size() > 0) {
+
+         for (Integer filledRowIndex : filledRows) {
+            FormHelper.removeAllUnitsOnRow(game.getAllForms(), filledRowIndex);
+         }
+
+         int highestRow = filledRows.get(filledRows.size() - 1);
+         for (int rowIndex = highestRow; rowIndex >= 0; rowIndex--) {
+            FormHelper.moveAllUnitsOnRowDown(game.getAllForms(), rowIndex, filledRows.size());
          }
       }
    }
@@ -116,18 +138,17 @@ public class GameController extends Controller {
 
    private void addNewForm(Game game) {
       int startcol = 8;
-      
+
       game.addForm(FormHelper.generateRandomForm(startcol, 0));
    }
-   
+
    private void rotateForm() {
       Form activeForm = this.game.getActiveForm();
       ArrayList<Form> otherForms = this.game.getDeadForms();
-      
+
       FormHelper.rotateActiveForm(activeForm, otherForms);
    }
-   
-   
+
    @Override
    public GameView getView() {
       return (GameView) super.getView();
@@ -141,7 +162,7 @@ public class GameController extends Controller {
       if (keyCode == KeyEvent.VK_ESCAPE) {
          this.close();
       }
-      if(keyCode == KeyEvent.VK_SPACE){
+      if (keyCode == KeyEvent.VK_SPACE) {
          this.rotateForm();
       }
    }
