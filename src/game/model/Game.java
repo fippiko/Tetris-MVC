@@ -10,12 +10,14 @@ public class Game {
    private ArrayList<Form> allForms  = new ArrayList<Form>();
 
    private GameState       state;
-
+   private int             currentLevel;
+   
    public static final int COLCOUNT   = 18;
    public static final int ROWCOUNT   = 18;
 
    public Game() {
       this.state = GameState.NEXTFORM;
+      this.currentLevel = 1;
    }
 
    public void addForm(Form newForm) {
@@ -25,6 +27,14 @@ public class Game {
       this.state = GameState.FORMACTIVE;
    }
 
+   public int getLevel(){
+      return this.currentLevel;
+   }
+   
+   public void setLevel(final int level){
+      this.currentLevel = level;
+   }
+   
    public GameState getState() {
       return this.state;
    }

@@ -57,4 +57,8 @@ public abstract class Form {
    public FormUnit getRotateAxisUnit() {
       return this.rotateAxisUnit;
    }
+
+   public void removeUnit(FormUnit unit) {
+      this.units.remove(unit);
+   }
 }

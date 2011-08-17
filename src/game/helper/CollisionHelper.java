@@ -6,7 +6,7 @@ import game.model.form.Form;
 
 import java.util.ArrayList;
 
-public abstract class CollisionHelper {
+public abstract class CollisionHelper extends Helper{
 
 
    public static boolean checkCollision(FormUnit unit, int horizontalDelta, int verticalDelta, ArrayList<Form> otherForms) {
@@ -69,7 +69,7 @@ public abstract class CollisionHelper {
       return !formColide;
    }
 
-   private static Boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> forms) {
+   public static Boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> forms) {
 
       Boolean isFormThere = false;
 

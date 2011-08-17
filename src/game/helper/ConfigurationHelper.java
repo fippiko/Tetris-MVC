@@ -2,10 +2,11 @@ package game.helper;
 
 import game.model.Configuration;
 
-public abstract class ConfigurationHelper {
+public abstract class ConfigurationHelper extends Helper {
    private static Configuration configurationInstance = null;
    
-   public static Configuration getInstance(){
+   
+   public static Configuration getConfiguration(){
       if(configurationInstance == null){
          configurationInstance = createConfiguration();
       }
@@ -21,15 +22,19 @@ public abstract class ConfigurationHelper {
       Configuration configuration = (Configuration)SerializationHelper.readObjectFromXml(Configuration.CONFIGURATIONFILE);
       
       if(configuration == null){
-         setDefaultValues(configuration);
+         configuration = initNewConfiguration();
       }
       
       return configuration;
    }
    
-   private static void setDefaultValues(Configuration configuration){
+   private static Configuration initNewConfiguration(){
+      Configuration configuration = new Configuration();
+      
       configuration.setUsername("Unkown");
       configuration.setVerticalSpeed(50);
       configuration.setHorizontalSpeed(50);
+      
+      return configuration;
    }
 }

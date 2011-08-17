@@ -1,6 +1,7 @@
 package game.helper;
 
 import game.model.FormUnit;
+import game.model.Game;
 import game.model.form.Form;
 import game.model.form.FormBlock;
 import game.model.form.FormI;
@@ -10,9 +11,10 @@ import game.model.form.FormT;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Random;
 
-public abstract class FormHelper {
+public abstract class FormHelper extends Helper{
 
    public static Form generateRandomForm(int startcol, int startRow) {
       Random random = new Random();
@@ -38,6 +40,63 @@ public abstract class FormHelper {
       }
 
       return randomForm;
+   }
+   
+   public static void breakDownForms(ArrayList<Form> allForms){
+      
+      Boolean breakedDown = false;
+      
+      int bottomRow = 10000;
+      int topRow = 0;
+      
+      for(int rowIndex = Game.ROWCOUNT; rowIndex >= 0; rowIndex--){
+         Boolean rowFilled = true;
+         for(int columnIndex = 0; columnIndex < Game.COLCOUNT; columnIndex++){
+            if(!CollisionHelper.isFormAtPosition(columnIndex, rowIndex, allForms)){
+               rowFilled = false;
+               break;
+            }
+         }
+         
+         if(rowFilled){
+            breakedDown = true;
+            
+            if(rowIndex < bottomRow){
+               bottomRow = rowIndex;
+            }
+            if(rowIndex > topRow){
+               topRow = rowIndex;
+            }
+            
+            for (Form form : allForms) {
+               removeFormUnitOnRow(rowIndex, form);
+            }
+         }
+      }
+      
+      if(breakedDown){
+         int rowDelta = topRow - bottomRow + 1;
+         for (Form form : allForms) {
+            for (FormUnit unit : form.getUnits()) {
+               if(unit.getRow() < bottomRow){
+                  unit.setRow(unit.getRow() + rowDelta );
+               }
+            }
+         }
+      }
+   }
+
+   private static void removeFormUnitOnRow(int rowIndex, Form form) {
+      Iterator<FormUnit> unitIterator = form.getUnits().iterator();
+      
+      while(unitIterator.hasNext()){
+         FormUnit unit = unitIterator.next();
+         
+         if(unit.getRow() == rowIndex){
+            //form.removeUnit(unit);
+            unitIterator.remove();
+         }
+      }
    }
 
    public static void rotateActiveForm(Form formToRotate, ArrayList<Form> otherForms) {

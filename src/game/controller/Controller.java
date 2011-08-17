@@ -8,16 +8,16 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public abstract class Controller {
-   private ControllerState             state;
-   private Boolean                     stateChanged;
+   private ControllerState       state;
+   private Boolean               stateChanged;
 
-   private View                        view;
+   private View                  view;
 
-   private ArrayList<Controller>       subController          = new ArrayList<Controller>();
+   private ArrayList<Controller> subController          = new ArrayList<Controller>();
 
-   private ArrayList<Integer>       pressedKeys            = new ArrayList<Integer>();
+   private ArrayList<Integer>    pressedKeys            = new ArrayList<Integer>();
 
-   private final static int            DEFAULT_INTERVAL_IN_MS = 200;
+   private final static int      DEFAULT_INTERVAL_IN_MS = 200;
 
    public Controller() {
       this.setState(ControllerState.UNINITIALIZED);
@@ -78,7 +78,7 @@ public abstract class Controller {
 
       int keyCode = keyEvent.getKeyCode();
       if (this.pressedKeys.contains(keyCode)) {
-         this.pressedKeys.remove((Object)keyCode);
+         this.pressedKeys.remove((Object) keyCode);
       }
    }
 

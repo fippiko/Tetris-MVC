@@ -4,7 +4,7 @@ import game.controller.Controller;
 
 import java.util.Hashtable;
 
-public abstract class TimeHelper {
+public abstract class TimeHelper extends Helper{
 
    private static Hashtable<Controller, Long>                    lastMap     = new Hashtable<Controller, Long>();
 

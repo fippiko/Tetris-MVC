@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 
 import com.thoughtworks.xstream.XStream;
 
-public abstract class SerializationHelper {
+public abstract class SerializationHelper extends Helper {
    public static void writeObjectToXml(Object obj, String filename) {
       XStream xstream = new XStream();
       FileOutputStream stream = null;

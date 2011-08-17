@@ -58,19 +58,16 @@ public class GameController extends Controller {
    }
 
    private long getHorizontalSpeedInterval() {
-      //TODO
-      //return Integer.parseInt(Configuration.HORIZONTALSPEED.getValue());
-      return 100;
+      int horizontalSpeed = ConfigurationHelper.getConfiguration().getHorizontalSpeed();
+      
+      return 200 - horizontalSpeed;
    }
 
-   private long getVerticalSpeedInterval() {
-      // TODO
-      int verticalSpeed = ConfigurationHelper.getInstance().getVerticalSpeed();
-
-      int verticalInterval = 400 - verticalSpeed;
+   private long getVerticalSpeedInterval(final int level) {
+      int verticalInterval = 500 - level * 9;
 
       if (this.isKeyPressed(KeyEvent.VK_DOWN)) {
-         verticalInterval -= 300;
+         verticalInterval = 100;
       }
 
       return verticalInterval;
@@ -88,12 +85,13 @@ public class GameController extends Controller {
       }
 
       // do vertical movement on vertical-interval
-      if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval())) {
+      if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval(game.getLevel()))) {
          int verticalDelta = this.getVerticalDelta();
          if (CollisionHelper.checkVerticalCollision(activeForm, verticalDelta, game.getDeadForms())) {
             activeForm.moveVertical(verticalDelta);
          }
          else {
+            FormHelper.breakDownForms(game.getAllForms());
             game.setState(GameState.NEXTFORM);
          }
       }
