@@ -38,8 +38,8 @@ public class MainController extends Controller implements Runnable {
    }
 
    @Override
-   public void repaint() {
-      super.repaint();
+   public void updateView() {
+      super.updateView();
 
       if (this.activeControllerChanged) {
          this.activeControllerChanged = false;
@@ -70,6 +70,7 @@ public class MainController extends Controller implements Runnable {
 
          this.work();
          this.check();
+         this.updateView();
          this.repaint();
 
          try {

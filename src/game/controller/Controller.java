@@ -86,6 +86,12 @@ public abstract class Controller {
       return this.pressedKeys.contains(keyCode);
    }
 
+   public void updateView() {
+      for (Controller subController : this.getSubController()) {
+         subController.updateView();
+      }
+   }
+   
    public void repaint() {
       for (Controller subController : this.getSubController()) {
          subController.repaint();

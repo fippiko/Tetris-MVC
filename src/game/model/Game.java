@@ -24,7 +24,7 @@ public class Game {
       this.activeForm = newForm;
       this.allForms.add(newForm);
       
-      this.state = GameState.FORMACTIVE;
+      this.state = GameState.MOVEFORM;
    }
 
    public int getLevel(){

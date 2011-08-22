@@ -35,8 +35,4 @@ public class GameView extends View {
       this.add(sideBarPanel, BorderLayout.EAST);
       this.add(gridView, BorderLayout.CENTER);
    }
-
-   public void updateView(Game game) {
-      this.gridView.updateView(game.getAllForms());
-   }
 }

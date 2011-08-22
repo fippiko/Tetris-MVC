@@ -1,7 +1,7 @@
 package game.enums;
 
 public enum GameState {
-   FORMACTIVE,
+   MOVEFORM,
    NEXTFORM,
-   GAMEOVER;
+   GAMEOVER, BREAKDOWN;
 }

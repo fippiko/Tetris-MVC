@@ -1,6 +1,7 @@
 package game.view.game;
 
 import game.controller.Controller;
+import game.model.form.Form;
 import game.view.View;
 
 import java.awt.Color;
@@ -12,6 +13,8 @@ public class PreviewView extends View {
 
    private static final int WIDTH  = 200;
    private static final int HEIGHT = 350;
+   
+   private Form nextForm = null;
 
    public PreviewView(Controller controller) {
       super(controller);
@@ -29,8 +32,14 @@ public class PreviewView extends View {
 
       Graphics2D g2d = (Graphics2D) g;
 
-      g2d.setColor(Color.black);
+      if(this.nextForm != null){
+      g2d.setColor(this.nextForm.getColor());
+      }
+      
       g2d.drawRect(25, 10, 150, 150);
-      g2d.drawRect(25, 180, 150, 150);
+   }
+
+   public void updateView(Form nextForm) {
+      this.nextForm = nextForm;
    }
 }

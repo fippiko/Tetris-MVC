@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class GameController extends Controller {
    private PreviewController previewController;
@@ -24,6 +25,8 @@ public class GameController extends Controller {
    private GridController    gridController;
 
    private Game              game;
+
+   private LinkedList<Form>  nextForms;
 
    public GameController() {
       this.previewController = new PreviewController();
@@ -41,6 +44,7 @@ public class GameController extends Controller {
       this.setView(new GameView(this, previewView, scoreView, gameGridView));
 
       this.game = new Game();
+      this.nextForms = new LinkedList<Form>();
    }
 
    @Override
@@ -51,13 +55,28 @@ public class GameController extends Controller {
          case NEXTFORM :
             this.addNewForm(this.game);
             break;
-         case FORMACTIVE :
-            this.doMovement(this.game);
+         case MOVEFORM :
+            if (this.doMovement(this.game)) {
+               this.game.setState(GameState.BREAKDOWN);
+            }
+            break;
+         case BREAKDOWN :
             this.doBreakdown(this.game);
+            this.game.setState(GameState.NEXTFORM);
+            break;
+
+         case GAMEOVER :
+            this.doGameover(this.game);
             break;
       }
 
-      this.getView().updateView(this.game);
+      this.gridController.updateForms(this.game.getAllForms());
+      this.previewController.updateNextForm(this.nextForms.getFirst());
+   }
+
+   private void doGameover(Game game) {
+      // TODO Auto-generated method stub
+
    }
 
    private long getHorizontalSpeedInterval() {
@@ -76,8 +95,10 @@ public class GameController extends Controller {
       return verticalInterval;
    }
 
-   private void doMovement(Game game) {
+   private boolean doMovement(Game game) {
       Form activeForm = game.getActiveForm();
+
+      Boolean verticalCollision = false;
 
       // do horizontal movement on horizontal-interval
       if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
@@ -94,15 +115,15 @@ public class GameController extends Controller {
             activeForm.moveVertical(verticalDelta);
          }
          else {
-            this.doBreakdown(game);
-
-            // TODO don't set the state here...
-            game.setState(GameState.NEXTFORM);
+            verticalCollision = true;
          }
       }
+
+      return verticalCollision;
    }
 
    private void doBreakdown(Game game) {
+
       ArrayList<Integer> filledRows = FormHelper.getFilledRows(game.getAllForms());
       Collections.sort(filledRows);
 
@@ -138,8 +159,17 @@ public class GameController extends Controller {
 
    private void addNewForm(Game game) {
       int startcol = 8;
-
-      game.addForm(FormHelper.generateRandomForm(startcol, 0));
+      
+      //add two forms if there're no of them yet
+      if(this.nextForms.size() == 0){
+         this.nextForms.add(FormHelper.generateRandomForm(startcol, 0));
+      }
+      
+      //add the first form in the list to the game and remove it from the list
+      game.addForm(this.nextForms.poll());
+      
+      //now add a new element to the end
+      this.nextForms.add(FormHelper.generateRandomForm(startcol,0));
    }
 
    private void rotateForm() {

@@ -14,37 +14,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.SortedMap;
 
 public abstract class FormHelper extends Helper {
-
-   public static Form generateRandomForm(int startcol, int startRow) {
-      Random random = new Random();
-
-      Form randomForm = null;
-
-      switch (random.nextInt(5)) {
-         case 0 :
-            randomForm = new FormBlock(startcol, startRow);
-            break;
-         case 1 :
-            randomForm = new FormL(startcol, startRow);
-            break;
-         case 2 :
-            randomForm = new FormI(startcol, startRow);
-            break;
-         case 3 :
-            randomForm = new FormT(startcol, startRow);
-            break;
-         case 4 :
-            randomForm = new FormJ(startcol, startRow);
-            break;
-      }
-
-      return randomForm;
-   }
+   
 
    public static ArrayList<Integer> getFilledRows(ArrayList<Form> allForms) {
       ArrayList<Integer> filledRows = new ArrayList<Integer>();
@@ -155,5 +132,31 @@ public abstract class FormHelper extends Helper {
             unit.setRow(newRows.get(unit));
          }
       }
+   }
+   
+
+   public static Form generateRandomForm(int startcol, int startRow) {
+      Random random = new Random();
+
+      Form randomForm = null;
+      switch (random.nextInt(5)) {
+         case 0 :
+            randomForm = new FormBlock(startcol, startRow);
+            break;
+         case 1 :
+            randomForm = new FormL(startcol, startRow);
+            break;
+         case 2 :
+            randomForm = new FormI(startcol, startRow);
+            break;
+         case 3 :
+            randomForm = new FormT(startcol, startRow);
+            break;
+         case 4 :
+            randomForm = new FormJ(startcol, startRow);
+            break;
+      }
+
+      return randomForm;
    }
 }
