@@ -1,12 +1,12 @@
 package game.model;
 
 public class Configuration {
-   private String username;
-   private int    verticalSpeed;
-   private int    horizontalSpeed;
+   private String       username;
+   private int          verticalSpeed;
+   private int          horizontalSpeed;
 
    public static String CONFIGURATIONFILE = "configuration.xml";
-   
+
    public String getUsername() {
       return username;
    }

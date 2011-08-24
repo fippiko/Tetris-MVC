@@ -72,7 +72,7 @@ public abstract class FormHelper extends Helper {
          for (FormUnit unit : formToMove.getUnits()) {
             int currentColumn = unit.getColumn();
             int newColumn = currentColumn + horizontalDelta;
-            
+
             unit.setColumn(newColumn);
          }
       }
@@ -99,7 +99,7 @@ public abstract class FormHelper extends Helper {
          for (FormUnit unit : formToMove.getUnits()) {
             int currentRow = unit.getRow();
             int newRow = currentRow + verticalDelta;
-            
+
             unit.setRow(newRow);
          }
       }

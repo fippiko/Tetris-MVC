@@ -1,7 +1,6 @@
 package game.view.game;
 
 import game.controller.Controller;
-import game.model.Game;
 import game.view.View;
 
 import java.awt.BorderLayout;
@@ -14,7 +13,7 @@ public class GameView extends View {
    private static final int WIDTH    = 800;
    private static final int HEIGHT   = 600;
 
-   private GameGridView             gridView = null;
+   private GameGridView     gridView = null;
 
    public GameView(Controller controller, PreviewView previewView, ScoreView scoreView, GameGridView gridView) {
       super(controller);
@@ -24,7 +23,7 @@ public class GameView extends View {
       this.initialize(previewView, scoreView, gridView);
    }
 
-   private void initialize(PreviewView previewView, ScoreView scoreView, GameGridView gridView) {
+   private void initialize(PreviewView previewView, ScoreView scoreView, GridView gridView) {
       this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
       this.setLayout(new BorderLayout());
 

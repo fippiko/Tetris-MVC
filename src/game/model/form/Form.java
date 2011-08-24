@@ -2,6 +2,7 @@ package game.model.form;
 
 import game.model.FormMap;
 import game.model.FormUnit;
+import game.model.Game;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 public abstract class Form {
    private ArrayList<FormUnit> units;
    private FormUnit            rotateAxisUnit;
-   
+
    public Form(int columnIndex, int rowIndex) {
       this.units = this.generateUnits(columnIndex, rowIndex);
    }
@@ -41,14 +42,35 @@ public abstract class Form {
 
    public abstract Color getColor();
    public abstract FormMap getDefaultFormMap();
-   
-   public FormMap getCurrentFormMap (){
+
+   public FormMap getCurrentFormMap() {
       FormMap currentFormMap = new FormMap();
-      
+
+      // initialize these variables with the highest possible values
+      int leftOuterColumn = Game.COLCOUNT;
+      int leftTopRow = Game.ROWCOUNT;
+
+      // in the first run find out the top-left column and left-outer row
       for (FormUnit unit : this.getUnits()) {
-         
+         if (unit.getColumn() < leftOuterColumn) {
+            leftOuterColumn = unit.getColumn();
+         }
+
+         if (leftTopRow > unit.getRow()) {
+            leftTopRow = unit.getRow();
+         }
       }
-      
+
+      // in the second run get the column and row for each unit,
+      // substract the above found border and then add the results to the
+      // FormMap
+      for (FormUnit unit : this.getUnits()) {
+         int unitColumnInForm = unit.getColumn() - leftOuterColumn;
+         int unitRowInForm = unit.getRow() - leftTopRow;
+
+         currentFormMap.add(unitColumnInForm, unitRowInForm);
+      }
+
       return currentFormMap;
    }
 

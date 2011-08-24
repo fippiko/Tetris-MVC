@@ -1,7 +1,6 @@
 package game.controller;
 
 import game.enums.ControllerState;
-import game.model.Configuration;
 import game.view.MainFrame;
 import game.view.MainView;
 
@@ -55,10 +54,10 @@ public class MainController extends Controller implements Runnable {
             this.close();
          }
          else {
-            if(this.gameController != null){
+            if (this.gameController != null) {
                this.menuController.setGameRunning(true);
             }
-            
+
             this.setActiveController(this.defaultController);
          }
       }
@@ -101,7 +100,7 @@ public class MainController extends Controller implements Runnable {
       this.gameController = new GameController();
       this.setActiveController(this.gameController);
    }
-   
+
    public void continueGame() {
       this.setActiveController(this.gameController);
    }

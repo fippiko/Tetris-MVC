@@ -23,7 +23,7 @@ public class FormI extends Form {
       formMap.add(0, 1);
       formMap.add(0, 2);
       formMap.add(0, 3);
-      
+
       formMap.setRotateAxis(0, 2);
 
       return formMap;

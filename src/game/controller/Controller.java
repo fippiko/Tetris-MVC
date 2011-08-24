@@ -91,7 +91,7 @@ public abstract class Controller {
          subController.updateView();
       }
    }
-   
+
    public void repaint() {
       for (Controller subController : this.getSubController()) {
          subController.repaint();

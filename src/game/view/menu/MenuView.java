@@ -32,7 +32,7 @@ public class MenuView extends View implements ActionListener {
       GridLayout layout = new GridLayout(10, 1);
       layout.setVgap(20);
       this.setLayout(layout);
-      
+
       this.continueGameButton.setEnabled(false);
 
       this.add(this.newGameButton);

@@ -5,7 +5,6 @@ import game.helper.CollisionHelper;
 import game.helper.ConfigurationHelper;
 import game.helper.FormHelper;
 import game.helper.TimeHelper;
-import game.model.Configuration;
 import game.model.Game;
 import game.model.form.Form;
 import game.view.game.GameGridView;
@@ -15,31 +14,30 @@ import game.view.game.ScoreView;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class GameController extends Controller {
-   private PreviewController previewController;
-   private ScoreController   scoreController;
-   private GridController    gridController;
+   private PreviewController  previewController;
+   private ScoreController    scoreController;
+   private GameGridController gridController;
 
-   private Game              game;
+   private Game               game;
 
-   private LinkedList<Form>  nextForms;
+   private LinkedList<Form>   nextForms;
 
    public GameController() {
       this.previewController = new PreviewController();
       this.scoreController = new ScoreController();
-      this.gridController = new GridController();
+      this.gridController = new GameGridController();
 
       this.addSubcontroller(this.previewController);
       this.addSubcontroller(this.scoreController);
       this.addSubcontroller(this.gridController);
 
-      PreviewView previewView = (PreviewView) this.previewController.getView();
+      PreviewView previewView = this.previewController.getView();
       ScoreView scoreView = (ScoreView) this.scoreController.getView();
-      GameGridView gameGridView = (GameGridView) this.gridController.getView();
+      GameGridView gameGridView = this.gridController.getView();
 
       this.setView(new GameView(this, previewView, scoreView, gameGridView));
 
@@ -74,7 +72,7 @@ public class GameController extends Controller {
 
    private boolean hasActiveFormStopped(Game game) {
       Form activeForm = game.getActiveForm();
-      
+
       return !CollisionHelper.checkVerticalCollision(activeForm, 1, game.getDeadForms());
    }
 
@@ -112,8 +110,8 @@ public class GameController extends Controller {
       if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval(game.getLevel()))) {
          int verticalDelta = this.getVerticalDelta();
          boolean verticalCollision = !FormHelper.moveFormVertical(activeForm, verticalDelta, game.getDeadForms());
-         
-         if(verticalCollision){
+
+         if (verticalCollision) {
             this.game.setState(GameState.BREAKDOWN);
          }
       }

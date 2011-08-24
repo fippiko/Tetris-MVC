@@ -23,7 +23,7 @@ public class FormJ extends Form {
       formMap.add(1, 1);
       formMap.add(1, 2);
       formMap.add(0, 2);
-      
+
       formMap.setRotateAxis(1, 1);
 
       return formMap;

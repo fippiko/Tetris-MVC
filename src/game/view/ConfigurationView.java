@@ -19,22 +19,22 @@ import javax.swing.JTextField;
 
 public class ConfigurationView extends View {
 
-   private static final int WIDTH                = 400;
-   private static final int HEIGHT               = 600;
+   private static final int WIDTH                 = 400;
+   private static final int HEIGHT                = 600;
 
-   private final JButton    backButton           = new JButton(ResourceHelper.getString(Resources.BACK));
-   private final JButton    saveButton           = new JButton(ResourceHelper.getString(Resources.SAVE));
+   private final JButton    backButton            = new JButton(ResourceHelper.getString(Resources.BACK));
+   private final JButton    saveButton            = new JButton(ResourceHelper.getString(Resources.SAVE));
 
-   private final JLabel     nameLabel            = new JLabel("Name");
-   private final JTextField usernameEdit         = new JTextField();
+   private final JLabel     nameLabel             = new JLabel("Name");
+   private final JTextField usernameEdit          = new JTextField();
 
-   private final JLabel     verticalSpeedLabel   = new JLabel("Vertical Speed");
-   private final JTextField verticalSpeedEdit    = new JTextField();
+   private final JLabel     verticalSpeedLabel    = new JLabel("Vertical Speed");
+   private final JTextField verticalSpeedEdit     = new JTextField();
 
-   private final JLabel     horizontalSpeedLabel = new JLabel("Horizontal Speed");
-   private final JTextField horizontalSpeedEdit  = new JTextField();
-   
-   private Configuration configurationInstance = null;
+   private final JLabel     horizontalSpeedLabel  = new JLabel("Horizontal Speed");
+   private final JTextField horizontalSpeedEdit   = new JTextField();
+
+   private Configuration    configurationInstance = null;
 
    public ConfigurationView(ConfigurationController controller, Configuration configuration) {
       super(controller);
@@ -46,13 +46,13 @@ public class ConfigurationView extends View {
       this.setLayout(new BorderLayout());
 
       this.configurationInstance = configuration;
-      
-      //initialize elements
+
+      // initialize elements
       this.usernameEdit.setText(configuration.getUsername());
       this.verticalSpeedEdit.setText(String.valueOf(configuration.getVerticalSpeed()));
       this.horizontalSpeedEdit.setText(String.valueOf(configuration.getHorizontalSpeed()));
-      
-      //add elements to panel
+
+      // add elements to panel
       final JPanel elementPanel = new JPanel(new GridLayout(3, 2));
       elementPanel.add(nameLabel);
       elementPanel.add(usernameEdit);
@@ -61,7 +61,6 @@ public class ConfigurationView extends View {
       elementPanel.add(horizontalSpeedLabel);
       elementPanel.add(horizontalSpeedEdit);
       this.add(elementPanel, BorderLayout.CENTER);
-      
 
       final JPanel controlPanel = new JPanel(new BorderLayout());
       controlPanel.add(this.backButton, BorderLayout.WEST);
@@ -87,16 +86,16 @@ public class ConfigurationView extends View {
 
    private boolean somethingChanged() {
       boolean somethingChanged = false;
-      if(!this.getUsername().equals(this.configurationInstance.getUsername())){
+      if (!this.getUsername().equals(this.configurationInstance.getUsername())) {
          somethingChanged = true;
       }
-      if(this.getVerticalSpeed() != this.configurationInstance.getVerticalSpeed()){
+      if (this.getVerticalSpeed() != this.configurationInstance.getVerticalSpeed()) {
          somethingChanged = true;
       }
-      if(this.getHorizontalSpeed() != this.configurationInstance.getHorizontalSpeed()){
+      if (this.getHorizontalSpeed() != this.configurationInstance.getHorizontalSpeed()) {
          somethingChanged = true;
       }
-      
+
       return somethingChanged;
    }
 
@@ -110,33 +109,32 @@ public class ConfigurationView extends View {
    }
 
    public void close() {
-      //if something changed, asked if really close the dialog
+      // if something changed, asked if really close the dialog
       boolean reallyClose = true;
-      if(this.somethingChanged()){
+      if (this.somethingChanged()) {
          int answer = JOptionPane.showConfirmDialog(this, Resources.CONFIRMBACK_BODY.getString(), Resources.CONFIRMBACK_HEADER.getString(), JOptionPane.YES_NO_OPTION);
-   
+
          if (answer == JOptionPane.NO_OPTION) {
             reallyClose = false;
          }
       }
-      
-      if(reallyClose){
+
+      if (reallyClose) {
          this.getController().close();
       }
    }
-   
-   
-   //Getters to return the Configuration-Informations
-   
-   public String getUsername(){
+
+   // Getters to return the Configuration-Informations
+
+   public String getUsername() {
       return usernameEdit.getText();
    }
-   
-   public int getVerticalSpeed(){
+
+   public int getVerticalSpeed() {
       return Integer.parseInt(verticalSpeedEdit.getText());
    }
-   
-   public int getHorizontalSpeed(){
+
+   public int getHorizontalSpeed() {
       return Integer.parseInt(horizontalSpeedEdit.getText());
    }
 }

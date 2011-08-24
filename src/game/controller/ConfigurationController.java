@@ -16,11 +16,11 @@ public class ConfigurationController extends Controller {
 
    public void saveConfigurationAttributes() {
       Configuration configurationInstance = ConfigurationHelper.getConfiguration();
-      
+
       configurationInstance.setUsername(this.getView().getUsername());
       configurationInstance.setVerticalSpeed(this.getView().getVerticalSpeed());
       configurationInstance.setHorizontalSpeed(this.getView().getHorizontalSpeed());
-      
+
       ConfigurationHelper.saveConfiguration(configurationInstance);
    }
 

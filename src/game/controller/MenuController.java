@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 public class MenuController extends Controller {
    MainController parentController;
-   
+
    public MenuController(MainController parentController) {
       this.parentController = parentController;
       this.setView(new MenuView(this));
@@ -24,7 +24,7 @@ public class MenuController extends Controller {
    public void onNewGame() {
       this.parentController.startNewGame();
    }
-   
+
    public void onContinueGame() {
       this.parentController.continueGame();
    }
@@ -36,10 +36,10 @@ public class MenuController extends Controller {
    public void onCloseGame() {
       this.close();
    }
-   
+
    @Override
-   public MenuView getView(){
-      return (MenuView)super.getView();
+   public MenuView getView() {
+      return (MenuView) super.getView();
    }
 
    public void setGameRunning(boolean b) {
