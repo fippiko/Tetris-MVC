@@ -1,6 +1,7 @@
 package game.view.game;
 
 import game.controller.Controller;
+import game.model.FormUnit;
 import game.model.form.Form;
 import game.view.View;
 
@@ -33,10 +34,18 @@ public class PreviewView extends View {
       Graphics2D g2d = (Graphics2D) g;
 
       if(this.nextForm != null){
-      g2d.setColor(this.nextForm.getColor());
+         /*for(int columnIndex = -1; columnIndex < 3; columnIndex++){
+            for(int rowIndex = -1; rowIndex < 3; rowIndex ++){
+               for (FormUnit unit : this.nextForm.getUnits()) {
+                  if(unit.getColumn() == columnIndex){
+                     if(unit.getRow() == rowIndex){
+                        
+                     }
+                  }
+               }
+            }
+         }*/
       }
-      
-      g2d.drawRect(25, 10, 150, 150);
    }
 
    public void updateView(Form nextForm) {

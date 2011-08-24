@@ -5,7 +5,6 @@ import game.model.Configuration;
 public abstract class ConfigurationHelper extends Helper {
    private static Configuration configurationInstance = null;
    
-   
    public static Configuration getConfiguration(){
       if(configurationInstance == null){
          configurationInstance = createConfiguration();

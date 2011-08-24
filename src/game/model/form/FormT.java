@@ -16,7 +16,7 @@ public class FormT extends Form {
    }
 
    @Override
-   public FormMap getFormMap() {
+   public FormMap getDefaultFormMap() {
       FormMap formMap = new FormMap();
 
       formMap.add(0, 0);

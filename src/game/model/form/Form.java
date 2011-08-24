@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public abstract class Form {
    private ArrayList<FormUnit> units;
    private FormUnit            rotateAxisUnit;
-
+   
    public Form(int columnIndex, int rowIndex) {
       this.units = this.generateUnits(columnIndex, rowIndex);
    }
@@ -18,22 +18,10 @@ public abstract class Form {
       return this.units;
    }
 
-   public void moveHorizontal(int horizontalDelta) {
-      for (FormUnit unit : this.units) {
-         unit.setColumn(unit.getColumn() + horizontalDelta);
-      }
-   }
-
-   public void moveVertical(int verticalDelta) {
-      for (FormUnit unit : this.units) {
-         unit.setRow(unit.getRow() + verticalDelta);
-      }
-   }
-
    private ArrayList<FormUnit> generateUnits(int startColumnIndex, int startRowIndex) {
       ArrayList<FormUnit> generatedFormUnits = new ArrayList<FormUnit>();
 
-      FormMap formMap = this.getFormMap();
+      FormMap formMap = this.getDefaultFormMap();
 
       for (Integer columnIndex : formMap.keySet()) {
          for (Integer rowIndex : formMap.get(columnIndex)) {
@@ -52,7 +40,17 @@ public abstract class Form {
    }
 
    public abstract Color getColor();
-   public abstract FormMap getFormMap();
+   public abstract FormMap getDefaultFormMap();
+   
+   public FormMap getCurrentFormMap (){
+      FormMap currentFormMap = new FormMap();
+      
+      for (FormUnit unit : this.getUnits()) {
+         
+      }
+      
+      return currentFormMap;
+   }
 
    public FormUnit getRotateAxisUnit() {
       return this.rotateAxisUnit;

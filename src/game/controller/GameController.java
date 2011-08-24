@@ -56,9 +56,7 @@ public class GameController extends Controller {
             this.addNewForm(this.game);
             break;
          case MOVEFORM :
-            if (this.doMovement(this.game)) {
-               this.game.setState(GameState.BREAKDOWN);
-            }
+            this.doMovement(this.game);
             break;
          case BREAKDOWN :
             this.doBreakdown(this.game);
@@ -72,6 +70,12 @@ public class GameController extends Controller {
 
       this.gridController.updateForms(this.game.getAllForms());
       this.previewController.updateNextForm(this.nextForms.getFirst());
+   }
+
+   private boolean hasActiveFormStopped(Game game) {
+      Form activeForm = game.getActiveForm();
+      
+      return !CollisionHelper.checkVerticalCollision(activeForm, 1, game.getDeadForms());
    }
 
    private void doGameover(Game game) {
@@ -95,31 +99,24 @@ public class GameController extends Controller {
       return verticalInterval;
    }
 
-   private boolean doMovement(Game game) {
+   private void doMovement(Game game) {
       Form activeForm = game.getActiveForm();
-
-      Boolean verticalCollision = false;
 
       // do horizontal movement on horizontal-interval
       if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
          int horizontalDelta = this.getHorizontalDelta();
-         if (CollisionHelper.checkHorizontalCollision(activeForm, horizontalDelta, game.getDeadForms())) {
-            activeForm.moveHorizontal(horizontalDelta);
-         }
+         FormHelper.moveFormHorizontal(activeForm, horizontalDelta, game.getDeadForms());
       }
 
       // do vertical movement on vertical-interval
       if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval(game.getLevel()))) {
          int verticalDelta = this.getVerticalDelta();
-         if (CollisionHelper.checkVerticalCollision(activeForm, verticalDelta, game.getDeadForms())) {
-            activeForm.moveVertical(verticalDelta);
-         }
-         else {
-            verticalCollision = true;
+         boolean verticalCollision = !FormHelper.moveFormVertical(activeForm, verticalDelta, game.getDeadForms());
+         
+         if(verticalCollision){
+            this.game.setState(GameState.BREAKDOWN);
          }
       }
-
-      return verticalCollision;
    }
 
    private void doBreakdown(Game game) {
@@ -159,24 +156,24 @@ public class GameController extends Controller {
 
    private void addNewForm(Game game) {
       int startcol = 8;
-      
-      //add two forms if there're no of them yet
-      if(this.nextForms.size() == 0){
+
+      // add two forms if there're no of them yet
+      if (this.nextForms.size() == 0) {
          this.nextForms.add(FormHelper.generateRandomForm(startcol, 0));
       }
-      
-      //add the first form in the list to the game and remove it from the list
+
+      // add the first form in the list to the game and remove it from the list
       game.addForm(this.nextForms.poll());
-      
-      //now add a new element to the end
-      this.nextForms.add(FormHelper.generateRandomForm(startcol,0));
+
+      // now add a new element to the end
+      this.nextForms.add(FormHelper.generateRandomForm(startcol, 0));
    }
 
    private void rotateForm() {
       Form activeForm = this.game.getActiveForm();
       ArrayList<Form> otherForms = this.game.getDeadForms();
 
-      FormHelper.rotateActiveForm(activeForm, otherForms);
+      FormHelper.rotateForm(activeForm, otherForms);
    }
 
    @Override

@@ -47,7 +47,7 @@ public abstract class TimeHelper extends Helper{
       allMethods.put(method, existingDelta + delta);
    }
 
-   public static Boolean timeReached(Controller controller, String method, long miliSeconds) {
+   public static boolean timeReached(Controller controller, String method, long miliSeconds) {
       if (deltaSumMap.containsKey(controller)) {
          Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
 

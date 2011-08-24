@@ -10,24 +10,21 @@ import game.model.form.FormL;
 import game.model.form.FormT;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
-import java.util.SortedMap;
 
+/**
+ * @author philipp
+ * 
+ */
 public abstract class FormHelper extends Helper {
-   
 
    public static ArrayList<Integer> getFilledRows(ArrayList<Form> allForms) {
       ArrayList<Integer> filledRows = new ArrayList<Integer>();
 
       for (int rowIndex = Game.ROWCOUNT; rowIndex >= 0; rowIndex--) {
-         Boolean rowFilled = true;
+         boolean rowFilled = true;
          for (int columnIndex = 0; columnIndex < Game.COLCOUNT; columnIndex++) {
             if (!CollisionHelper.isFormAtPosition(columnIndex, rowIndex, allForms)) {
                rowFilled = false;
@@ -42,30 +39,6 @@ public abstract class FormHelper extends Helper {
 
       return filledRows;
    }
-
-   /*
-    * public static void breakDownForms(ArrayList<Form> allForms){
-    * 
-    * Boolean breakedDown = false;
-    * 
-    * int bottomRow = 10000; int topRow = 0;
-    * 
-    * for(int rowIndex = Game.ROWCOUNT; rowIndex >= 0; rowIndex--){ Boolean
-    * rowFilled = true; for(int columnIndex = 0; columnIndex < Game.COLCOUNT;
-    * columnIndex++){ if(!CollisionHelper.isFormAtPosition(columnIndex,
-    * rowIndex, allForms)){ rowFilled = false; break; } }
-    * 
-    * if(rowFilled){ breakedDown = true;
-    * 
-    * if(rowIndex < bottomRow){ bottomRow = rowIndex; } if(rowIndex > topRow){
-    * topRow = rowIndex; }
-    * 
-    * for (Form form : allForms) { removeFormUnitOnRow(rowIndex, form); } } }
-    * 
-    * if(breakedDown){ int rowDelta = topRow - bottomRow + 1; for (Form form :
-    * allForms) { for (FormUnit unit : form.getUnits()) { if(unit.getRow() <
-    * bottomRow){ unit.setRow(unit.getRow() + rowDelta ); } } } } }
-    */
 
    public static void removeAllUnitsOnRow(final ArrayList<Form> allForms, int rowIndex) {
       for (Form form : allForms) {
@@ -91,7 +64,50 @@ public abstract class FormHelper extends Helper {
       }
    }
 
-   public static void rotateActiveForm(Form formToRotate, ArrayList<Form> otherForms) {
+   public static boolean moveFormHorizontal(Form formToMove, int horizontalDelta, ArrayList<Form> otherForms) {
+      // check if there will be a collision on the new column
+      boolean collided = !CollisionHelper.checkHorizontalCollision(formToMove, horizontalDelta, otherForms);
+
+      if (!collided && horizontalDelta != 0) {
+         for (FormUnit unit : formToMove.getUnits()) {
+            int currentColumn = unit.getColumn();
+            int newColumn = currentColumn + horizontalDelta;
+            
+            unit.setColumn(newColumn);
+         }
+      }
+
+      return !collided;
+   }
+
+   /**
+    * Moves the given form vertical if possible (no collision)
+    * 
+    * @param formToMove
+    *        The form to move
+    * @param verticalDelta
+    *        The columns to move (e.g. left: -1, right: 1)
+    * @param otherForms
+    *        All other forms, needed to check the collision with them
+    * @return true if succesfully moved
+    */
+   public static boolean moveFormVertical(Form formToMove, int verticalDelta, ArrayList<Form> otherForms) {
+      // check if there will be a collision on the new row
+      boolean collided = !CollisionHelper.checkVerticalCollision(formToMove, verticalDelta, otherForms);
+
+      if (!collided) {
+         for (FormUnit unit : formToMove.getUnits()) {
+            int currentRow = unit.getRow();
+            int newRow = currentRow + verticalDelta;
+            
+            unit.setRow(newRow);
+         }
+      }
+
+      return !collided;
+   }
+
+   public static void rotateForm(Form formToRotate, ArrayList<Form> otherForms) {
       FormUnit rotateAxisUnit = formToRotate.getRotateAxisUnit();
 
       // chache all calculated new positions of the units, to avoid calculating
@@ -100,7 +116,7 @@ public abstract class FormHelper extends Helper {
       Hashtable<FormUnit, Integer> newRows = new Hashtable<FormUnit, Integer>();
 
       // go through each unit of the form and check if it will collide
-      Boolean formWillCollide = false;
+      boolean formWillCollide = false;
       for (FormUnit unit : formToRotate.getUnits()) {
          if (rotateAxisUnit != null) {
             if (unit != rotateAxisUnit) {
@@ -133,7 +149,6 @@ public abstract class FormHelper extends Helper {
          }
       }
    }
-   
 
    public static Form generateRandomForm(int startcol, int startRow) {
       Random random = new Random();

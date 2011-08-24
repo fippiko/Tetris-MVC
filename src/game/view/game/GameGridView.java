@@ -39,7 +39,7 @@ public class GameGridView extends View {
       }
    }
 
-   private void paint(Graphics2D g2d, GameGridUnit gridUnit, Color color, Boolean fill) {
+   private void paint(Graphics2D g2d, GameGridUnit gridUnit, Color color, boolean fill) {
       g2d.setColor(color);
       g2d.drawRect(gridUnit.getX(), gridUnit.getY(), gridUnit.getWidth(), gridUnit.getHeight());
 
@@ -63,42 +63,7 @@ public class GameGridView extends View {
       
       return null;
    }
-/*
-   public ArrayList<GameGridUnit> getGridUnitsOfForm(Form form) {
-      ArrayList<GameGridUnit> gridUnits = new ArrayList<GameGridUnit>();
-
-      int[][] formMap = form.getFormMap();
-
-      int maxColumnIndex = form.getColumnIndex() + Form.MAXFORMSIZE;
-      int maxRowIndex = form.getRowIndex() + Form.MAXFORMSIZE;
-
-      int xincrementer = 0;
-      for (int columnIndex = form.getColumnIndex(); columnIndex < maxColumnIndex; columnIndex++) {
-         int yincrementer = 0;
-         for (int rowIndex = form.getRowIndex(); rowIndex < maxRowIndex; rowIndex++) {
-            if (formMap[xincrementer][yincrementer] == 1) {
-               gridUnits.add(this.grid.getUnit(columnIndex, rowIndex));
-            }
-            yincrementer++;
-         }
-         xincrementer++;
-      }
-
-      return gridUnits;
-   }
-   */
-   /*
-   private Form getFormOnGridUnit(GameGridUnit gridUnit) {
-      for (Form form : this.activeForms) {
-         if (this.getGridUnitsOfForm(form).contains(gridUnit)) {
-            return form;
-         }
-      }
-
-      return null;
-   }
-   */
-
+   
    public void updateView(/*final Form activeForm, */final ArrayList<Form>  allForms) {
       this.allForms = allForms;
    }

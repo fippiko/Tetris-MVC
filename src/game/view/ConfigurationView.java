@@ -85,8 +85,8 @@ public class ConfigurationView extends View {
       }
    }
 
-   private Boolean somethingChanged() {
-      Boolean somethingChanged = false;
+   private boolean somethingChanged() {
+      boolean somethingChanged = false;
       if(!this.getUsername().equals(this.configurationInstance.getUsername())){
          somethingChanged = true;
       }
@@ -111,7 +111,7 @@ public class ConfigurationView extends View {
 
    public void close() {
       //if something changed, asked if really close the dialog
-      Boolean reallyClose = true;
+      boolean reallyClose = true;
       if(this.somethingChanged()){
          int answer = JOptionPane.showConfirmDialog(this, Resources.CONFIRMBACK_BODY.getString(), Resources.CONFIRMBACK_HEADER.getString(), JOptionPane.YES_NO_OPTION);
    

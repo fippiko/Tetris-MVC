@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class Controller {
    private ControllerState       state;
-   private Boolean               stateChanged;
+   private boolean               stateChanged;
 
    private View                  view;
 

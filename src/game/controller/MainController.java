@@ -17,7 +17,7 @@ public class MainController extends Controller implements Runnable {
    private GameController          gameController;
    private ConfigurationController configController;
 
-   private Boolean                 activeControllerChanged;
+   private boolean                 activeControllerChanged;
 
    public MainController() {
       this.setView(new MainView(this));

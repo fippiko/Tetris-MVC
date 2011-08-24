@@ -8,13 +8,12 @@ import java.util.ArrayList;
 
 public abstract class CollisionHelper extends Helper{
 
-
    public static boolean checkCollision(FormUnit unit, int horizontalDelta, int verticalDelta, ArrayList<Form> otherForms) {
       int leftBorder = 0;
       int rightBorder = Game.COLCOUNT - 1;
       int bottomBorder = Game.ROWCOUNT - 1;
       
-      Boolean unitCollide = false;
+      boolean unitCollide = false;
       
       int nextColumn = unit.getColumn() + horizontalDelta;
       int nextRow = unit.getRow() + verticalDelta;
@@ -44,8 +43,8 @@ public abstract class CollisionHelper extends Helper{
       return !unitCollide;
    }
    
-   public static Boolean checkHorizontalCollision(final Form formToCheck, final int horizontalDelta, final ArrayList<Form> otherForms) {
-      Boolean formColide = false;
+   public static boolean checkHorizontalCollision(final Form formToCheck, final int horizontalDelta, final ArrayList<Form> otherForms) {
+      boolean formColide = false;
       for (FormUnit formUnit : formToCheck.getUnits()) {
          if(!checkCollision(formUnit, horizontalDelta, 0, otherForms)){
             formColide = true;
@@ -57,8 +56,8 @@ public abstract class CollisionHelper extends Helper{
    }
    
    
-   public static Boolean checkVerticalCollision(final Form formToCheck, final int verticalDelta, final ArrayList<Form> otherForms) {
-      Boolean formColide = false;
+   public static boolean checkVerticalCollision(final Form formToCheck, final int verticalDelta, final ArrayList<Form> otherForms) {
+      boolean formColide = false;
       for (FormUnit formUnit : formToCheck.getUnits()) {
          if(!checkCollision(formUnit, 0, verticalDelta, otherForms)){
             formColide = true;
@@ -69,18 +68,15 @@ public abstract class CollisionHelper extends Helper{
       return !formColide;
    }
 
-   public static Boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> forms) {
+   public static boolean isFormAtPosition(final int column, final int row, final ArrayList<Form> forms) {
 
-      Boolean isFormThere = false;
+      boolean isFormThere = false;
 
       for (Form form : forms) {
 
          for (FormUnit formUnit : form.getUnits()) {
-            int unitColumn = formUnit.getColumn();
-            int unitRow = formUnit.getRow();
-
-            if (column == unitColumn) {
-               if (row == unitRow) {
+            if (column == formUnit.getColumn()) {
+               if (row == formUnit.getRow()) {
                   isFormThere = true;
                   break;
                }
