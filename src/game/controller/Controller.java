@@ -6,6 +6,7 @@ import game.view.View;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Controller {
    private ControllerState       state;
@@ -13,15 +14,27 @@ public abstract class Controller {
 
    private View                  view;
 
-   private ArrayList<Controller> subController          = new ArrayList<Controller>();
+   private Controller            parentController;
 
-   private ArrayList<Integer>    pressedKeys            = new ArrayList<Integer>();
+   private ArrayList<Controller> subController = new ArrayList<Controller>();
 
-   private final static int      DEFAULT_INTERVAL_IN_MS = 200;
+   private ArrayList<Integer>    pressedKeys   = new ArrayList<Integer>();
 
-   public Controller() {
+   public Controller(Controller parentController) {
+      if (parentController != null) {
+         parentController.addSubcontroller(this);
+
+         this.parentController = parentController;
+      }
+
       this.setState(ControllerState.UNINITIALIZED);
+      
+      if(this.initialize()){
+         this.setState(ControllerState.INITIALIZED);
+      }
    }
+   
+   protected abstract boolean initialize();
 
    public ControllerState getState() {
       return this.state;
@@ -105,13 +118,22 @@ public abstract class Controller {
    public void work() {
       TimeHelper.pushTime(this);
 
-      for (Controller subController : this.getSubController()) {
-         subController.work();
+      Iterator<Controller> subControllerItr = this.getSubController().iterator();
+      while (subControllerItr.hasNext()) {
+         Controller subController = subControllerItr.next();
+
+         if (subController.getState() != ControllerState.UNINITIALIZED) {
+            subController.work();
+         }
       }
    }
 
    public void close() {
       this.setState(ControllerState.CLOSE);
+   }
+
+   public Controller getParentController() {
+      return this.parentController;
    }
 
 }

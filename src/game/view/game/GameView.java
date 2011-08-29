@@ -27,11 +27,17 @@ public class GameView extends View {
       this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
       this.setLayout(new BorderLayout());
 
-      JPanel sideBarPanel = new JPanel(new BorderLayout());
-      sideBarPanel.add(previewView, BorderLayout.NORTH);
-      sideBarPanel.add(scoreView, BorderLayout.CENTER);
+      JPanel sidebarPanel = new JPanel(new BorderLayout());
+      sidebarPanel.add(previewView, BorderLayout.NORTH);
+      sidebarPanel.add(scoreView, BorderLayout.CENTER);
 
-      this.add(sideBarPanel, BorderLayout.EAST);
+      this.add(sidebarPanel, BorderLayout.EAST);
       this.add(gridView, BorderLayout.CENTER);
+   }
+
+   public void doGameover(GameoverView gameoverView) {
+      this.removeAll();
+      
+      this.add(gameoverView, BorderLayout.CENTER);
    }
 }

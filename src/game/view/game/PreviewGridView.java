@@ -1,12 +1,12 @@
 package game.view.game;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import game.controller.Controller;
 import game.model.FormMap;
 import game.model.form.Form;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class PreviewGridView extends GridView {
 
@@ -26,7 +26,7 @@ public class PreviewGridView extends GridView {
       Graphics2D g2d = (Graphics2D) g;
 
       if (this.nextForm != null) {
-         FormMap formMap = this.nextForm.getCurrentFormMap();
+         FormMap formMap = this.nextForm.getFormMap();
 
          for (GridUnit gridUnit : this.getGrid().getUnits()) {
             if (formMap.containsKey(gridUnit.getColumnIndex())) {

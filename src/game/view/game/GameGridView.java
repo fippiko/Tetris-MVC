@@ -1,13 +1,13 @@
 package game.view.game;
 
+import game.controller.Controller;
+import game.model.FormUnit;
+import game.model.form.Form;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-
-import game.controller.Controller;
-import game.model.FormUnit;
-import game.model.form.Form;
 
 public class GameGridView extends GridView {
 

@@ -6,12 +6,17 @@ import game.view.ConfigurationView;
 
 public class ConfigurationController extends Controller {
 
-   public ConfigurationController() {
+   public ConfigurationController(Controller parentController) {
+      super(parentController);
+      
       this.initialize();
    }
 
-   private void initialize() {
+   @Override
+   protected boolean initialize() {
       this.setView(new ConfigurationView(this, ConfigurationHelper.getConfiguration()));
+      
+      return true;
    }
 
    public void saveConfigurationAttributes() {

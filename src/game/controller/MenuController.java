@@ -5,11 +5,16 @@ import game.view.menu.MenuView;
 import java.awt.event.KeyEvent;
 
 public class MenuController extends Controller {
-   MainController parentController;
 
    public MenuController(MainController parentController) {
-      this.parentController = parentController;
+      super(parentController);
+   }
+   
+   @Override
+   protected boolean initialize() {
       this.setView(new MenuView(this));
+      
+      return true;
    }
 
    @Override
@@ -20,17 +25,22 @@ public class MenuController extends Controller {
          this.close();
       }
    }
+   
+   @Override
+   public MainController getParentController() {
+      return (MainController)super.getParentController();
+   }
 
    public void onNewGame() {
-      this.parentController.startNewGame();
+      this.getParentController().startNewGame();
    }
 
    public void onContinueGame() {
-      this.parentController.continueGame();
+      this.getParentController().continueGame();
    }
 
    public void onConfiguration() {
-      this.parentController.showConfiguration();
+      this.getParentController().showConfiguration();
    }
 
    public void onCloseGame() {

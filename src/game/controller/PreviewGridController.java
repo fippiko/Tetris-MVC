@@ -7,8 +7,15 @@ public class PreviewGridController extends Controller {
 
    private Form form = null;
 
-   public PreviewGridController() {
+   public PreviewGridController(Controller parentController) {
+      super(parentController);
+   }
+   
+   @Override
+   protected boolean initialize() {
       this.setView(new PreviewGridView(this, 4, 4));
+      
+      return true;
    }
 
    public void updateForm(Form form) {

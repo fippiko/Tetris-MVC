@@ -15,10 +15,10 @@ public class PreviewView extends View {
 
    private PreviewGridView  gridView = null;
 
-   public PreviewView(Controller controller, PreviewGridView gridView) {
+   public PreviewView(Controller controller) {
       super(controller);
 
-      this.gridView = gridView;
+      this.gridView = new PreviewGridView(controller, 4, 4);
 
       this.initialize(gridView);
    }

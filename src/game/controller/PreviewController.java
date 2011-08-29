@@ -1,36 +1,35 @@
 package game.controller;
 
 import game.model.form.Form;
-import game.view.game.PreviewGridView;
 import game.view.game.PreviewView;
 
 public class PreviewController extends Controller {
 
-   private PreviewGridController gridController;
+   private Form nextForm = null;
 
-   private Form                  nextForm = null;
+   public PreviewController(Controller parentController) {
+      super(parentController);
+   }
 
-   public PreviewController() {
-      this.gridController = new PreviewGridController();
+   @Override
+   protected boolean initialize() {
+      this.setView(new PreviewView(this));
 
-      this.addSubcontroller(this.gridController);
-
-      PreviewGridView gridView = this.gridController.getView();
-
-      this.setView(new PreviewView(this, gridView));
+      return true;
    }
 
    @Override
    public void work() {
       super.work();
-
    }
 
    @Override
    public void updateView() {
       super.updateView();
 
-      this.getView().updateView(this.nextForm);
+      if (this.nextForm != null) {
+         this.getView().updateView(this.nextForm);
+      }
    }
 
    @Override

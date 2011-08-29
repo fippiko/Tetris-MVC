@@ -9,6 +9,7 @@ import game.model.Game;
 import game.model.form.Form;
 import game.view.game.GameGridView;
 import game.view.game.GameView;
+import game.view.game.GameoverView;
 import game.view.game.PreviewView;
 import game.view.game.ScoreView;
 
@@ -21,19 +22,24 @@ public class GameController extends Controller {
    private PreviewController  previewController;
    private ScoreController    scoreController;
    private GameGridController gridController;
+   private GameoverController gameoverController;
 
    private Game               game;
 
    private LinkedList<Form>   nextForms;
+   
+   public GameController(Controller parentController) {
+      super(parentController);
+      // TODO Auto-generated constructor stub
+   }
 
-   public GameController() {
-      this.previewController = new PreviewController();
-      this.scoreController = new ScoreController();
-      this.gridController = new GameGridController();
+   @Override
+   protected boolean initialize() {
 
-      this.addSubcontroller(this.previewController);
-      this.addSubcontroller(this.scoreController);
-      this.addSubcontroller(this.gridController);
+      this.previewController = new PreviewController(this);
+      this.scoreController = new ScoreController(this);
+      this.gridController = new GameGridController(this);
+      this.gameoverController = new GameoverController(this);
 
       PreviewView previewView = this.previewController.getView();
       ScoreView scoreView = (ScoreView) this.scoreController.getView();
@@ -43,6 +49,8 @@ public class GameController extends Controller {
 
       this.game = new Game();
       this.nextForms = new LinkedList<Form>();
+      
+      return true;
    }
 
    @Override
@@ -58,9 +66,7 @@ public class GameController extends Controller {
             break;
          case BREAKDOWN :
             this.doBreakdown(this.game);
-            this.game.setState(GameState.NEXTFORM);
             break;
-
          case GAMEOVER :
             this.doGameover(this.game);
             break;
@@ -70,15 +76,10 @@ public class GameController extends Controller {
       this.previewController.updateNextForm(this.nextForms.getFirst());
    }
 
-   private boolean hasActiveFormStopped(Game game) {
-      Form activeForm = game.getActiveForm();
-
-      return !CollisionHelper.checkVerticalCollision(activeForm, 1, game.getDeadForms());
-   }
-
    private void doGameover(Game game) {
-      // TODO Auto-generated method stub
+      GameoverView gameoverView = this.gameoverController.getView();
 
+      this.getView().doGameover(gameoverView);
    }
 
    private long getHorizontalSpeedInterval() {
@@ -133,6 +134,8 @@ public class GameController extends Controller {
             FormHelper.moveAllUnitsOnRowDown(game.getAllForms(), rowIndex, filledRows.size());
          }
       }
+
+      this.game.setState(GameState.NEXTFORM);
    }
 
    private int getVerticalDelta() {
@@ -160,11 +163,21 @@ public class GameController extends Controller {
          this.nextForms.add(FormHelper.generateRandomForm(startcol, 0));
       }
 
-      // add the first form in the list to the game and remove it from the list
-      game.addForm(this.nextForms.poll());
+      // get the first form from the list and remove it from it
+      Form nextForm = this.nextForms.poll();
+
+      // if there's a collision, the game is over :-(
+      Boolean gameOver = !CollisionHelper.checkVerticalCollision(nextForm, 0, game.getDeadForms());
+
+      // add the first form in the list to the game
+      game.addForm(nextForm);
 
       // now add a new element to the end
       this.nextForms.add(FormHelper.generateRandomForm(startcol, 0));
+
+      if (gameOver) {
+         game.setState(GameState.GAMEOVER);
+      }
    }
 
    private void rotateForm() {
