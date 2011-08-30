@@ -5,22 +5,25 @@ import game.helper.CollisionHelper;
 import game.helper.ConfigurationHelper;
 import game.helper.FormHelper;
 import game.helper.TimeHelper;
+import game.model.FormUnit;
 import game.model.Game;
 import game.model.form.Form;
 import game.view.game.GameGridView;
 import game.view.game.GameView;
 import game.view.game.GameoverView;
 import game.view.game.PreviewView;
-import game.view.game.ScoreView;
+import game.view.game.InformationView;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import javax.swing.plaf.SliderUI;
+
 public class GameController extends Controller {
    private PreviewController  previewController;
-   private ScoreController    scoreController;
+   private InformationController    informationController;
    private GameGridController gridController;
    private GameoverController gameoverController;
 
@@ -30,19 +33,18 @@ public class GameController extends Controller {
    
    public GameController(Controller parentController) {
       super(parentController);
-      // TODO Auto-generated constructor stub
    }
 
    @Override
    protected boolean initialize() {
 
       this.previewController = new PreviewController(this);
-      this.scoreController = new ScoreController(this);
+      this.informationController = new InformationController(this);
       this.gridController = new GameGridController(this);
       this.gameoverController = new GameoverController(this);
 
       PreviewView previewView = this.previewController.getView();
-      ScoreView scoreView = (ScoreView) this.scoreController.getView();
+      InformationView scoreView = (InformationView) this.informationController.getView();
       GameGridView gameGridView = this.gridController.getView();
 
       this.setView(new GameView(this, previewView, scoreView, gameGridView));
@@ -60,12 +62,19 @@ public class GameController extends Controller {
       switch (this.game.getState()) {
          case NEXTFORM :
             this.addNewForm(this.game);
+            if(this.checkForGameover(this.game)){
+               this.game.setState(GameState.GAMEOVER);
+            }
             break;
          case MOVEFORM :
             this.doMovement(this.game);
+            if(this.checkForBreakdown(this.game)){
+               this.game.setState(GameState.BREAKDOWN);
+            }
             break;
          case BREAKDOWN :
             this.doBreakdown(this.game);
+            this.game.setState(GameState.NEXTFORM);
             break;
          case GAMEOVER :
             this.doGameover(this.game);
@@ -74,6 +83,18 @@ public class GameController extends Controller {
 
       this.gridController.updateForms(this.game.getAllForms());
       this.previewController.updateNextForm(this.nextForms.getFirst());
+      this.informationController.updateScore(this.game.getScore());
+      this.informationController.updateLevel(this.game.getLevel());
+   }
+
+   private boolean checkForBreakdown(Game game) {
+      boolean verticalCollided = false;
+      
+      Form activeForm = game.getActiveForm();
+      
+      verticalCollided = !CollisionHelper.checkVerticalCollision(activeForm, 1, game.getDeadForms());
+   
+      return verticalCollided;
    }
 
    private void doGameover(Game game) {
@@ -110,11 +131,7 @@ public class GameController extends Controller {
       // do vertical movement on vertical-interval
       if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval(game.getLevel()))) {
          int verticalDelta = this.getVerticalDelta();
-         boolean verticalCollision = !FormHelper.moveFormVertical(activeForm, verticalDelta, game.getDeadForms());
-
-         if (verticalCollision) {
-            this.game.setState(GameState.BREAKDOWN);
-         }
+         FormHelper.moveFormVertical(activeForm, verticalDelta, game.getDeadForms());
       }
    }
 
@@ -134,8 +151,8 @@ public class GameController extends Controller {
             FormHelper.moveAllUnitsOnRowDown(game.getAllForms(), rowIndex, filledRows.size());
          }
       }
-
-      this.game.setState(GameState.NEXTFORM);
+      
+      this.game.addScore(filledRows.size());
    }
 
    private int getVerticalDelta() {
@@ -166,18 +183,32 @@ public class GameController extends Controller {
       // get the first form from the list and remove it from it
       Form nextForm = this.nextForms.poll();
 
-      // if there's a collision, the game is over :-(
-      Boolean gameOver = !CollisionHelper.checkVerticalCollision(nextForm, 0, game.getDeadForms());
-
       // add the first form in the list to the game
       game.addForm(nextForm);
 
       // now add a new element to the end
       this.nextForms.add(FormHelper.generateRandomForm(startcol, 0));
+   }
+   
 
-      if (gameOver) {
-         game.setState(GameState.GAMEOVER);
+   private boolean checkForGameover(Game game) {
+      Form activeForm = game.getActiveForm();
+      
+      boolean rowZero = false;
+      boolean collision = false;
+      boolean gameover = false;
+      
+      for (FormUnit unit : activeForm.getUnits()) {
+         if(unit.getRow() <= 0){
+            rowZero = true;
+         }
       }
+
+      collision = !CollisionHelper.checkVerticalCollision(activeForm, 0, game.getDeadForms());
+
+      gameover = collision && rowZero;
+      
+      return gameover;
    }
 
    private void rotateForm() {

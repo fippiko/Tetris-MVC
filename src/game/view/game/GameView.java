@@ -15,7 +15,7 @@ public class GameView extends View {
 
    private GameGridView     gridView = null;
 
-   public GameView(Controller controller, PreviewView previewView, ScoreView scoreView, GameGridView gridView) {
+   public GameView(Controller controller, PreviewView previewView, InformationView scoreView, GameGridView gridView) {
       super(controller);
 
       this.gridView = gridView;
@@ -23,7 +23,7 @@ public class GameView extends View {
       this.initialize(previewView, scoreView, gridView);
    }
 
-   private void initialize(PreviewView previewView, ScoreView scoreView, GridView gridView) {
+   private void initialize(PreviewView previewView, InformationView scoreView, GridView gridView) {
       this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
       this.setLayout(new BorderLayout());
 

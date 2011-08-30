@@ -8,12 +8,15 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class ScoreView extends View {
+public class InformationView extends View {
 
    private static final int WIDTH  = 200;
    private static final int HEIGHT = 200;
+   
+   private int score = 0;
+   private int level = 0;
 
-   public ScoreView(Controller controller) {
+   public InformationView(Controller controller) {
       super(controller);
 
       this.initialize();
@@ -31,5 +34,16 @@ public class ScoreView extends View {
 
       g2d.setColor(Color.black);
       g2d.drawRect(25, 20, 150, 150);
+      
+      g2d.drawString("Current score:" + this.score, 50, 40);
+      g2d.drawString("Current level:" + this.level, 50, 80);
+   }
+
+   public void updateScore(int score) {
+      this.score = score;
+   }
+   
+   public void updateLevel (int level){
+      this.level = level;
    }
 }
