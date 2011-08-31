@@ -4,5 +4,6 @@ public enum GameState {
    MOVEFORM,
    NEXTFORM,
    GAMEOVER,
-   BREAKDOWN;
+   BREAKDOWN, 
+   NEWGAME;
 }

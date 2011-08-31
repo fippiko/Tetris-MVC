@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 import game.model.FormUnit;
 import game.model.form.Form;
 
@@ -16,7 +16,7 @@ public class GameGridView extends GridView {
 
    private ArrayList<Form>  allForms = new ArrayList<Form>();
 
-   public GameGridView(Controller controller, int colCount, int rowCount) {
+   public GameGridView(ControllerBase controller, int colCount, int rowCount) {
       super(controller, WIDTH, HEIGHT, colCount, rowCount);
    }
 

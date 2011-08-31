@@ -1,6 +1,6 @@
 package game.view;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,11 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public abstract class View extends JPanel implements KeyListener, ActionListener {
-   public static int  BORDERWIDTH = 2;
+   public static int      BORDERWIDTH = 2;
 
-   private Controller controller;
+   private ControllerBase controller;
 
-   public View(Controller controller) {
+   public View(ControllerBase controller) {
       this.controller = controller;
 
       setBorder(BorderFactory.createLineBorder(Color.blue, BORDERWIDTH));
@@ -51,9 +51,9 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
    }
 
    @Override
-   public void add(Component Item, Object Constraints) {
-      this.addListener(Item);
-      super.add(Item, Constraints);
+   public void add(Component comp, Object Constraints) {
+      this.addListener(comp);
+      super.add(comp, Constraints);
    }
 
    @Override
@@ -68,7 +68,7 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
 
    @Override
    public void keyPressed(KeyEvent keyEvent) {
-      this.getController().keyPressed(keyEvent);
+      this.getController().handleKey(keyEvent);
    }
 
    @Override
@@ -86,7 +86,27 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
       // Override this method to catch ActionEvents
    }
 
-   protected Controller getController() {
+   protected ControllerBase getController() {
       return this.controller;
+   }
+
+   public boolean contains(View view) {
+      boolean contains = false;
+      for (Component comp : this.getComponents()) {
+         if (comp instanceof View) {
+            if (comp == view) {
+               contains = true;
+            }
+            else {
+               contains = ((View) comp).contains(view);
+            }
+         }
+         
+         if(contains){
+            break;
+         }
+      }
+      
+      return contains;
    }
 }

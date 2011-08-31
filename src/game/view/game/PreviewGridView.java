@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 import game.model.FormMap;
 import game.model.form.Form;
 
@@ -15,7 +15,7 @@ public class PreviewGridView extends GridView {
 
    private Form             nextForm = null;
 
-   public PreviewGridView(Controller controller, int colCount, int rowCount) {
+   public PreviewGridView(ControllerBase controller, int colCount, int rowCount) {
       super(controller, WIDTH, HEIGHT, colCount, rowCount);
    }
 

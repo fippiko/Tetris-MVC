@@ -8,19 +8,19 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class Controller {
-   private ControllerState       state;
-   private boolean               stateChanged;
+public abstract class ControllerBase {
+   private ControllerState           state;
+   private boolean                   stateChanged;
 
-   private View                  view;
+   private View                      view;
 
-   private Controller            parentController;
+   private ControllerBase            parentController;
 
-   private ArrayList<Controller> subController = new ArrayList<Controller>();
+   private ArrayList<ControllerBase> subController = new ArrayList<ControllerBase>();
 
-   private ArrayList<Integer>    pressedKeys   = new ArrayList<Integer>();
+   private ArrayList<Integer>        pressedKeys   = new ArrayList<Integer>();
 
-   public Controller(Controller parentController) {
+   public ControllerBase(ControllerBase parentController) {
       if (parentController != null) {
          parentController.addSubcontroller(this);
 
@@ -28,12 +28,12 @@ public abstract class Controller {
       }
 
       this.setState(ControllerState.UNINITIALIZED);
-      
-      if(this.initialize()){
+
+      if (this.initialize()) {
          this.setState(ControllerState.INITIALIZED);
       }
    }
-   
+
    protected abstract boolean initialize();
 
    public ControllerState getState() {
@@ -61,7 +61,7 @@ public abstract class Controller {
       this.view = view;
    }
 
-   protected void addSubcontroller(Controller subController) {
+   protected void addSubcontroller(ControllerBase subController) {
       this.subController.add(subController);
    }
 
@@ -69,23 +69,27 @@ public abstract class Controller {
       this.subController.clear();
    }
 
-   protected ArrayList<Controller> getSubController() {
+   protected ArrayList<ControllerBase> getSubController() {
       return this.subController;
    }
 
-   public void keyPressed(KeyEvent keyEvent) {
-      for (Controller subController : this.getSubController()) {
-         subController.keyPressed(keyEvent);
+   public boolean handleKey(KeyEvent keyEvent) {
+      boolean handled = false;
+      
+      for (ControllerBase subController : this.getSubController()) {
+         handled = subController.handleKey(keyEvent);
       }
 
       int keyCode = keyEvent.getKeyCode();
       if (!this.pressedKeys.contains(keyCode)) {
          this.pressedKeys.add(keyCode);
       }
+      
+      return handled;
    }
 
    public void keyReleased(KeyEvent keyEvent) {
-      for (Controller subController : this.getSubController()) {
+      for (ControllerBase subController : this.getSubController()) {
          subController.keyReleased(keyEvent);
       }
 
@@ -100,13 +104,13 @@ public abstract class Controller {
    }
 
    public void updateView() {
-      for (Controller subController : this.getSubController()) {
+      for (ControllerBase subController : this.getSubController()) {
          subController.updateView();
       }
    }
 
    public void repaint() {
-      for (Controller subController : this.getSubController()) {
+      for (ControllerBase subController : this.getSubController()) {
          subController.repaint();
       }
 
@@ -118,9 +122,9 @@ public abstract class Controller {
    public void work() {
       TimeHelper.pushTime(this);
 
-      Iterator<Controller> subControllerItr = this.getSubController().iterator();
+      Iterator<ControllerBase> subControllerItr = this.getSubController().iterator();
       while (subControllerItr.hasNext()) {
-         Controller subController = subControllerItr.next();
+         ControllerBase subController = subControllerItr.next();
 
          if (subController.getState() != ControllerState.UNINITIALIZED) {
             subController.work();
@@ -132,7 +136,7 @@ public abstract class Controller {
       this.setState(ControllerState.CLOSE);
    }
 
-   public Controller getParentController() {
+   public ControllerBase getParentController() {
       return this.parentController;
    }
 

@@ -6,26 +6,24 @@ import game.view.MainView;
 
 import javax.swing.JFrame;
 
-public class MainController extends Controller implements Runnable {
+public class MainController extends ControllerBase implements Runnable {
    private JFrame                  mainFrame;
 
-   private Controller              activeController;
-   private Controller              defaultController;
+   private ControllerBase          activeController;
+   private ControllerBase          defaultController;
 
    private MenuController          menuController;
    private GameController          gameController;
    private ConfigurationController configController;
 
-   private boolean                 activeControllerChanged;
-
-   public MainController(){
+   public MainController() {
       this(null);
    }
-   
-   public MainController(Controller parentController) {
+
+   public MainController(ControllerBase parentController) {
       super(parentController);
    }
-   
+
    @Override
    protected boolean initialize() {
       this.setView(new MainView(this));
@@ -38,7 +36,7 @@ public class MainController extends Controller implements Runnable {
 
       this.defaultController = this.menuController;
       this.setActiveController(this.defaultController);
-      
+
       return true;
    }
 
@@ -51,11 +49,11 @@ public class MainController extends Controller implements Runnable {
    public void updateView() {
       super.updateView();
 
-      if (this.activeControllerChanged) {
-         this.activeControllerChanged = false;
-
-         this.getView().removeAll();
-         this.getView().add(this.activeController.getView());
+      if (this.activeController != null) {
+         if (!this.getView().contains(this.activeController.getView())) {
+            this.getView().removeAll();
+            this.getView().add(this.activeController.getView());
+         }
       }
    }
 
@@ -97,14 +95,12 @@ public class MainController extends Controller implements Runnable {
       mainController.start();
    }
 
-   public void setActiveController(Controller activeController) {
+   public void setActiveController(ControllerBase activeController) {
       this.activeController = activeController;
       this.activeController.setState(ControllerState.ACTIVE);
 
       this.clearSubController();
       this.addSubcontroller(this.activeController);
-
-      this.activeControllerChanged = true;
    }
 
    public void startNewGame() {

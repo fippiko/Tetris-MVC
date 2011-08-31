@@ -3,11 +3,11 @@ package game.controller;
 import game.model.form.Form;
 import game.view.game.PreviewView;
 
-public class PreviewController extends Controller {
+public class PreviewController extends ControllerBase {
 
    private Form nextForm = null;
 
-   public PreviewController(Controller parentController) {
+   public PreviewController(ControllerBase parentController) {
       super(parentController);
    }
 

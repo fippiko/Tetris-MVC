@@ -2,11 +2,11 @@ package game.controller;
 
 import game.view.game.InformationView;
 
-public class InformationController extends Controller {
+public class InformationController extends ControllerBase {
    private int score = 0;
    private int level = 0;
    
-   public InformationController(Controller parentController) {
+   public InformationController(ControllerBase parentController) {
       super(parentController);
    }
    

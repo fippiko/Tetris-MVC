@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 import game.view.View;
 
 import java.awt.Graphics;
@@ -8,10 +8,10 @@ import java.awt.Graphics2D;
 
 public class GameoverView extends View {
    
-   private static final int WIDTH    = 600;
+   private static final int WIDTH    = 800;
    private static final int HEIGHT   = 600;
 
-   public GameoverView(Controller controller) {
+   public GameoverView(ControllerBase controller) {
       super(controller);
       
       this.setSize(WIDTH, HEIGHT);

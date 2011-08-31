@@ -6,11 +6,11 @@ import game.view.game.GameGridView;
 
 import java.util.ArrayList;
 
-public class GameGridController extends Controller {
+public class GameGridController extends ControllerBase {
 
    private ArrayList<Form> allForms = null;
 
-   public GameGridController(Controller parentController) {
+   public GameGridController(ControllerBase parentController) {
       super(parentController);
    }
    

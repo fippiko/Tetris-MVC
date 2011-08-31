@@ -4,31 +4,40 @@ import game.view.menu.MenuView;
 
 import java.awt.event.KeyEvent;
 
-public class MenuController extends Controller {
+public class MenuController extends ControllerBase {
 
    public MenuController(MainController parentController) {
       super(parentController);
    }
-   
+
    @Override
    protected boolean initialize() {
       this.setView(new MenuView(this));
-      
+
       return true;
    }
 
    @Override
-   public void keyPressed(KeyEvent keyEvent) {
-      super.keyPressed(keyEvent);
+   public boolean handleKey(KeyEvent keyEvent) {
+      super.handleKey(keyEvent);
+      boolean handled = true;
 
-      if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-         this.close();
+      int keyCode = keyEvent.getKeyCode();
+      switch (keyCode) {
+         case KeyEvent.VK_ESCAPE :
+            this.close();
+            break;
+
+         default :
+            handled = false;
+            break;
       }
+
+      return handled;
    }
-   
    @Override
    public MainController getParentController() {
-      return (MainController)super.getParentController();
+      return (MainController) super.getParentController();
    }
 
    public void onNewGame() {

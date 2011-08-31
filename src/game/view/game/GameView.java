@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 import game.view.View;
 
 import java.awt.BorderLayout;
@@ -13,12 +13,8 @@ public class GameView extends View {
    private static final int WIDTH    = 800;
    private static final int HEIGHT   = 600;
 
-   private GameGridView     gridView = null;
-
-   public GameView(Controller controller, PreviewView previewView, InformationView scoreView, GameGridView gridView) {
+   public GameView(ControllerBase controller, PreviewView previewView, InformationView scoreView, GameGridView gridView) {
       super(controller);
-
-      this.gridView = gridView;
 
       this.initialize(previewView, scoreView, gridView);
    }

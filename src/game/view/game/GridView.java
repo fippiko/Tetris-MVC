@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 import game.view.View;
 
 import java.awt.Color;
@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 public abstract class GridView extends View {
    private Grid grid;
 
-   public GridView(Controller controller, int width, int height, int colCount, int rowCount) {
+   public GridView(ControllerBase controller, int width, int height, int colCount, int rowCount) {
       super(controller);
 
       this.setPreferredSize(new Dimension(width, height));

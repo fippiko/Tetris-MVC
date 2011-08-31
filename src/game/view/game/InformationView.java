@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 import game.view.View;
 
 import java.awt.Color;
@@ -16,7 +16,7 @@ public class InformationView extends View {
    private int score = 0;
    private int level = 0;
 
-   public InformationView(Controller controller) {
+   public InformationView(ControllerBase controller) {
       super(controller);
 
       this.initialize();

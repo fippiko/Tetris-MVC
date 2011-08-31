@@ -1,6 +1,6 @@
 package game.view;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 
 import java.awt.Dimension;
 
@@ -11,7 +11,7 @@ public class MainView extends View {
    private static final int WIDTH  = 800;
    private static final int HEIGHT = 600;
 
-   public MainView(Controller controller) {
+   public MainView(ControllerBase controller) {
       super(controller);
       this.initialize();
    }

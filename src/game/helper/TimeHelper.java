@@ -1,16 +1,16 @@
 package game.helper;
 
-import game.controller.Controller;
+import game.controller.ControllerBase;
 
 import java.util.Hashtable;
 
 public abstract class TimeHelper extends Helper {
 
-   private static Hashtable<Controller, Long>                    lastMap     = new Hashtable<Controller, Long>();
+   private static Hashtable<ControllerBase, Long>                    lastMap     = new Hashtable<ControllerBase, Long>();
 
-   private static Hashtable<Controller, Hashtable<String, Long>> deltaSumMap = new Hashtable<Controller, Hashtable<String, Long>>();
+   private static Hashtable<ControllerBase, Hashtable<String, Long>> deltaSumMap = new Hashtable<ControllerBase, Hashtable<String, Long>>();
 
-   public static void pushTime(Controller controller) {
+   public static void pushTime(ControllerBase controller) {
 
       if (lastMap.containsKey(controller)) {
          long last = lastMap.get(controller);
@@ -30,14 +30,14 @@ public abstract class TimeHelper extends Helper {
       lastMap.put(controller, System.nanoTime());
    }
 
-   public static void pushTime(Controller controller, String method) {
+   public static void pushTime(ControllerBase controller, String method) {
       long last = lastMap.get(controller);
       long delta = System.nanoTime() - last;
 
       pushTime(controller, method, delta);
    }
 
-   private static void pushTime(Controller controller, String method, long delta) {
+   private static void pushTime(ControllerBase controller, String method, long delta) {
       Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
 
       long existingDelta = 0;
@@ -47,7 +47,7 @@ public abstract class TimeHelper extends Helper {
       allMethods.put(method, existingDelta + delta);
    }
 
-   public static boolean timeReached(Controller controller, String method, long miliSeconds) {
+   public static boolean timeReached(ControllerBase controller, String method, long miliSeconds) {
       if (deltaSumMap.containsKey(controller)) {
          Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
 
