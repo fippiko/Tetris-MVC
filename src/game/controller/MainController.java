@@ -1,7 +1,6 @@
 package game.controller;
 
-import game.enums.ControllerState;
-import game.enums.MainState;
+import game.helper.RepeatingReleasedEventsFixer;
 import game.view.MainFrame;
 import game.view.MainView;
 
@@ -11,13 +10,12 @@ public class MainController extends Controller implements Runnable {
    private JFrame                  mainFrame;
 
    private Controller              activeController;
+   private Controller              newActiveController;
 
    private MenuController          menuController;
    private GameController          gameController;
    private ConfigurationController configController;
 
-   private MainState               currentState;
-   private MainState               newState;
    private boolean                 activeControllerChanged;
 
    public MainController() {
@@ -38,22 +36,20 @@ public class MainController extends Controller implements Runnable {
       this.menuController = new MenuController(this);
       this.configController = new ConfigurationController(this);
 
-      this.setNewState(MainState.MENU);
+      this.setActiveController(this.menuController);
+      
+      new RepeatingReleasedEventsFixer().install();
 
       return true;
-   }
-
-   private void setNewState(MainState newState) {
-      this.newState = newState;
    }
 
    public void start() {
       Thread t = new Thread(this);
       t.start();
    }
-   
+
    public void check() {
-      if (this.activeController.getState() == ControllerState.CLOSE) {
+      if (!this.activeController.isRunning()) {
          if (this.activeController == this.menuController) {
             this.close();
          }
@@ -62,24 +58,27 @@ public class MainController extends Controller implements Runnable {
                this.menuController.setGameRunning(true);
             }
 
-            this.setNewState(MainState.MENU);
+            this.showMenu();
          }
       }
    }
 
    @Override
    public void run() {
-      while (this.getState() != ControllerState.CLOSE) {
+      while (this.isRunning()) {
 
-         if (this.currentState != this.newState) {
-            this.setActiveController(this.newState);
+         if (this.activeController != this.newActiveController) {
+            this.activeController = this.newActiveController;
+            this.activeControllerChanged = true;
          }
-         
+
          this.work();
          this.updateView();
          this.repaint();
          this.check();
-            
+
+         this.activeControllerChanged = false;
+
          try {
             Thread.sleep(10);
          } catch (InterruptedException e) {
@@ -89,60 +88,49 @@ public class MainController extends Controller implements Runnable {
       System.exit(0);
    }
 
+   @Override
+   public void work() {
+      super.work();
+
+      if (this.activeController != null) {
+         this.activeController.work();
+      }
+   }
+
    public static void main(String[] args) {
       MainController mainController = new MainController();
       mainController.start();
    }
-   
+
    @Override
    public void updateView() {
-      super.updateView();
-      
-      if(this.activeControllerChanged){
 
+      if (this.activeControllerChanged) {
          this.getView().removeAll();
          this.getView().add(this.activeController.getView());
-         
-         this.activeControllerChanged = false;
       }
+
+      this.activeController.updateView();
    }
 
-   public void setActiveController(MainState state) {
-      this.currentState = state;
-
-      switch (state) {
-         case MENU :
-            this.activeController = this.menuController;
-            break;
-         case NEWGAME :
-            this.gameController = new GameController(this);
-            this.activeController = this.gameController;
-            break;
-         case CONTINUEGAME:
-            this.activeController = this.gameController;
-            break;
-         case CONFIGURATION :
-            this.activeController = this.configController;
-            break;
-      }
-
-      this.activeController.setState(ControllerState.ACTIVE);
-
-      this.clearSubController();
-      this.addSubcontroller(this.activeController);
-
-      this.activeControllerChanged = true;
+   public void setActiveController(Controller controller) {
+      this.newActiveController = controller;
    }
 
    public void startNewGame() {
-      this.setNewState(MainState.NEWGAME);
+      this.gameController = new GameController(this);
+      this.setActiveController(this.gameController);
    }
 
    public void continueGame() {
-      this.setNewState(MainState.CONTINUEGAME);
+      this.setActiveController(this.gameController);
    }
 
    public void showConfiguration() {
-      this.setNewState(MainState.CONFIGURATION);
+      this.setActiveController(this.configController);
+   }
+
+   private void showMenu() {
+      this.setActiveController(this.menuController);
    }
 }

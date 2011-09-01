@@ -3,7 +3,6 @@ package game.view;
 import game.controller.MenuController;
 import game.enums.Resources;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

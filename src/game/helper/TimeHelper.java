@@ -6,39 +6,39 @@ import java.util.Hashtable;
 
 public abstract class TimeHelper extends Helper {
 
-   private static Hashtable<Controller, Long>                    lastMap     = new Hashtable<Controller, Long>();
+   private static Hashtable<Object, Long>                    lastMap     = new Hashtable<Object, Long>();
 
-   private static Hashtable<Controller, Hashtable<String, Long>> deltaSumMap = new Hashtable<Controller, Hashtable<String, Long>>();
+   private static Hashtable<Object, Hashtable<String, Long>> deltaSumMap = new Hashtable<Object, Hashtable<String, Long>>();
 
-   public static void pushTime(Controller controller) {
+   public static void pushTime(Object object) {
 
-      if (lastMap.containsKey(controller)) {
-         long last = lastMap.get(controller);
+      if (lastMap.containsKey(object)) {
+         long last = lastMap.get(object);
          long delta = System.nanoTime() - last;
 
-         if (!deltaSumMap.containsKey(controller)) {
-            deltaSumMap.put(controller, new Hashtable<String, Long>());
+         if (!deltaSumMap.containsKey(object)) {
+            deltaSumMap.put(object, new Hashtable<String, Long>());
          }
 
-         Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
+         Hashtable<String, Long> allMethods = deltaSumMap.get(object);
 
          for (String method : allMethods.keySet()) {
-            pushTime(controller, method, delta);
+            pushTime(object, method, delta);
          }
       }
 
-      lastMap.put(controller, System.nanoTime());
+      lastMap.put(object, System.nanoTime());
    }
 
-   public static void pushTime(Controller controller, String method) {
-      long last = lastMap.get(controller);
+   public static void pushTime(Object object, String method) {
+      long last = lastMap.get(object);
       long delta = System.nanoTime() - last;
 
-      pushTime(controller, method, delta);
+      pushTime(object, method, delta);
    }
 
-   private static void pushTime(Controller controller, String method, long delta) {
-      Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
+   private static void pushTime(Object object, String method, long delta) {
+      Hashtable<String, Long> allMethods = deltaSumMap.get(object);
 
       long existingDelta = 0;
       if (allMethods.containsKey(method)) {
@@ -47,19 +47,21 @@ public abstract class TimeHelper extends Helper {
       allMethods.put(method, existingDelta + delta);
    }
    
-   public static void resetTime(Controller controller, String method){
-      if (deltaSumMap.containsKey(controller)) {
-         Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
+   public static void resetTime(Object object, String method){
+      if (deltaSumMap.containsKey(object)) {
+         Hashtable<String, Long> allMethods = deltaSumMap.get(object);
 
          if (allMethods.containsKey(method)) {
             allMethods.put(method, (long) 0);
          }
+      }else{
+         pushTime(object, method, (long)0);
       }
    }
 
-   public static boolean timeReached(Controller controller, String method, long miliSeconds) {
-      if (deltaSumMap.containsKey(controller)) {
-         Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
+   public static boolean timeReached(Object object, String method, long miliSeconds) {
+      if (deltaSumMap.containsKey(object)) {
+         Hashtable<String, Long> allMethods = deltaSumMap.get(object);
 
          if (!allMethods.containsKey(method)) {
             allMethods.put(method, (long) 0);

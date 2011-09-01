@@ -1,13 +1,10 @@
 package game.view.game;
 
-import game.controller.Controller;
 import game.controller.GameController;
 import game.model.Game;
 import game.view.View;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import javax.swing.JPanel;
 
 public class GameView extends View {
@@ -26,7 +23,7 @@ public class GameView extends View {
       this.initialize(controller);
    }
 
-   private void initialize(GameController controller) {
+   private void initialize(final GameController controller) {
       this.setLayout(new BorderLayout());
 
       this.previewView = new PreviewView(controller, 200, 350);
@@ -48,7 +45,7 @@ public class GameView extends View {
       this.add(gameoverView, BorderLayout.CENTER);
    }
 
-   public void updateAttributes(Game game) {
+   public void updateAttributes(final Game game) {
       this.gridView.updateAllForms(game.getAllForms());
       this.previewView.updateNextForm(game.getNextForm());
       this.infoView.updateLevel(game.getLevel());

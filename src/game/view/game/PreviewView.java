@@ -5,7 +5,6 @@ import game.model.form.Form;
 import game.view.View;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
 public class PreviewView extends View {
    private PreviewGridView  gridView = null;

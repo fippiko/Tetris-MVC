@@ -2,8 +2,6 @@ package game.view;
 
 import game.controller.Controller;
 
-import java.awt.Dimension;
-
 import javax.swing.border.EmptyBorder;
 
 public class MainView extends View {

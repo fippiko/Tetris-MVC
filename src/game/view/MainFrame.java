@@ -1,6 +1,9 @@
 package game.view;
 
+import game.helper.InputHelper;
+
 import java.awt.Component;
+import java.awt.KeyboardFocusManager;
 
 import javax.swing.JFrame;
 

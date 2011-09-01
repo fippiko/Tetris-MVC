@@ -4,22 +4,18 @@ import game.enums.GameState;
 import game.helper.CollisionHelper;
 import game.helper.ConfigurationHelper;
 import game.helper.FormHelper;
+import game.helper.InputHelper;
 import game.helper.LevelHelper;
 import game.helper.ScoreHelper;
 import game.helper.TimeHelper;
 import game.model.FormUnit;
 import game.model.Game;
 import game.model.form.Form;
-import game.view.game.GameGridView;
 import game.view.game.GameView;
-import game.view.game.GameoverView;
-import game.view.game.InformationView;
-import game.view.game.PreviewView;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 
 public class GameController extends Controller {
    private Game game;
@@ -69,15 +65,9 @@ public class GameController extends Controller {
             this.doGameover(this.game);
             break;
          case NEWGAME :
-            this.clearSubController();
             this.initialize();
             break;
       }
-   }
-
-   @Override
-   public MainController getParentController() {
-      return (MainController) super.getParentController();
    }
 
    private boolean checkForBreakdown(Game game) {
@@ -103,15 +93,15 @@ public class GameController extends Controller {
    }
 
    private long getHorizontalSpeedInterval() {
-      int horizontalSpeed = ConfigurationHelper.getConfiguration().getHorizontalSpeed();
+      int horizontalInterval = ConfigurationHelper.getConfiguration().getHorizontalSpeed();
 
-      return horizontalSpeed;
+      return horizontalInterval;
    }
 
    private long getVerticalSpeedInterval(final int level) {
       int verticalInterval = 500 - level * 18;
 
-      if (this.isKeyPressed(KeyEvent.VK_DOWN)) {
+      if (InputHelper.isKeyPressed(KeyEvent.VK_DOWN)) {
          verticalInterval = 50;
       }
 
@@ -163,10 +153,10 @@ public class GameController extends Controller {
    private int getHorizontalDelta() {
       int delta = 0;
 
-      if (this.isKeyPressed(KeyEvent.VK_LEFT)) {
+      if (InputHelper.isKeyPressed(KeyEvent.VK_LEFT)) {
          delta = -1;
       }
-      if (this.isKeyPressed(KeyEvent.VK_RIGHT)) {
+      if (InputHelper.isKeyPressed(KeyEvent.VK_RIGHT)) {
          delta = 1;
       }
 
@@ -222,39 +212,12 @@ public class GameController extends Controller {
       return (GameView) super.getView();
    }
 
-   @Override
-   public void handleKey(KeyEvent keyEvent) {
-
-      int keyCode = keyEvent.getKeyCode();
-      switch (keyCode) {
-         case KeyEvent.VK_ESCAPE :
-            this.close();
-            break;
-         case KeyEvent.VK_SPACE :
-            if (!this.game.getGameover()) {
-               this.rotateForm();
-            }
-            else {
-               this.startNewGame();
-            }
-            break;
-         case KeyEvent.VK_F :
-            int currentLevel = this.game.getLevel();
-            this.game.setLevel(currentLevel + 1);
-            break;
-         case KeyEvent.VK_ENTER :
-            this.game.setState(GameState.INSTANTDOWN);
-            break;
-
-      }
-   }
-
    private void doInstantDown(Game game) {
       Form activeForm = game.getActiveForm();
 
-      boolean formIsDown = false;
-      while (!formIsDown) {
-         formIsDown = !FormHelper.moveFormVertical(activeForm, 1, game.getDeadForms());
+      boolean formIsAtBottom = false;
+      while (!formIsAtBottom) {
+         formIsAtBottom = !FormHelper.moveFormVertical(activeForm, 1, game.getDeadForms());
       }
    }
 
@@ -265,6 +228,29 @@ public class GameController extends Controller {
    @Override
    public void updateView() {
       this.getView().updateAttributes(this.game);
-      super.updateView();
+   }
+
+   @Override
+   protected void handleInput() {
+      super.handleInput();
+
+      if (InputHelper.isKeyPressed(KeyEvent.VK_SPACE, true)) {
+         if (!this.game.getGameover()) {
+            this.rotateForm();
+         }
+         else {
+            this.startNewGame();
+         }
+      }
+
+      if (InputHelper.isKeyPressed(KeyEvent.VK_F, true)) {
+         int currentLevel = this.game.getLevel();
+         this.game.setLevel(currentLevel + 1);
+      }
+
+      if (InputHelper.isKeyPressed(KeyEvent.VK_ENTER, true)) {
+         this.game.setState(GameState.INSTANTDOWN);
+      }
+
    }
 }
