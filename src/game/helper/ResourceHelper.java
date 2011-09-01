@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public abstract class ResourceHelper extends Helper {
-   private static Locale[]       supportedLocales = {Locale.GERMAN, Locale.ENGLISH};
+   //private static Locale[]       supportedLocales = {Locale.GERMAN, Locale.ENGLISH};
 
    private static ResourceBundle currentResources;
 

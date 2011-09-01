@@ -53,11 +53,11 @@ public abstract class Form {
    public int getTopRow() {
       int toppestRow = Integer.MAX_VALUE;
       for (FormUnit unit : this.getUnits()) {
-         if(unit.getRow() < toppestRow){
+         if (unit.getRow() < toppestRow) {
             toppestRow = unit.getRow();
          }
       }
-      
+
       return toppestRow;
    }
 }

@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class GameGridView extends GridView {
-   private ArrayList<Form>  allForms = new ArrayList<Form>();
+   private ArrayList<Form> allForms = new ArrayList<Form>();
 
    public GameGridView(Controller controller, final int width, final int height, int colCount, int rowCount) {
       super(controller, width, height, colCount, rowCount);

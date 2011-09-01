@@ -7,7 +7,7 @@ import game.view.View;
 import java.awt.BorderLayout;
 
 public class PreviewView extends View {
-   private PreviewGridView  gridView = null;
+   private PreviewGridView gridView = null;
 
    public PreviewView(Controller controller, final int width, final int height) {
       super(controller, width, height);
@@ -22,7 +22,7 @@ public class PreviewView extends View {
 
       this.add(gridView, BorderLayout.CENTER);
    }
-   
+
    public void updateNextForm(Form nextForm) {
       this.gridView.updateView(nextForm);
    }

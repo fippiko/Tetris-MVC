@@ -26,13 +26,14 @@ public enum Level {
    Level23(1700),
    Level24(1850),
    Level25(2000);
-   
+
    private int neededRows = 0;
-   Level(int neededRows){
+
+   Level(int neededRows) {
       this.neededRows = neededRows;
    }
-   
-   public int getNeededRows(){
+
+   public int getNeededRows() {
       return this.neededRows;
    }
 }

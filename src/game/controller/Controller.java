@@ -1,10 +1,7 @@
 package game.controller;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-
 import game.helper.InputHelper;
-import game.helper.TimeHelper;
 import game.view.View;
 
 public abstract class Controller {
@@ -48,17 +45,17 @@ public abstract class Controller {
    public Controller getParentController() {
       return this.parentController;
    }
-   
-   public void close(){
+
+   public void close() {
       this.close = true;
    }
-   
-   public boolean isRunning(){
+
+   public boolean isRunning() {
       return !this.close;
    }
-   
-   protected void handleInput(){
-      if(InputHelper.isKeyPressed(KeyEvent.VK_ESCAPE)){
+
+   protected void handleInput() {
+      if (InputHelper.isKeyPressed(KeyEvent.VK_ESCAPE)) {
          this.close();
       }
    }

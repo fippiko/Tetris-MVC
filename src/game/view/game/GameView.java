@@ -30,7 +30,7 @@ public class GameView extends View {
       this.infoView = new InformationView(controller, 200, 200);
       this.gridView = new GameGridView(controller, 600, 600, Game.COLCOUNT, Game.ROWCOUNT);
       this.gameoverView = new GameoverView(controller, WIDTH, HEIGHT);
-      
+
       JPanel sidebarPanel = new JPanel(new BorderLayout());
       sidebarPanel.add(previewView, BorderLayout.NORTH);
       sidebarPanel.add(infoView, BorderLayout.CENTER);
@@ -50,8 +50,8 @@ public class GameView extends View {
       this.previewView.updateNextForm(game.getNextForm());
       this.infoView.updateLevel(game.getLevel());
       this.infoView.updateScore(game.getScore());
-      
-      if(game.getGameover()){
+
+      if (game.getGameover()) {
          this.doGameover();
       }
    }

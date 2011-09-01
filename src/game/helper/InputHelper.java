@@ -1,10 +1,8 @@
 package game.helper;
 
-import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class InputHelper extends Helper implements KeyListener {
    private static ArrayList<Integer> pressedKeys = new ArrayList<Integer>();
@@ -43,13 +41,10 @@ public class InputHelper extends Helper implements KeyListener {
    private static void removePressedKey(final int keyCode) {
       pressedKeys.remove((Object) keyCode);
    }
-   
-   private static void removeHandledKey(final int keyCode){
-      handledKeys.remove((Object)keyCode);
+
+   private static void removeHandledKey(final int keyCode) {
+      handledKeys.remove((Object) keyCode);
    }
-   
-   
-   
 
    public static ArrayList<Integer> getPressedKeys() {
       return pressedKeys;
@@ -73,6 +68,6 @@ public class InputHelper extends Helper implements KeyListener {
 
    @Override
    public void keyTyped(KeyEvent arg0) {
-      //unused
+      // unused
    }
 }

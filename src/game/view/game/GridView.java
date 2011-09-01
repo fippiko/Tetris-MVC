@@ -12,7 +12,7 @@ public abstract class GridView extends View {
 
    public GridView(Controller controller, int width, int height, int colCount, int rowCount) {
       super(controller, width, height);
-      
+
       this.setGrid(new Grid(0, 0, width, height, colCount, rowCount));
    }
 

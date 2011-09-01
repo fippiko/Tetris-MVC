@@ -16,18 +16,18 @@ import javax.swing.JTextField;
 
 public abstract class View extends JPanel implements ActionListener {
 
-   public static final int  BORDERWIDTH = 2;
+   public static final int BORDERWIDTH = 2;
 
-   private Controller controller;
-   
+   private Controller      controller;
+
    public View(Controller controller, final int width, final int height) {
       this.controller = controller;
 
       setBorder(BorderFactory.createLineBorder(Color.blue, BORDERWIDTH));
-      
+
       this.setPreferredSize(new Dimension(width, height));
       this.addKeyListener(InputHelper.getInstance());
-      
+
       // JPanel uses for default the FlowLayout,
       // because of this, set the vertical gap to 0
       ((FlowLayout) this.getLayout()).setVgap(0);

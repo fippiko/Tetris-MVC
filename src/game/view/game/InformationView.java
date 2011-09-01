@@ -23,7 +23,7 @@ public class InformationView extends View {
 
       g2d.setColor(Color.black);
       g2d.drawRect(25, 20, 150, 150);
-      
+
       g2d.drawString("Current score:" + this.score, 50, 40);
       g2d.drawString("Current level:" + this.level, 50, 80);
    }
@@ -31,8 +31,8 @@ public class InformationView extends View {
    public void updateScore(int score) {
       this.score = score;
    }
-   
-   public void updateLevel (int level){
+
+   public void updateLevel(int level) {
       this.level = level;
    }
 }

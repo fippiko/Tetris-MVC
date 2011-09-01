@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class PreviewGridView extends GridView {
-   private Form             nextForm = null;
+   private Form nextForm = null;
 
    public PreviewGridView(Controller controller, final int width, final int height, int colCount, int rowCount) {
       super(controller, width, height, colCount, rowCount);

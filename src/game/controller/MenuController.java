@@ -14,7 +14,7 @@ public class MenuController extends Controller {
 
       return true;
    }
-   
+
    @Override
    public MainController getParentController() {
       return (MainController) super.getParentController();
@@ -47,6 +47,6 @@ public class MenuController extends Controller {
 
    @Override
    public void updateView() {
-      
+
    }
 }

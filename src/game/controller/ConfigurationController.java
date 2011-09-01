@@ -1,7 +1,6 @@
 package game.controller;
 
 import game.helper.ConfigurationHelper;
-import game.helper.InputHelper;
 import game.model.Configuration;
 import game.view.ConfigurationView;
 
@@ -9,14 +8,14 @@ public class ConfigurationController extends Controller {
 
    public ConfigurationController(Controller parentController) {
       super(parentController);
-      
+
       this.initialize();
    }
 
    @Override
    protected boolean initialize() {
       this.setView(new ConfigurationView(this, ConfigurationHelper.getConfiguration()));
-      
+
       return true;
    }
 
@@ -37,6 +36,6 @@ public class ConfigurationController extends Controller {
 
    @Override
    public void updateView() {
-      
+
    }
 }

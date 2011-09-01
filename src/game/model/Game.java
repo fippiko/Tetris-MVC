@@ -11,15 +11,15 @@ public class Game {
    private ArrayList<Form>  allForms   = new ArrayList<Form>();
    private LinkedList<Form> nextForms  = new LinkedList<Form>();
 
-   private GameAction        state;
+   private GameAction       state;
    private int              currentLevel;
    private int              score;
    private int              clearedRows;
 
    public static final int  COLCOUNT   = 18;
    public static final int  ROWCOUNT   = 18;
-   
-   private boolean gameover;
+
+   private boolean          gameover;
 
    public Game() {
       this.state = GameAction.NEXTFORM;
@@ -96,8 +96,8 @@ public class Game {
    public void setGameover(boolean gameover) {
       this.gameover = gameover;
    }
-   
-   public boolean getGameover(){
+
+   public boolean getGameover() {
       return this.gameover;
    }
 }

@@ -37,7 +37,7 @@ public class MainController extends Controller implements Runnable {
       this.configController = new ConfigurationController(this);
 
       this.setActiveController(this.menuController);
-      
+
       new RepeatingReleasedEventsFixer().install();
 
       return true;
