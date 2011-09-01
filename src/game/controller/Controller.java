@@ -42,8 +42,6 @@ public abstract class Controller {
    }
 
    public void work() {
-      TimeHelper.pushTime(this);
-      
       this.handleInput();
    }
 

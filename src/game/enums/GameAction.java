@@ -1,6 +1,6 @@
 package game.enums;
 
-public enum GameState {
+public enum GameAction {
    MOVEFORM,
    NEXTFORM,
    GAMEOVER,

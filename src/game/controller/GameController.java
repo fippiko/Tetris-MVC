@@ -1,11 +1,15 @@
 package game.controller;
 
-import game.enums.GameState;
+import game.controller.gamecontroller.BreakdownHandler;
+import game.controller.gamecontroller.GameActionHandler;
+import game.controller.gamecontroller.MovementHandler;
+import game.enums.GameAction;
 import game.helper.CollisionHelper;
 import game.helper.ConfigurationHelper;
 import game.helper.FormHelper;
 import game.helper.InputHelper;
 import game.helper.LevelHelper;
+import game.helper.MovementHelper;
 import game.helper.ScoreHelper;
 import game.helper.TimeHelper;
 import game.model.FormUnit;
@@ -16,9 +20,11 @@ import game.view.game.GameView;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 
 public class GameController extends Controller {
-   private Game game;
+   private Game                                     game;
+   private Hashtable<GameAction, GameActionHandler> actionHandlers;
 
    public GameController(Controller parentController) {
       super(parentController);
@@ -30,6 +36,10 @@ public class GameController extends Controller {
 
       this.game = new Game();
 
+      this.actionHandlers = new Hashtable<GameAction, GameActionHandler>();
+      this.actionHandlers.put(GameAction.BREAKDOWN, new BreakdownHandler(this));
+      this.actionHandlers.put(GameAction.MOVEFORM, new MovementHandler(this));
+
       return true;
    }
 
@@ -37,36 +47,37 @@ public class GameController extends Controller {
    public void work() {
       super.work();
 
-      switch (this.game.getState()) {
-         case NEXTFORM :
-            this.addNewForm(this.game);
-            this.game.setState(GameState.MOVEFORM);
+      GameActionHandler handler = this.actionHandlers.get(this.game.getState());
 
-            if (this.checkForGameover(this.game)) {
-               this.game.setState(GameState.GAMEOVER);
-            }
-            break;
-         case MOVEFORM :
-            this.doMovement(this.game);
+      if (handler != null) {
+         handler.work(this.game);
+      }
+      else {
+         switch (this.game.getState()) {
+            case NEXTFORM :
+               this.addNewForm(this.game);
+               this.game.setState(GameAction.MOVEFORM);
 
-            if (this.checkForBreakdown(this.game)) {
-               this.game.setState(GameState.BREAKDOWN);
-            }
-            break;
-         case INSTANTDOWN :
-            this.doInstantDown(game);
-            this.game.setState(GameState.BREAKDOWN);
-            break;
-         case BREAKDOWN :
-            this.doBreakdown(this.game);
-            this.game.setState(GameState.NEXTFORM);
-            break;
-         case GAMEOVER :
-            this.doGameover(this.game);
-            break;
-         case NEWGAME :
-            this.initialize();
-            break;
+               if (this.checkForGameover(this.game)) {
+                  this.game.setState(GameAction.GAMEOVER);
+               }
+               break;
+            case MOVEFORM :
+               if (this.checkForBreakdown(this.game)) {
+                  this.game.setState(GameAction.BREAKDOWN);
+               }
+               break;
+            case INSTANTDOWN :
+               this.doInstantDown(game);
+               this.game.setState(GameAction.BREAKDOWN);
+               break;
+            case GAMEOVER :
+               this.doGameover(this.game);
+               break;
+            case NEWGAME :
+               this.initialize();
+               break;
+         }
       }
    }
 
@@ -79,10 +90,7 @@ public class GameController extends Controller {
       verticalCollided = !CollisionHelper.checkVerticalCollision(activeForm, 1, game.getDeadForms());
 
       if (verticalCollided) {
-         lastChanceUsed = TimeHelper.timeReached(this, "checkForBreakdown", this.getVerticalSpeedInterval(game.getLevel()));
-      }
-      else {
-         TimeHelper.resetTime(this, "checkForBreakdown");
+         lastChanceUsed = TimeHelper.timeReached(this, "checkForBreakdown", MovementHelper.getVerticalSpeedInterval(game.getLevel()));
       }
 
       return verticalCollided && lastChanceUsed;
@@ -90,77 +98,6 @@ public class GameController extends Controller {
 
    private void doGameover(Game game) {
       game.setGameover(true);
-   }
-
-   private long getHorizontalSpeedInterval() {
-      int horizontalInterval = ConfigurationHelper.getConfiguration().getHorizontalSpeed();
-
-      return horizontalInterval;
-   }
-
-   private long getVerticalSpeedInterval(final int level) {
-      int verticalInterval = 500 - level * 18;
-
-      if (InputHelper.isKeyPressed(KeyEvent.VK_DOWN)) {
-         verticalInterval = 50;
-      }
-
-      return verticalInterval;
-   }
-
-   private void doMovement(Game game) {
-      Form activeForm = game.getActiveForm();
-
-      // do horizontal movement on horizontal-interval
-      if (TimeHelper.timeReached(this, "moveHorizontal", this.getHorizontalSpeedInterval())) {
-         int horizontalDelta = this.getHorizontalDelta();
-         FormHelper.moveFormHorizontal(activeForm, horizontalDelta, game.getDeadForms());
-      }
-
-      // do vertical movement on vertical-interval
-      if (TimeHelper.timeReached(this, "moveVertical", this.getVerticalSpeedInterval(game.getLevel()))) {
-         int verticalDelta = this.getVerticalDelta();
-         FormHelper.moveFormVertical(activeForm, verticalDelta, game.getDeadForms());
-      }
-   }
-
-   private void doBreakdown(Game game) {
-
-      ArrayList<Integer> filledRows = FormHelper.getFilledRows(game.getAllForms());
-      Collections.sort(filledRows);
-
-      if (filledRows.size() > 0) {
-
-         for (Integer filledRowIndex : filledRows) {
-            FormHelper.removeAllUnitsOnRow(game.getAllForms(), filledRowIndex);
-         }
-
-         int highestRow = filledRows.get(filledRows.size() - 1);
-         for (int rowIndex = highestRow; rowIndex >= 0; rowIndex--) {
-            FormHelper.moveAllUnitsOnRowDown(game.getAllForms(), rowIndex, filledRows.size());
-         }
-      }
-
-      this.game.addClearedRows(filledRows.size());
-      this.game.setLevel(LevelHelper.getCurrentLevel(this.game.getClearedRows()));
-      this.game.setScore(ScoreHelper.getCurrentScore(this.game.getClearedRows()));
-   }
-
-   private int getVerticalDelta() {
-      return 1;
-   }
-
-   private int getHorizontalDelta() {
-      int delta = 0;
-
-      if (InputHelper.isKeyPressed(KeyEvent.VK_LEFT)) {
-         delta = -1;
-      }
-      if (InputHelper.isKeyPressed(KeyEvent.VK_RIGHT)) {
-         delta = 1;
-      }
-
-      return delta;
    }
 
    private void addNewForm(Game game) {
@@ -222,7 +159,7 @@ public class GameController extends Controller {
    }
 
    public void startNewGame() {
-      this.game.setState(GameState.NEWGAME);
+      this.game.setState(GameAction.NEWGAME);
    }
 
    @Override
@@ -249,8 +186,12 @@ public class GameController extends Controller {
       }
 
       if (InputHelper.isKeyPressed(KeyEvent.VK_ENTER, true)) {
-         this.game.setState(GameState.INSTANTDOWN);
+         this.game.setState(GameAction.INSTANTDOWN);
       }
 
+   }
+
+   public Game getGame() {
+      return this.game;
    }
 }

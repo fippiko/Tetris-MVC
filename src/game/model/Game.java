@@ -1,6 +1,6 @@
 package game.model;
 
-import game.enums.GameState;
+import game.enums.GameAction;
 import game.model.form.Form;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class Game {
    private ArrayList<Form>  allForms   = new ArrayList<Form>();
    private LinkedList<Form> nextForms  = new LinkedList<Form>();
 
-   private GameState        state;
+   private GameAction        state;
    private int              currentLevel;
    private int              score;
    private int              clearedRows;
@@ -22,7 +22,7 @@ public class Game {
    private boolean gameover;
 
    public Game() {
-      this.state = GameState.NEXTFORM;
+      this.state = GameAction.NEXTFORM;
       this.currentLevel = 1;
       this.score = 0;
       this.clearedRows = 0;
@@ -41,7 +41,7 @@ public class Game {
       this.currentLevel = level;
    }
 
-   public GameState getState() {
+   public GameAction getState() {
       return this.state;
    }
 
@@ -49,7 +49,7 @@ public class Game {
       return this.activeForm;
    }
 
-   public void setState(GameState state) {
+   public void setState(GameAction state) {
       this.state = state;
    }
 
