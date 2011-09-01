@@ -1,10 +1,10 @@
 package game.controller;
 
-import game.view.menu.MenuView;
+import game.view.MenuView;
 
 import java.awt.event.KeyEvent;
 
-public class MenuController extends ControllerBase {
+public class MenuController extends Controller {
 
    public MenuController(MainController parentController) {
       super(parentController);
@@ -18,22 +18,13 @@ public class MenuController extends ControllerBase {
    }
 
    @Override
-   public boolean handleKey(KeyEvent keyEvent) {
-      super.handleKey(keyEvent);
-      boolean handled = true;
-
+   public void handleKey(KeyEvent keyEvent) {
       int keyCode = keyEvent.getKeyCode();
       switch (keyCode) {
          case KeyEvent.VK_ESCAPE :
             this.close();
             break;
-
-         default :
-            handled = false;
-            break;
       }
-
-      return handled;
    }
    @Override
    public MainController getParentController() {

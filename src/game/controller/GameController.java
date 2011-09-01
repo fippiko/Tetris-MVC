@@ -21,35 +21,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class GameController extends ControllerBase {
-   private PreviewController     previewController;
-   private InformationController informationController;
-   private GameGridController    gridController;
+public class GameController extends Controller {
+   private Game game;
 
-   private Game                  game;
-
-   private LinkedList<Form>      nextForms;
-
-   public GameController(ControllerBase parentController) {
+   public GameController(Controller parentController) {
       super(parentController);
    }
 
    @Override
    protected boolean initialize() {
-
-      this.previewController = new PreviewController(this);
-      this.informationController = new InformationController(this);
-      this.gridController = new GameGridController(this);
-
-      PreviewView previewView = this.previewController.getView();
-      InformationView scoreView = (InformationView) this.informationController.getView();
-      GameGridView gameGridView = this.gridController.getView();
-
-      this.setView(new GameView(this, previewView, scoreView, gameGridView));
+      this.setView(new GameView(this));
 
       this.game = new Game();
-      this.nextForms = new LinkedList<Form>();
-      this.nextForms.add(FormHelper.generateRandomForm(8, -1));
 
       return true;
    }
@@ -61,6 +44,8 @@ public class GameController extends ControllerBase {
       switch (this.game.getState()) {
          case NEXTFORM :
             this.addNewForm(this.game);
+            this.game.setState(GameState.MOVEFORM);
+
             if (this.checkForGameover(this.game)) {
                this.game.setState(GameState.GAMEOVER);
             }
@@ -72,7 +57,7 @@ public class GameController extends ControllerBase {
                this.game.setState(GameState.BREAKDOWN);
             }
             break;
-         case INSTANTDOWN:
+         case INSTANTDOWN :
             this.doInstantDown(game);
             this.game.setState(GameState.BREAKDOWN);
             break;
@@ -88,11 +73,6 @@ public class GameController extends ControllerBase {
             this.initialize();
             break;
       }
-
-      this.gridController.updateForms(this.game.getAllForms());
-      this.previewController.updateNextForm(this.nextForms.getFirst());
-      this.informationController.updateScore(this.game.getScore());
-      this.informationController.updateLevel(this.game.getLevel());
    }
 
    @Override
@@ -111,7 +91,7 @@ public class GameController extends ControllerBase {
       if (verticalCollided) {
          lastChanceUsed = TimeHelper.timeReached(this, "checkForBreakdown", this.getVerticalSpeedInterval(game.getLevel()));
       }
-      else{
+      else {
          TimeHelper.resetTime(this, "checkForBreakdown");
       }
 
@@ -119,11 +99,7 @@ public class GameController extends ControllerBase {
    }
 
    private void doGameover(Game game) {
-      GameoverController gameoverController = new GameoverController(this);
-
-      GameoverView gameoverView = gameoverController.getView();
-
-      this.getView().doGameover(gameoverView);
+      game.setGameover(true);
    }
 
    private long getHorizontalSpeedInterval() {
@@ -201,13 +177,17 @@ public class GameController extends ControllerBase {
       int startcol = 8;
 
       // get the first form from the list and remove it from it
-      Form nextForm = this.nextForms.poll();
+      Form nextForm = this.game.pollNextForm();
+
+      if (nextForm == null) {
+         nextForm = FormHelper.generateRandomForm(startcol, -1);
+      }
 
       // add the first form in the list to the game
       game.addForm(nextForm);
 
       // now add a new element to the end
-      this.nextForms.add(FormHelper.generateRandomForm(startcol, -1));
+      game.addNextForm(FormHelper.generateRandomForm(startcol, -1));
    }
 
    private boolean checkForGameover(Game game) {
@@ -243,46 +223,48 @@ public class GameController extends ControllerBase {
    }
 
    @Override
-   public boolean handleKey(KeyEvent keyEvent) {
-      boolean handledBySubController = super.handleKey(keyEvent);
-      boolean handled = true;
+   public void handleKey(KeyEvent keyEvent) {
 
-      if (!handledBySubController) {
-
-         int keyCode = keyEvent.getKeyCode();
-         switch (keyCode) {
-            case KeyEvent.VK_ESCAPE :
-               this.close();
-               break;
-            case KeyEvent.VK_SPACE :
+      int keyCode = keyEvent.getKeyCode();
+      switch (keyCode) {
+         case KeyEvent.VK_ESCAPE :
+            this.close();
+            break;
+         case KeyEvent.VK_SPACE :
+            if (!this.game.getGameover()) {
                this.rotateForm();
-               break;
-            case KeyEvent.VK_F :
-               int currentLevel = this.game.getLevel();
-               this.game.setLevel(currentLevel + 1);
-               break;
-            case KeyEvent.VK_ENTER:
-               this.game.setState(GameState.INSTANTDOWN);
-               break;
-            default :
-               handled = false;
-               break;
-         }
-      }
+            }
+            else {
+               this.startNewGame();
+            }
+            break;
+         case KeyEvent.VK_F :
+            int currentLevel = this.game.getLevel();
+            this.game.setLevel(currentLevel + 1);
+            break;
+         case KeyEvent.VK_ENTER :
+            this.game.setState(GameState.INSTANTDOWN);
+            break;
 
-      return handled;
+      }
    }
 
    private void doInstantDown(Game game) {
       Form activeForm = game.getActiveForm();
-      
+
       boolean formIsDown = false;
-      while(!formIsDown){
+      while (!formIsDown) {
          formIsDown = !FormHelper.moveFormVertical(activeForm, 1, game.getDeadForms());
       }
    }
 
    public void startNewGame() {
       this.game.setState(GameState.NEWGAME);
+   }
+
+   @Override
+   public void updateView() {
+      this.getView().updateAttributes(this.game);
+      super.updateView();
    }
 }

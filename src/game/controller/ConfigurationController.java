@@ -4,9 +4,9 @@ import game.helper.ConfigurationHelper;
 import game.model.Configuration;
 import game.view.ConfigurationView;
 
-public class ConfigurationController extends ControllerBase {
+public class ConfigurationController extends Controller {
 
-   public ConfigurationController(ControllerBase parentController) {
+   public ConfigurationController(Controller parentController) {
       super(parentController);
       
       this.initialize();

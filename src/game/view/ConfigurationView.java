@@ -37,12 +37,11 @@ public class ConfigurationView extends View {
    private Configuration    configurationInstance = null;
 
    public ConfigurationView(ConfigurationController controller, Configuration configuration) {
-      super(controller);
+      super(controller, WIDTH, HEIGHT);
       this.initialize(configuration);
    }
 
    private void initialize(Configuration configuration) {
-      this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
       this.setLayout(new BorderLayout());
 
       this.configurationInstance = configuration;

@@ -4,31 +4,33 @@ import game.enums.GameState;
 import game.model.form.Form;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Game {
-   private Form            activeForm = null;
-   private ArrayList<Form> allForms   = new ArrayList<Form>();
+   private Form             activeForm = null;
+   private ArrayList<Form>  allForms   = new ArrayList<Form>();
+   private LinkedList<Form> nextForms  = new LinkedList<Form>();
 
-   private GameState       state;
-   private int             currentLevel;
-   private int             score;
-   private int             clearedRows;
+   private GameState        state;
+   private int              currentLevel;
+   private int              score;
+   private int              clearedRows;
 
-   public static final int COLCOUNT   = 18;
-   public static final int ROWCOUNT   = 18;
+   public static final int  COLCOUNT   = 18;
+   public static final int  ROWCOUNT   = 18;
+   
+   private boolean gameover;
 
    public Game() {
       this.state = GameState.NEXTFORM;
       this.currentLevel = 1;
       this.score = 0;
       this.clearedRows = 0;
+      this.gameover = false;
    }
-
    public void addForm(Form newForm) {
       this.activeForm = newForm;
       this.allForms.add(newForm);
-
-      this.state = GameState.MOVEFORM;
    }
 
    public int getLevel() {
@@ -64,7 +66,7 @@ public class Game {
    }
 
    public int getScore() {
-     return this.score;
+      return this.score;
    }
 
    public void addClearedRows(int rows) {
@@ -77,5 +79,25 @@ public class Game {
 
    public void setScore(int currentScore) {
       this.score = currentScore;
+   }
+
+   public final LinkedList<Form> getNextForms() {
+      return this.nextForms;
+   }
+   public Form pollNextForm() {
+      return this.nextForms.poll();
+   }
+   public void addNextForm(Form nextForm) {
+      this.nextForms.add(nextForm);
+   }
+   public Form getNextForm() {
+      return this.nextForms.getFirst();
+   }
+   public void setGameover(boolean gameover) {
+      this.gameover = gameover;
+   }
+   
+   public boolean getGameover(){
+      return this.gameover;
    }
 }

@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.ControllerBase;
+import game.controller.Controller;
 import game.model.FormUnit;
 import game.model.form.Form;
 
@@ -10,17 +10,13 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class GameGridView extends GridView {
-
-   private static final int WIDTH    = 600;
-   private static final int HEIGHT   = 600;
-
    private ArrayList<Form>  allForms = new ArrayList<Form>();
 
-   public GameGridView(ControllerBase controller, int colCount, int rowCount) {
-      super(controller, WIDTH, HEIGHT, colCount, rowCount);
+   public GameGridView(Controller controller, final int width, final int height, int colCount, int rowCount) {
+      super(controller, width, height, colCount, rowCount);
    }
 
-   public void updateView(final ArrayList<Form> allForms) {
+   public void updateAllForms(final ArrayList<Form> allForms) {
       this.allForms = allForms;
    }
 

@@ -1,6 +1,6 @@
 package game.view;
 
-import game.controller.ControllerBase;
+import game.controller.Controller;
 
 import java.awt.Dimension;
 
@@ -11,14 +11,12 @@ public class MainView extends View {
    private static final int WIDTH  = 800;
    private static final int HEIGHT = 600;
 
-   public MainView(ControllerBase controller) {
-      super(controller);
+   public MainView(Controller controller) {
+      super(controller, WIDTH, HEIGHT);
       this.initialize();
    }
 
    public void initialize() {
-      this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-
       setBorder(new EmptyBorder(0, 0, 0, 0));
    }
 }

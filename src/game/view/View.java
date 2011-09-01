@@ -1,9 +1,10 @@
 package game.view;
 
-import game.controller.ControllerBase;
+import game.controller.Controller;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,14 +17,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public abstract class View extends JPanel implements KeyListener, ActionListener {
-   public static int      BORDERWIDTH = 2;
+   public static int  BORDERWIDTH = 2;
 
-   private ControllerBase controller;
+   private Controller controller;
+   
+   private int width;
+   private int height;
 
-   public View(ControllerBase controller) {
+   public View(Controller controller, final int width, final int height) {
       this.controller = controller;
 
       setBorder(BorderFactory.createLineBorder(Color.blue, BORDERWIDTH));
+      
+      this.width = width;
+      this.height = height;
+      this.setPreferredSize(new Dimension(width, height));
 
       // JPanel uses for default the FlowLayout,
       // because of this, set the vertical gap to 0
@@ -86,7 +94,7 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
       // Override this method to catch ActionEvents
    }
 
-   protected ControllerBase getController() {
+   protected Controller getController() {
       return this.controller;
    }
 
@@ -101,12 +109,12 @@ public abstract class View extends JPanel implements KeyListener, ActionListener
                contains = ((View) comp).contains(view);
             }
          }
-         
-         if(contains){
+
+         if (contains) {
             break;
          }
       }
-      
+
       return contains;
    }
 }

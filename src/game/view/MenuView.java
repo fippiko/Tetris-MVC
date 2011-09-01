@@ -1,8 +1,7 @@
-package game.view.menu;
+package game.view;
 
 import game.controller.MenuController;
 import game.enums.Resources;
-import game.view.View;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -13,22 +12,20 @@ import javax.swing.JButton;
 
 public class MenuView extends View implements ActionListener {
 
-   private int     width              = 400;
-   private int     height             = 600;
+   private final static int WIDTH              = 400;
+   private final static int HEIGHT             = 600;
 
-   private JButton newGameButton      = new JButton(Resources.NEWGAME.getString());
-   private JButton continueGameButton = new JButton(Resources.CONTINUEGAME.getString());
-   private JButton configButton       = new JButton(Resources.CONFIGURATION.getString());
-   private JButton closeGameButton    = new JButton(Resources.CLOSEGAME.getString());
+   private JButton          newGameButton      = new JButton(Resources.NEWGAME.getString());
+   private JButton          continueGameButton = new JButton(Resources.CONTINUEGAME.getString());
+   private JButton          configButton       = new JButton(Resources.CONFIGURATION.getString());
+   private JButton          closeGameButton    = new JButton(Resources.CLOSEGAME.getString());
 
    public MenuView(MenuController controller) {
-      super(controller);
+      super(controller, WIDTH, HEIGHT);
       this.initalize();
    }
 
    private void initalize() {
-      this.setPreferredSize(new Dimension(this.width, this.height));
-
       GridLayout layout = new GridLayout(10, 1);
       layout.setVgap(20);
       this.setLayout(layout);

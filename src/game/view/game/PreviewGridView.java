@@ -1,6 +1,6 @@
 package game.view.game;
 
-import game.controller.ControllerBase;
+import game.controller.Controller;
 import game.model.FormMap;
 import game.model.form.Form;
 
@@ -9,14 +9,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class PreviewGridView extends GridView {
-
-   private static final int WIDTH    = 196;
-   private static final int HEIGHT   = 196;
-
    private Form             nextForm = null;
 
-   public PreviewGridView(ControllerBase controller, int colCount, int rowCount) {
-      super(controller, WIDTH, HEIGHT, colCount, rowCount);
+   public PreviewGridView(Controller controller, final int width, final int height, int colCount, int rowCount) {
+      super(controller, width, height, colCount, rowCount);
    }
 
    @Override

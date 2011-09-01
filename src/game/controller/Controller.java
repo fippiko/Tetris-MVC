@@ -8,19 +8,19 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class ControllerBase {
+public abstract class Controller {
    private ControllerState           state;
    private boolean                   stateChanged;
 
    private View                      view;
 
-   private ControllerBase            parentController;
+   private Controller            parentController;
 
-   private ArrayList<ControllerBase> subController = new ArrayList<ControllerBase>();
+   private ArrayList<Controller> subController = new ArrayList<Controller>();
 
    private ArrayList<Integer>        pressedKeys   = new ArrayList<Integer>();
 
-   public ControllerBase(ControllerBase parentController) {
+   public Controller(Controller parentController) {
       if (parentController != null) {
          parentController.addSubcontroller(this);
 
@@ -61,7 +61,7 @@ public abstract class ControllerBase {
       this.view = view;
    }
 
-   protected void addSubcontroller(ControllerBase subController) {
+   protected void addSubcontroller(Controller subController) {
       this.subController.add(subController);
    }
 
@@ -69,27 +69,23 @@ public abstract class ControllerBase {
       this.subController.clear();
    }
 
-   protected ArrayList<ControllerBase> getSubController() {
+   protected ArrayList<Controller> getSubController() {
       return this.subController;
    }
 
-   public boolean handleKey(KeyEvent keyEvent) {
-      boolean handled = false;
-
-      for (ControllerBase subController : this.getSubController()) {
-         handled = subController.handleKey(keyEvent);
+   public void handleKey(KeyEvent keyEvent) {
+      for (Controller subController : this.getSubController()) {
+         subController.handleKey(keyEvent);
       }
 
       int keyCode = keyEvent.getKeyCode();
       if (!this.pressedKeys.contains(keyCode)) {
          this.pressedKeys.add(keyCode);
       }
-
-      return handled;
    }
 
    public void keyReleased(KeyEvent keyEvent) {
-      Iterator<ControllerBase> controllerIterator = this.getSubController().iterator();
+      Iterator<Controller> controllerIterator = this.getSubController().iterator();
       while (controllerIterator.hasNext()) {
          controllerIterator.next().keyReleased(keyEvent);
       }
@@ -105,13 +101,13 @@ public abstract class ControllerBase {
    }
 
    public void updateView() {
-      for (ControllerBase subController : this.getSubController()) {
+      for (Controller subController : this.getSubController()) {
          subController.updateView();
       }
    }
 
    public void repaint() {
-      for (ControllerBase subController : this.getSubController()) {
+      for (Controller subController : this.getSubController()) {
          subController.repaint();
       }
 
@@ -123,21 +119,25 @@ public abstract class ControllerBase {
    public void work() {
       TimeHelper.pushTime(this);
 
-      Iterator<ControllerBase> subControllerItr = this.getSubController().iterator();
+      Iterator<Controller> subControllerItr = this.getSubController().iterator();
       while (subControllerItr.hasNext()) {
-         ControllerBase subController = subControllerItr.next();
+         Controller subController = subControllerItr.next();
 
          if (subController.getState() != ControllerState.UNINITIALIZED) {
             subController.work();
          }
       }
+      
+      this.handlePressedKeys(this.pressedKeys);
    }
+
+   protected abstract void handlePressedKeys(ArrayList<Integer> pressedKeys);
 
    public void close() {
       this.setState(ControllerState.CLOSE);
    }
 
-   public ControllerBase getParentController() {
+   public Controller getParentController() {
       return this.parentController;
    }
 
