@@ -12,6 +12,7 @@ public class Game {
    private GameState       state;
    private int             currentLevel;
    private int             score;
+   private int             clearedRows;
 
    public static final int COLCOUNT   = 18;
    public static final int ROWCOUNT   = 18;
@@ -20,6 +21,7 @@ public class Game {
       this.state = GameState.NEXTFORM;
       this.currentLevel = 1;
       this.score = 0;
+      this.clearedRows = 0;
    }
 
    public void addForm(Form newForm) {
@@ -65,7 +67,15 @@ public class Game {
      return this.score;
    }
 
-   public void addScore(int score) {
-      this.score += score;
+   public void addClearedRows(int rows) {
+      this.clearedRows += rows;
+   }
+
+   public int getClearedRows() {
+      return this.clearedRows;
+   }
+
+   public void setScore(int currentScore) {
+      this.score = currentScore;
    }
 }

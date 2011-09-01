@@ -46,6 +46,16 @@ public abstract class TimeHelper extends Helper {
       }
       allMethods.put(method, existingDelta + delta);
    }
+   
+   public static void resetTime(ControllerBase controller, String method){
+      if (deltaSumMap.containsKey(controller)) {
+         Hashtable<String, Long> allMethods = deltaSumMap.get(controller);
+
+         if (allMethods.containsKey(method)) {
+            allMethods.put(method, (long) 0);
+         }
+      }
+   }
 
    public static boolean timeReached(ControllerBase controller, String method, long miliSeconds) {
       if (deltaSumMap.containsKey(controller)) {
@@ -58,7 +68,7 @@ public abstract class TimeHelper extends Helper {
          long deltaSumInMiliSeconds = allMethods.get(method) / (1000 * 1000);
 
          if (deltaSumInMiliSeconds > miliSeconds) {
-            allMethods.put(method, (long) 0);
+            allMethods.remove(method);
             return true;
          }
       }

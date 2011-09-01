@@ -4,6 +4,8 @@ import game.enums.GameState;
 import game.helper.CollisionHelper;
 import game.helper.ConfigurationHelper;
 import game.helper.FormHelper;
+import game.helper.LevelHelper;
+import game.helper.ScoreHelper;
 import game.helper.TimeHelper;
 import game.model.FormUnit;
 import game.model.Game;
@@ -65,9 +67,14 @@ public class GameController extends ControllerBase {
             break;
          case MOVEFORM :
             this.doMovement(this.game);
+
             if (this.checkForBreakdown(this.game)) {
                this.game.setState(GameState.BREAKDOWN);
             }
+            break;
+         case INSTANTDOWN:
+            this.doInstantDown(game);
+            this.game.setState(GameState.BREAKDOWN);
             break;
          case BREAKDOWN :
             this.doBreakdown(this.game);
@@ -76,7 +83,6 @@ public class GameController extends ControllerBase {
          case GAMEOVER :
             this.doGameover(this.game);
             break;
-
          case NEWGAME :
             this.clearSubController();
             this.initialize();
@@ -96,12 +102,20 @@ public class GameController extends ControllerBase {
 
    private boolean checkForBreakdown(Game game) {
       boolean verticalCollided = false;
+      boolean lastChanceUsed = false;
 
       Form activeForm = game.getActiveForm();
 
       verticalCollided = !CollisionHelper.checkVerticalCollision(activeForm, 1, game.getDeadForms());
 
-      return verticalCollided;
+      if (verticalCollided) {
+         lastChanceUsed = TimeHelper.timeReached(this, "checkForBreakdown", this.getVerticalSpeedInterval(game.getLevel()));
+      }
+      else{
+         TimeHelper.resetTime(this, "checkForBreakdown");
+      }
+
+      return verticalCollided && lastChanceUsed;
    }
 
    private void doGameover(Game game) {
@@ -115,14 +129,14 @@ public class GameController extends ControllerBase {
    private long getHorizontalSpeedInterval() {
       int horizontalSpeed = ConfigurationHelper.getConfiguration().getHorizontalSpeed();
 
-      return 200 - horizontalSpeed;
+      return horizontalSpeed;
    }
 
    private long getVerticalSpeedInterval(final int level) {
-      int verticalInterval = 500 - level * 9;
+      int verticalInterval = 500 - level * 18;
 
       if (this.isKeyPressed(KeyEvent.VK_DOWN)) {
-         verticalInterval = 100;
+         verticalInterval = 50;
       }
 
       return verticalInterval;
@@ -161,7 +175,9 @@ public class GameController extends ControllerBase {
          }
       }
 
-      this.game.addScore(filledRows.size());
+      this.game.addClearedRows(filledRows.size());
+      this.game.setLevel(LevelHelper.getCurrentLevel(this.game.getClearedRows()));
+      this.game.setScore(ScoreHelper.getCurrentScore(this.game.getClearedRows()));
    }
 
    private int getVerticalDelta() {
@@ -245,13 +261,25 @@ public class GameController extends ControllerBase {
                int currentLevel = this.game.getLevel();
                this.game.setLevel(currentLevel + 1);
                break;
+            case KeyEvent.VK_ENTER:
+               this.game.setState(GameState.INSTANTDOWN);
+               break;
             default :
                handled = false;
                break;
          }
       }
-      
+
       return handled;
+   }
+
+   private void doInstantDown(Game game) {
+      Form activeForm = game.getActiveForm();
+      
+      boolean formIsDown = false;
+      while(!formIsDown){
+         formIsDown = !FormHelper.moveFormVertical(activeForm, 1, game.getDeadForms());
+      }
    }
 
    public void startNewGame() {

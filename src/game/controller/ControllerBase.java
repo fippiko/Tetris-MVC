@@ -75,7 +75,7 @@ public abstract class ControllerBase {
 
    public boolean handleKey(KeyEvent keyEvent) {
       boolean handled = false;
-      
+
       for (ControllerBase subController : this.getSubController()) {
          handled = subController.handleKey(keyEvent);
       }
@@ -84,13 +84,14 @@ public abstract class ControllerBase {
       if (!this.pressedKeys.contains(keyCode)) {
          this.pressedKeys.add(keyCode);
       }
-      
+
       return handled;
    }
 
    public void keyReleased(KeyEvent keyEvent) {
-      for (ControllerBase subController : this.getSubController()) {
-         subController.keyReleased(keyEvent);
+      Iterator<ControllerBase> controllerIterator = this.getSubController().iterator();
+      while (controllerIterator.hasNext()) {
+         controllerIterator.next().keyReleased(keyEvent);
       }
 
       int keyCode = keyEvent.getKeyCode();

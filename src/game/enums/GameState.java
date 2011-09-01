@@ -5,5 +5,5 @@ public enum GameState {
    NEXTFORM,
    GAMEOVER,
    BREAKDOWN, 
-   NEWGAME;
+   NEWGAME, INSTANTDOWN;
 }
