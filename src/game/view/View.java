@@ -19,13 +19,17 @@ public abstract class View extends JPanel implements ActionListener {
    public static final int BORDERWIDTH = 2;
 
    private Controller      controller;
+   
+   private int width;
+   private int height;
 
    public View(Controller controller, final int width, final int height) {
       this.controller = controller;
 
       setBorder(BorderFactory.createLineBorder(Color.blue, BORDERWIDTH));
 
-      this.setPreferredSize(new Dimension(width, height));
+      this.width = width;
+      this.height = height;
       this.addKeyListener(InputHelper.getInstance());
 
       // JPanel uses for default the FlowLayout,
@@ -75,5 +79,35 @@ public abstract class View extends JPanel implements ActionListener {
 
    protected Controller getController() {
       return this.controller;
+   }
+   
+   @Override
+   public void repaint() {
+      super.repaint();
+   }
+   
+   @Override
+   public Dimension getPreferredSize() {
+      return new Dimension(this.width, this.height);
+   }
+   
+   public boolean contains(View view) {
+      boolean contains = false;
+      for (Component comp : this.getComponents()) {
+         if (comp instanceof View) {
+            if (comp == view) {
+               contains = true;
+            }
+            else {
+               contains = ((View) comp).contains(view);
+            }
+         }
+         
+         if(contains){
+            break;
+         }
+      }
+      
+      return contains;
    }
 }

@@ -10,6 +10,7 @@ public abstract class Controller {
    private Controller parentController;
 
    private boolean    close;
+   private boolean    viewChanged;
 
    public Controller(Controller parentController) {
       if (parentController != null) {
@@ -17,6 +18,7 @@ public abstract class Controller {
       }
 
       this.close = false;
+      this.viewChanged = false;
       this.initialize();
    }
 
@@ -28,6 +30,7 @@ public abstract class Controller {
 
    public void setView(View view) {
       this.view = view;
+      this.viewChanged = true;
    }
 
    public abstract void updateView();
@@ -53,10 +56,12 @@ public abstract class Controller {
    public boolean isRunning() {
       return !this.close;
    }
-
-   protected void handleInput() {
-      if (InputHelper.isKeyPressed(KeyEvent.VK_ESCAPE)) {
-         this.close();
-      }
+   
+   public boolean getViewChanged(){
+      boolean value = this.viewChanged;
+      this.viewChanged = false;
+      return value;
    }
+
+   protected abstract void handleInput();
 }

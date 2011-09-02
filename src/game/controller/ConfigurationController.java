@@ -1,6 +1,9 @@
 package game.controller;
 
+import java.awt.event.KeyEvent;
+
 import game.helper.ConfigurationHelper;
+import game.helper.InputHelper;
 import game.model.Configuration;
 import game.view.ConfigurationView;
 
@@ -36,6 +39,15 @@ public class ConfigurationController extends Controller {
 
    @Override
    public void updateView() {
+
+   }
+
+   @Override
+   protected void handleInput() {
+
+      if (InputHelper.isKeyPressed(KeyEvent.VK_ESCAPE, true)) {
+         this.close();
+      }
 
    }
 }

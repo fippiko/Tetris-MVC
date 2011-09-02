@@ -9,6 +9,7 @@ import game.controller.handler.game.InstantDownHandler;
 import game.controller.handler.game.MovementHandler;
 import game.controller.handler.game.NewGameHandler;
 import game.controller.handler.game.NewFormHandler;
+import game.controller.handler.game.PauseGameHandler;
 import game.controller.handler.game.RotateFormHandler;
 import game.enums.GameAction;
 import game.helper.InputHelper;
@@ -17,7 +18,6 @@ import game.view.game.GameView;
 
 import java.awt.event.KeyEvent;
 import java.util.Hashtable;
-
 
 public class GameController extends Controller {
    private Game                                     game;
@@ -43,6 +43,7 @@ public class GameController extends Controller {
       this.actionHandlers.put(GameAction.CHECKGAMEOVER, new CheckGameoverHandler(this));
       this.actionHandlers.put(GameAction.NEWGAME, new NewGameHandler(this));
       this.actionHandlers.put(GameAction.ROTATEFORM, new RotateFormHandler(this));
+      this.actionHandlers.put(GameAction.PAUSEGAME, new PauseGameHandler(this));
       return true;
    }
 
@@ -73,14 +74,25 @@ public class GameController extends Controller {
 
    @Override
    protected void handleInput() {
-      super.handleInput();
 
+      if (InputHelper.isKeyPressed(KeyEvent.VK_ESCAPE, true)) {
+         this.close();
+      }
       if (InputHelper.isKeyPressed(KeyEvent.VK_SPACE, true)) {
          if (!this.game.getGameover()) {
             game.setAction(GameAction.ROTATEFORM);
          }
          else {
             game.setAction(GameAction.NEWGAME);
+         }
+      }
+      
+      if(InputHelper.isKeyPressed(KeyEvent.VK_P, true)){
+         if(!this.game.getPaused()){
+            this.game.setAction(GameAction.PAUSEGAME);
+         }else{
+            game.setPaused(false);
+            this.game.setAction(GameAction.MOVEFORM);
          }
       }
 

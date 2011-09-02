@@ -105,7 +105,7 @@ public class MainController extends Controller implements Runnable {
    @Override
    public void updateView() {
 
-      if (this.activeControllerChanged) {
+      if (this.activeControllerChanged || this.activeController.getViewChanged()) {
          this.getView().removeAll();
          this.getView().add(this.activeController.getView());
       }
@@ -132,5 +132,14 @@ public class MainController extends Controller implements Runnable {
 
    private void showMenu() {
       this.setActiveController(this.menuController);
+   }
+   
+   public void enforceRepaint(){
+      this.activeControllerChanged = true;
+   }
+   
+   @Override
+   protected void handleInput() {
+      return;
    }
 }

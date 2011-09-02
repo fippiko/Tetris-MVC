@@ -21,9 +21,10 @@ public class Game {
    public static final int  ROWCOUNT   = 18;
 
    private boolean          gameover;
+   private boolean          paused;
 
    public Game() {
-      this.action = GameAction.NEWFORM;
+      this.action = GameAction.NEWGAME;
       this.currentLevel = Level.Level1;
       this.score = 0;
       this.clearedRowsCount = 0;
@@ -85,20 +86,36 @@ public class Game {
    public final LinkedList<Form> getNextForms() {
       return this.nextForms;
    }
+   
    public Form pollNextForm() {
       return this.nextForms.poll();
    }
+   
    public void addNextForm(Form nextForm) {
       this.nextForms.add(nextForm);
    }
+   
    public Form getNextForm() {
       return this.nextForms.getFirst();
    }
+   
    public void setGameover(boolean gameover) {
       this.gameover = gameover;
    }
 
    public boolean getGameover() {
       return this.gameover;
+   }
+   
+   public int getFormStartColumnIndex() {
+      return COLCOUNT / 2 - 1;
+   }
+   
+   public void setPaused(boolean paused){
+      this.paused = paused;
+   }
+   
+   public boolean getPaused() {
+      return this.paused;
    }
 }

@@ -1,5 +1,8 @@
 package game.controller;
 
+import java.awt.event.KeyEvent;
+
+import game.helper.InputHelper;
 import game.view.MenuView;
 
 public class MenuController extends Controller {
@@ -47,6 +50,15 @@ public class MenuController extends Controller {
 
    @Override
    public void updateView() {
+
+   }
+
+   @Override
+   protected void handleInput() {
+
+      if (InputHelper.isKeyPressed(KeyEvent.VK_ESCAPE)) {
+         this.close();
+      }
 
    }
 }
