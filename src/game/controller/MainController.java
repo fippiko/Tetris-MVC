@@ -1,5 +1,6 @@
 package game.controller;
 
+import game.enums.Sound;
 import game.helper.RepeatingReleasedEventsFixer;
 import game.helper.SoundHelper;
 import game.view.MainFrame;
@@ -66,8 +67,6 @@ public class MainController extends Controller implements Runnable {
 
    @Override
    public void run() {
-      
-      SoundHelper.playMusic();
       
       while (this.isRunning()) {
 
