@@ -27,19 +27,26 @@ public class GameGridView extends GridView {
       Graphics2D g2d = (Graphics2D) g;
 
       for (GridUnit gridUnit : this.getGrid().getUnits()) {
-         Form form = this.getFormAtPos(gridUnit.getColumnIndex(), gridUnit.getRowIndex());
-         if (form != null) {
-            this.paint(g2d, gridUnit, Color.black, form.getColor(), true);
+         FormUnit formUnit = this.getFormUnitAtPos(gridUnit.getColumnIndex(), gridUnit.getRowIndex());
+         if (formUnit != null) {
+            Form form = formUnit.getForm();
+            Color color = form.getColor();
+            
+            if(formUnit.getBlinkstate()){
+               color = Form.BLINKCOLOR;
+            }
+            
+            this.paint(g2d, gridUnit, Color.black, color, true);
          }
       }
    }
 
-   private Form getFormAtPos(final int column, final int row) {
+   private FormUnit getFormUnitAtPos(final int column, final int row) {
       for (Form form : this.allForms) {
          for (FormUnit formUnit : form.getUnits()) {
             if (formUnit.getColumn() == column) {
                if (formUnit.getRow() == row) {
-                  return form;
+                  return formUnit;
                }
             }
          }

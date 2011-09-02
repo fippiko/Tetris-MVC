@@ -4,17 +4,17 @@ import game.enums.Level;
 
 public class LevelHelper extends Helper {
 
-   public static int getCurrentLevel(int rows) {
+   public static Level getCurrentLevel(int rows) {
 
-      int levelCounter = 0;
+      Level searchedLevel = null;
       for (Level level : Level.values()) {
-         levelCounter++;
 
          if (level.getNeededRows() > rows) {
+            searchedLevel = level;
             break;
          }
       }
 
-      return levelCounter;
+      return searchedLevel;
    }
 }

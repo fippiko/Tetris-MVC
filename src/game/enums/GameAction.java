@@ -2,7 +2,7 @@ package game.enums;
 
 public enum GameAction {
    MOVEFORM,
-   NEXTFORM,
+   NEWFORM,
    GAMEOVER,
    BREAKDOWN,
    NEWGAME,

@@ -1,6 +1,7 @@
 package game.model;
 
 import game.enums.GameAction;
+import game.enums.Level;
 import game.model.form.Form;
 
 import java.util.ArrayList;
@@ -11,10 +12,10 @@ public class Game {
    private ArrayList<Form>  allForms   = new ArrayList<Form>();
    private LinkedList<Form> nextForms  = new LinkedList<Form>();
 
-   private GameAction       state;
-   private int              currentLevel;
+   private GameAction       action;
+   private Level            currentLevel;
    private int              score;
-   private int              clearedRows;
+   private int              clearedRowsCount;
 
    public static final int  COLCOUNT   = 18;
    public static final int  ROWCOUNT   = 18;
@@ -22,10 +23,10 @@ public class Game {
    private boolean          gameover;
 
    public Game() {
-      this.state = GameAction.NEXTFORM;
-      this.currentLevel = 1;
+      this.action = GameAction.NEWFORM;
+      this.currentLevel = Level.Level1;
       this.score = 0;
-      this.clearedRows = 0;
+      this.clearedRowsCount = 0;
       this.gameover = false;
    }
    public void addForm(Form newForm) {
@@ -33,24 +34,24 @@ public class Game {
       this.allForms.add(newForm);
    }
 
-   public int getLevel() {
+   public Level getLevel() {
       return this.currentLevel;
    }
 
-   public void setLevel(final int level) {
+   public void setLevel(final Level level) {
       this.currentLevel = level;
    }
 
-   public GameAction getState() {
-      return this.state;
+   public GameAction getAction() {
+      return this.action;
    }
 
    public Form getActiveForm() {
       return this.activeForm;
    }
 
-   public void setState(GameAction state) {
-      this.state = state;
+   public void setAction(GameAction action) {
+      this.action = action;
    }
 
    public ArrayList<Form> getAllForms() {
@@ -70,11 +71,11 @@ public class Game {
    }
 
    public void addClearedRows(int rows) {
-      this.clearedRows += rows;
+      this.clearedRowsCount += rows;
    }
 
    public int getClearedRows() {
-      return this.clearedRows;
+      return this.clearedRowsCount;
    }
 
    public void setScore(int currentScore) {

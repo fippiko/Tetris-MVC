@@ -2,6 +2,7 @@ package game.helper;
 
 import game.model.FormUnit;
 import game.model.Game;
+import game.model.FormUnitRow;
 import game.model.form.Form;
 import game.model.form.FormBlock;
 import game.model.form.FormI;
@@ -20,34 +21,38 @@ import java.util.Random;
  */
 public abstract class FormHelper extends Helper {
 
-   public static ArrayList<Integer> getFilledRows(ArrayList<Form> allForms) {
-      ArrayList<Integer> filledRows = new ArrayList<Integer>();
+   public static ArrayList<FormUnitRow> getFilledRows(ArrayList<Form> allForms) {
+      ArrayList<FormUnitRow> filledRows = new ArrayList<FormUnitRow>();
 
       for (int rowIndex = Game.ROWCOUNT; rowIndex >= 0; rowIndex--) {
+         FormUnitRow row = new FormUnitRow();
          boolean rowFilled = true;
          for (int columnIndex = 0; columnIndex < Game.COLCOUNT; columnIndex++) {
-            if (!CollisionHelper.isFormAtPosition(columnIndex, rowIndex, allForms)) {
+            FormUnit unit = FormHelper.getFormUnitAtPosition(columnIndex, rowIndex, allForms);
+            if (unit == null) {
                rowFilled = false;
                break;
+            }else{
+               row.add(unit);
             }
          }
 
          if (rowFilled) {
-            filledRows.add(rowIndex);
+            filledRows.add(row);
          }
       }
 
       return filledRows;
    }
 
-   public static void removeAllUnitsOnRow(final ArrayList<Form> allForms, int rowIndex) {
+   public static void removeAllUnitsOnRow(final ArrayList<Form> allForms, FormUnitRow filledRow) {
       for (Form form : allForms) {
          Iterator<FormUnit> unitIterator = form.getUnits().iterator();
 
          while (unitIterator.hasNext()) {
             FormUnit unit = unitIterator.next();
 
-            if (unit.getRow() == rowIndex) {
+            if (filledRow.contains(unit)) {
                unitIterator.remove();
             }
          }
@@ -174,4 +179,22 @@ public abstract class FormHelper extends Helper {
 
       return randomForm;
    }
+   
+
+   public static FormUnit getFormUnitAtPosition(int columnIndex, int rowIndex, ArrayList<Form> forms) {
+      for (Form form : forms) {
+         for (FormUnit formUnit : form.getUnits()) {
+            if (columnIndex == formUnit.getColumn()) {
+               if (rowIndex == formUnit.getRow()) {
+                  return formUnit;
+               }
+            }
+         }
+
+      }
+
+      
+      return null;
+   }
+   
 }

@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class Form {
+   public static final Color BLINKCOLOR = Color.LIGHT_GRAY;
+   
    private ArrayList<FormUnit> units;
    private FormUnit            rotateAxisUnit;
 
@@ -25,7 +27,7 @@ public abstract class Form {
 
       for (Integer columnIndex : formMap.keySet()) {
          for (Integer rowIndex : formMap.get(columnIndex)) {
-            FormUnit newFormUnit = new FormUnit(startColumnIndex + columnIndex, startRowIndex + rowIndex);
+            FormUnit newFormUnit = new FormUnit(this, startColumnIndex + columnIndex, startRowIndex + rowIndex);
             generatedFormUnits.add(newFormUnit);
 
             if (columnIndex == formMap.getRotateAxisColumn()) {

@@ -3,29 +3,29 @@ package game.enums;
 public enum Level {
    Level1(5),
    Level2(10),
-   Level3(25),
-   Level4(50),
-   Level5(75),
-   Level6(100),
-   Level7(125),
-   Level8(150),
-   Level9(175),
-   Level10(200),
-   Level11(250),
-   Level12(300),
-   Level13(350),
-   Level14(400),
-   Level15(500),
-   Level16(650),
-   Level17(800),
-   Level18(950),
-   Level19(1100),
-   Level20(1250),
-   Level21(1400),
-   Level22(1550),
-   Level23(1700),
-   Level24(1850),
-   Level25(2000);
+   Level3(20),
+   Level4(30),
+   Level5(40),
+   Level6(50),
+   Level7(60),
+   Level8(70),
+   Level9(80),
+   Level10(90),
+   Level11(100),
+   Level12(115),
+   Level13(130),
+   Level14(145),
+   Level15(160),
+   Level16(175),
+   Level17(190),
+   Level18(205),
+   Level19(225),
+   Level20(245),
+   Level21(265),
+   Level22(285),
+   Level23(305),
+   Level24(330),
+   Level25(350);
 
    private int neededRows = 0;
 
@@ -35,5 +35,19 @@ public enum Level {
 
    public int getNeededRows() {
       return this.neededRows;
+   }
+   
+   public int getPosition(){
+      int levelcount = 0;
+      
+      for (Level level : Level.values()) {
+         levelcount++;
+         
+         if(level == this){
+            break;
+         }
+      }
+      
+      return levelcount;
    }
 }

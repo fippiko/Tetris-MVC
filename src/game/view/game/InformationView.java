@@ -1,6 +1,7 @@
 package game.view.game;
 
 import game.controller.Controller;
+import game.enums.Level;
 import game.view.View;
 
 import java.awt.Color;
@@ -9,7 +10,7 @@ import java.awt.Graphics2D;
 
 public class InformationView extends View {
    private int score = 0;
-   private int level = 0;
+   private Level level = Level.Level1;
 
    public InformationView(Controller controller, final int width, final int height) {
       super(controller, width, height);
@@ -25,14 +26,14 @@ public class InformationView extends View {
       g2d.drawRect(25, 20, 150, 150);
 
       g2d.drawString("Current score:" + this.score, 50, 40);
-      g2d.drawString("Current level:" + this.level, 50, 80);
+      g2d.drawString("Current level:" + this.level.getPosition(), 50, 80);
    }
 
    public void updateScore(int score) {
       this.score = score;
    }
 
-   public void updateLevel(int level) {
+   public void updateLevel(Level level) {
       this.level = level;
    }
 }
