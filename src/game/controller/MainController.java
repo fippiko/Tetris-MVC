@@ -1,6 +1,7 @@
 package game.controller;
 
 import game.helper.RepeatingReleasedEventsFixer;
+import game.helper.SoundHelper;
 import game.view.MainFrame;
 import game.view.MainView;
 
@@ -65,6 +66,9 @@ public class MainController extends Controller implements Runnable {
 
    @Override
    public void run() {
+      
+      SoundHelper.playMusic();
+      
       while (this.isRunning()) {
 
          if (this.activeController != this.newActiveController) {
@@ -80,7 +84,7 @@ public class MainController extends Controller implements Runnable {
          this.activeControllerChanged = false;
 
          try {
-            Thread.sleep(10);
+            Thread.sleep(20);
          } catch (InterruptedException e) {
          }
       }
