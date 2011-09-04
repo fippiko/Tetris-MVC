@@ -1,6 +1,7 @@
 package game.view;
 
 import java.awt.Component;
+
 import javax.swing.JFrame;
 
 public class MainFrame extends JFrame {

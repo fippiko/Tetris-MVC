@@ -4,11 +4,11 @@ import game.model.form.Form;
 
 public class FormUnit {
 
-   private int column;
-   private int row;
-   
-   private Form form;
-   
+   private int     column;
+   private int     row;
+
+   private Form    form;
+
    private boolean blinkstate;
 
    public FormUnit(Form form, final int column, final int row) {
@@ -37,8 +37,8 @@ public class FormUnit {
    public void setBlinkState(boolean light) {
       this.blinkstate = light;
    }
-   
-   public boolean getBlinkstate(){
+
+   public boolean getBlinkstate() {
       return this.blinkstate;
    }
 

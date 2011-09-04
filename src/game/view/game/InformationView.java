@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class InformationView extends View {
-   private int score = 0;
+   private int   score = 0;
    private Level level = Level.Level1;
 
    public InformationView(Controller controller, final int width, final int height) {

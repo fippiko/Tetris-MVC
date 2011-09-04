@@ -1,7 +1,5 @@
 package game.controller;
 
-import java.awt.event.KeyEvent;
-import game.helper.InputHelper;
 import game.view.View;
 
 public abstract class Controller {
@@ -56,8 +54,8 @@ public abstract class Controller {
    public boolean isRunning() {
       return !this.close;
    }
-   
-   public boolean getViewChanged(){
+
+   public boolean getViewChanged() {
       boolean value = this.viewChanged;
       this.viewChanged = false;
       return value;

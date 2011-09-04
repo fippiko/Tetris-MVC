@@ -1,11 +1,11 @@
 package game.controller;
 
-import java.awt.event.KeyEvent;
-
 import game.helper.ConfigurationHelper;
 import game.helper.InputHelper;
 import game.model.Configuration;
 import game.view.ConfigurationView;
+
+import java.awt.event.KeyEvent;
 
 public class ConfigurationController extends Controller {
 

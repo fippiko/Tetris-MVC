@@ -1,9 +1,9 @@
 package game.controller;
 
-import java.awt.event.KeyEvent;
-
 import game.helper.InputHelper;
 import game.view.MenuView;
+
+import java.awt.event.KeyEvent;
 
 public class MenuController extends Controller {
 

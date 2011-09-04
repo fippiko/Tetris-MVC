@@ -1,8 +1,6 @@
 package game.controller;
 
-import game.enums.Sound;
 import game.helper.RepeatingReleasedEventsFixer;
-import game.helper.SoundHelper;
 import game.view.MainFrame;
 import game.view.MainView;
 
@@ -67,7 +65,7 @@ public class MainController extends Controller implements Runnable {
 
    @Override
    public void run() {
-      
+
       while (this.isRunning()) {
 
          if (this.activeController != this.newActiveController) {
@@ -83,7 +81,7 @@ public class MainController extends Controller implements Runnable {
          this.activeControllerChanged = false;
 
          try {
-            Thread.sleep(20);
+            Thread.sleep(10);
          } catch (InterruptedException e) {
          }
       }
@@ -136,11 +134,11 @@ public class MainController extends Controller implements Runnable {
    private void showMenu() {
       this.setActiveController(this.menuController);
    }
-   
-   public void enforceRepaint(){
+
+   public void enforceRepaint() {
       this.activeControllerChanged = true;
    }
-   
+
    @Override
    protected void handleInput() {
       return;

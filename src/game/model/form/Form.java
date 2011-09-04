@@ -7,8 +7,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class Form {
-   public static final Color BLINKCOLOR = Color.LIGHT_GRAY;
-   
+   public static final Color   BLINKCOLOR = Color.LIGHT_GRAY;
+
    private ArrayList<FormUnit> units;
    private FormUnit            rotateAxisUnit;
 

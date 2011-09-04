@@ -204,7 +204,7 @@ public class RepeatingReleasedEventsFixer implements AWTEventListener {
     */
    @SuppressWarnings("serial")
    public static class RepostedKeyEvent extends KeyEvent implements Reposted {
-      public RepostedKeyEvent( Component source, int id, long when, int modifiers, int keyCode, char keyChar, int keyLocation) {
+      public RepostedKeyEvent(Component source, int id, long when, int modifiers, int keyCode, char keyChar, int keyLocation) {
          super(source, id, when, modifiers, keyCode, keyChar, keyLocation);
       }
    }

@@ -5,9 +5,7 @@ import game.model.Game;
 import game.view.View;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -48,7 +46,7 @@ public class GameView extends View {
       this.previewView.updateNextForm(game.getNextForm());
       this.infoView.updateLevel(game.getLevel());
       this.infoView.updateScore(game.getScore());
-      
+
       this.updateView();
    }
 
@@ -78,7 +76,7 @@ public class GameView extends View {
          this.add(sidebarPanel, BorderLayout.EAST);
          this.add(gridView, BorderLayout.CENTER);
       }
-      
+
       this.revalidate();
    }
 

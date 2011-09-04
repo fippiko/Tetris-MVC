@@ -36,18 +36,18 @@ public enum Level {
    public int getNeededRows() {
       return this.neededRows;
    }
-   
-   public int getPosition(){
+
+   public int getPosition() {
       int levelcount = 0;
-      
+
       for (Level level : Level.values()) {
          levelcount++;
-         
-         if(level == this){
+
+         if (level == this) {
             break;
          }
       }
-      
+
       return levelcount;
    }
 }

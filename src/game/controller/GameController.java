@@ -7,8 +7,8 @@ import game.controller.handler.game.GameActionHandler;
 import game.controller.handler.game.GameoverHandler;
 import game.controller.handler.game.InstantDownHandler;
 import game.controller.handler.game.MovementHandler;
-import game.controller.handler.game.NewGameHandler;
 import game.controller.handler.game.NewFormHandler;
+import game.controller.handler.game.NewGameHandler;
 import game.controller.handler.game.PauseGameHandler;
 import game.controller.handler.game.RotateFormHandler;
 import game.enums.GameAction;
@@ -86,11 +86,12 @@ public class GameController extends Controller {
             game.setAction(GameAction.NEWGAME);
          }
       }
-      
-      if(InputHelper.isKeyPressed(KeyEvent.VK_P, true)){
-         if(!this.game.getPaused()){
+
+      if (InputHelper.isKeyPressed(KeyEvent.VK_P, true)) {
+         if (!this.game.getPaused()) {
             this.game.setAction(GameAction.PAUSEGAME);
-         }else{
+         }
+         else {
             game.setPaused(false);
             this.game.setAction(GameAction.MOVEFORM);
          }

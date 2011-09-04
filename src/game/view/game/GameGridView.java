@@ -31,11 +31,11 @@ public class GameGridView extends GridView {
          if (formUnit != null) {
             Form form = formUnit.getForm();
             Color color = form.getColor();
-            
-            if(formUnit.getBlinkstate()){
+
+            if (formUnit.getBlinkstate()) {
                color = Form.BLINKCOLOR;
             }
-            
+
             this.paint(g2d, gridUnit, Color.black, color, true);
          }
       }

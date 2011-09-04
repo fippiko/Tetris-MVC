@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -19,9 +20,9 @@ public abstract class View extends JPanel implements ActionListener {
    public static final int BORDERWIDTH = 2;
 
    private Controller      controller;
-   
-   private int width;
-   private int height;
+
+   private int             width;
+   private int             height;
 
    public View(Controller controller, final int width, final int height) {
       this.controller = controller;
@@ -80,17 +81,17 @@ public abstract class View extends JPanel implements ActionListener {
    protected Controller getController() {
       return this.controller;
    }
-   
+
    @Override
    public void repaint() {
       super.repaint();
    }
-   
+
    @Override
    public Dimension getPreferredSize() {
       return new Dimension(this.width, this.height);
    }
-   
+
    public boolean contains(View view) {
       boolean contains = false;
       for (Component comp : this.getComponents()) {
@@ -102,12 +103,12 @@ public abstract class View extends JPanel implements ActionListener {
                contains = ((View) comp).contains(view);
             }
          }
-         
-         if(contains){
+
+         if (contains) {
             break;
          }
       }
-      
+
       return contains;
    }
 }

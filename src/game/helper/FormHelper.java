@@ -1,8 +1,8 @@
 package game.helper;
 
 import game.model.FormUnit;
-import game.model.Game;
 import game.model.FormUnitRow;
+import game.model.Game;
 import game.model.form.Form;
 import game.model.form.FormBlock;
 import game.model.form.FormI;
@@ -32,7 +32,8 @@ public abstract class FormHelper extends Helper {
             if (unit == null) {
                rowFilled = false;
                break;
-            }else{
+            }
+            else {
                row.add(unit);
             }
          }
@@ -179,7 +180,6 @@ public abstract class FormHelper extends Helper {
 
       return randomForm;
    }
-   
 
    public static FormUnit getFormUnitAtPosition(int columnIndex, int rowIndex, ArrayList<Form> forms) {
       for (Form form : forms) {
@@ -193,8 +193,7 @@ public abstract class FormHelper extends Helper {
 
       }
 
-      
       return null;
    }
-   
+
 }
